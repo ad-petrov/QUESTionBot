@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Telegram.Bot;
+using Telegram.Bot.Args;
+using Telegram.Bot.Types;
 
 namespace QUESTionBot
 {
@@ -20,9 +23,31 @@ namespace QUESTionBot
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static TelegramBotClient botClient;
+        public User botInfo;
+        public string log;
+        
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        private void botLaunchButton_Click(object sender, RoutedEventArgs e)
+        {
+            botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
+            botInfo = botClient.GetMeAsync().Result;
+            debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id}";
+            botClient.OnMessage += ChatHandlingCommands.Bot_OnMessage;
+            botClient.StartReceiving();
+            debugTextBlock.Text += "\nБот начал принимать сообщения.";
+        }
+
+        private void botStopButton_Click(object sender, RoutedEventArgs e)
+        {
+            botClient.StopReceiving();
+            debugTextBlock.Text += "\nБот перестал принимать сообщения.";
+        }
+
     }
 }
