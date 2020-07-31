@@ -25,28 +25,39 @@ namespace QUESTionBot
     {
         public static TelegramBotClient botClient;
         public User botInfo;
-        public string log;
+        
         
 
         public MainWindow()
         {
             InitializeComponent();
+            botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
+            botInfo = botClient.GetMeAsync().Result;
+            debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
+            botStopButton.IsEnabled = false;
         }
 
         private void botLaunchButton_Click(object sender, RoutedEventArgs e)
         {
-            botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
-            botInfo = botClient.GetMeAsync().Result;
-            debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id}";
-            botClient.OnMessage += ChatHandlingCommands.Bot_OnMessage;
-            botClient.StartReceiving();
-            debugTextBlock.Text += "\nБот начал принимать сообщения.";
+            if (botClient.IsReceiving == false)
+            {
+                botClient.OnMessage += ChatHandlingCommands.Bot_OnMessage;
+                botClient.StartReceiving();
+                debugTextBlock.Text += "\nБот начал принимать сообщения.";
+                botStopButton.IsEnabled = true;
+                botLaunchButton.IsEnabled = false;
+            }
         }
 
         private void botStopButton_Click(object sender, RoutedEventArgs e)
         {
-            botClient.StopReceiving();
-            debugTextBlock.Text += "\nБот перестал принимать сообщения.";
+            if (botClient.IsReceiving == true)
+            {
+                botClient.StopReceiving();
+                debugTextBlock.Text += "\nБот перестал принимать сообщения.";
+                botLaunchButton.IsEnabled = true;
+                botStopButton.IsEnabled = false;
+            }
         }
 
     }

@@ -11,6 +11,10 @@ namespace QUESTionBot
 {
     class ChatHandlingCommands
     {
+        public delegate void Logger(MessageEventArgs e);
+
+        public event Logger newNote;
+
         public static async void Bot_OnMessage(object sender, MessageEventArgs e)
         {
             if(e.Message.Text == "/start")
@@ -19,13 +23,13 @@ namespace QUESTionBot
                   chatId: e.Message.Chat,
                   text: "Приветствую! Я робот, созданный для квеста QUESTion." +
                   "\nТы, должно быть, капитан команды? Пришли мне свой ключ, и мы сможем продолжить."
-                );
+                );               
             }
             else if (e.Message.Text != null)
             {
                 await MainWindow.botClient.SendTextMessageAsync(
                   chatId: e.Message.Chat,
-                  text: "Пока что всё, что я могу, это отвечать на всё подряд. Вы сказали:\n" + e.Message.Text
+                  text: "Я не смог распознать вашей команды. Попробуйте ввести её более чётко или используйте команду /help, чтобы узнать мои возможности"
                 );
             }
         }

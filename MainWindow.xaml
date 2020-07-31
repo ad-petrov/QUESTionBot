@@ -10,9 +10,9 @@
         <Label Content="Клиент Телеграм-бота для квеста QUESTion" HorizontalAlignment="Left" Margin="180,28,0,0" VerticalAlignment="Top" Height="39" Width="502" FontSize="24"/>
         <Button x:Name="botLaunchButton" Content="Запустить бота" HorizontalAlignment="Left" Margin="101,98,0,0" VerticalAlignment="Top" Width="194" Height="94" FontSize="20" Background="#FF34EA0C" Click="botLaunchButton_Click" RenderTransformOrigin="0.495,0.5"/>
         <Button x:Name="botStopButton" Content="Офнуть бота" HorizontalAlignment="Left" Margin="101,266,0,0" VerticalAlignment="Top" Width="194" Height="94" Click="botStopButton_Click" Background="#FFFF2020" FontSize="20"/>
-        <TextBlock x:FieldModifier="public" Name="debugTextBlock" HorizontalAlignment="Left" Height="226" Margin="372,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="384" FontSize="16"/>
         <Label Content="Консоль вывода:" HorizontalAlignment="Left" Margin="372,98,0,0" VerticalAlignment="Top" Width="410" FontSize="16"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="226" Margin="372,134,0,0" VerticalAlignment="Top" Width="384"/>
+        <TextBox x:Name="debugTextBlock" HorizontalAlignment="Left" Height="226" Margin="372,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="384" VerticalScrollBarVisibility="Visible" IsReadOnly="True"/>
 
     </Grid>
 </Window>
