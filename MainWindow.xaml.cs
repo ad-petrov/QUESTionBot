@@ -27,14 +27,15 @@ namespace QUESTionBot
     {
         public static TelegramBotClient botClient;
         public User botInfo;
-        
-        
+        Dictionary<string, Team> teamList;
+
 
         public MainWindow()
         {
             InitializeComponent();
             botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
             botInfo = botClient.GetMeAsync().Result;
+            teamList = Team.CreateTeamList();
             debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
             botStopButton.IsEnabled = false;
         }
@@ -80,6 +81,33 @@ namespace QUESTionBot
                     $"Это ответ на сообщение {e.Message.MessageId} ";
                 });
 
+            }
+            else if (e.Message.Text == "276425")
+            {
+                if (teamList[e.Message.Text].linkedChat is null)
+                {
+                    Message message = await MainWindow.botClient.SendTextMessageAsync(
+                                        chatId: e.Message.Chat,
+                                        text: $"Ключ принят! Стало быть, вы представляете команду номер {teamList[e.Message.Text].teamID}!"
+                                        );
+                    teamList[e.Message.Text].linkedChat = e.Message.Chat;
+                }
+                else if(teamList[e.Message.Text].linkedChat.Id == e.Message.Chat.Id)
+                {
+                    Message message = await MainWindow.botClient.SendTextMessageAsync(
+                                        chatId: e.Message.Chat,
+                                        text: $"Необязательно присылать мне ключ во второй раз. " +
+                                        $"Я уже знаю, что вы представляете команду номер {teamList[e.Message.Text].teamID}."
+                                        );
+                }
+                else
+                {
+                    Message message = await MainWindow.botClient.SendTextMessageAsync(
+                                        chatId: e.Message.Chat,
+                                        text: $"К сожалению, эта команда уже ввела свой ключ и получила задания. " +
+                                        $"Если вы уверены, что этот ключ именно ваш, то обратитесь к организаторам."
+                                        );
+                }
             }
             else if (e.Message.Text != null)
             {
