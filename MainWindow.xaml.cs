@@ -91,6 +91,13 @@ namespace QUESTionBot
                                         text: $"Ключ принят! Стало быть, вы представляете команду номер {teamList[e.Message.Text].teamID}!"
                                         );
                     teamList[e.Message.Text].linkedChat = e.Message.Chat;
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
+                        $"в чат {message.Chat.Id} в {message.Date}. " +
+                        $"Это ответ на сообщение {e.Message.MessageId}. " +
+                        $"Команда номер {teamList[e.Message.Text].teamID} успешно ввела свой ключ и получила задания.";
+                    });
                 }
                 else if(teamList[e.Message.Text].linkedChat.Id == e.Message.Chat.Id)
                 {
@@ -99,6 +106,13 @@ namespace QUESTionBot
                                         text: $"Необязательно присылать мне ключ во второй раз. " +
                                         $"Я уже знаю, что вы представляете команду номер {teamList[e.Message.Text].teamID}."
                                         );
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
+                        $"в чат {message.Chat.Id} в {message.Date}. " +
+                        $"Это ответ на сообщение {e.Message.MessageId}. " +
+                        $"Команда номер {teamList[e.Message.Text].teamID} повторно ввела свой ключ.";
+                    });
                 }
                 else
                 {
@@ -107,6 +121,13 @@ namespace QUESTionBot
                                         text: $"К сожалению, эта команда уже ввела свой ключ и получила задания. " +
                                         $"Если вы уверены, что этот ключ именно ваш, то обратитесь к организаторам."
                                         );
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
+                        $"в чат {message.Chat.Id} в {message.Date}. " +
+                        $"Это ответ на сообщение {e.Message.MessageId}. " +
+                        $"Ключ был отклонён, поскольку команда номер {teamList[e.Message.Text].teamID} уже занята.";
+                    });
                 }
             }
             else if (e.Message.Text != null)
