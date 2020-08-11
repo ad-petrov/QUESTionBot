@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace QUESTionBot
 {
@@ -41,7 +43,7 @@ namespace QUESTionBot
         {
             if (botClient.IsReceiving == false)
             {
-                botClient.OnMessage += ChatHandlingCommands.Bot_OnMessage;
+                botClient.OnMessage += Bot_OnMessage;
                 botClient.StartReceiving();
                 debugTextBlock.Text += "\nБот начал принимать сообщения.";
                 botStopButton.IsEnabled = true;
@@ -60,5 +62,40 @@ namespace QUESTionBot
             }
         }
 
+        public async void Bot_OnMessage(object sender, MessageEventArgs e)
+        {
+            if (e.Message.Text == "/start")
+            {
+                Message message = await MainWindow.botClient.SendTextMessageAsync(
+                  chatId: e.Message.Chat,
+                  //replyToMessageId: e.Message.MessageId,
+                  parseMode: ParseMode.Markdown,
+                  text: "Приветствую! Я робот, созданный для квеста QUESTion." +
+                  "\nТы, должно быть, капитан команды? Пришли мне свой ключ, и мы сможем продолжить."
+                ) ;
+                this.Dispatcher.Invoke(() =>
+                {
+                    debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
+                    $"в чат {message.Chat.Id} в {message.Date}. " +
+                    $"Это ответ на сообщение {e.Message.MessageId} ";
+                });
+
+            }
+            else if (e.Message.Text != null)
+            {
+                Message message = await MainWindow.botClient.SendTextMessageAsync(
+                  chatId: e.Message.Chat,
+                  //replyToMessageId: e.Message.MessageId,
+                  parseMode: ParseMode.Markdown,
+                  text: "Я не смог распознать вашей команды. Попробуйте ввести её более чётко или используйте команду /help, чтобы узнать мои возможности"
+                );
+                this.Dispatcher.Invoke(() =>
+                {
+                    debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
+                    $"в чат {message.Chat.Id} в {message.Date}. " +
+                    $"Это ответ на сообщение {e.Message.MessageId} ";
+                });
+            }
+        }
     }
 }
