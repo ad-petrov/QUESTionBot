@@ -33,7 +33,7 @@ namespace QUESTionBot
         public MainWindow()
         {
             InitializeComponent();
-            botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
+            botClient = new TelegramBotClient("");
             botInfo = botClient.GetMeAsync().Result;
             teamList = Team.CreateTeamList();
             debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
@@ -88,6 +88,7 @@ namespace QUESTionBot
                 {
                     Message message = await MainWindow.botClient.SendTextMessageAsync(
                                         chatId: e.Message.Chat,
+                                        replyToMessageId: e.Message.MessageId,
                                         text: $"Ключ принят! Стало быть, вы представляете команду номер {teamList[e.Message.Text].teamID}!"
                                         );
                     teamList[e.Message.Text].linkedChat = e.Message.Chat;
@@ -118,8 +119,9 @@ namespace QUESTionBot
                 {
                     Message message = await MainWindow.botClient.SendTextMessageAsync(
                                         chatId: e.Message.Chat,
-                                        text: $"К сожалению, эта команда уже ввела свой ключ и получила задания. " +
-                                        $"Если вы уверены, что этот ключ именно ваш, то обратитесь к организаторам."
+                                        replyToMessageId: e.Message.MessageId,
+                                        text: $"К сожалению, Этот ключ был введён ранее другой командой. Может, кто-либо из вашей команды уже является капитаном? " +
+                                        $"Если нет, и вы уверены, что этот ключ именно ваш, то обратитесь к организаторам."
                                         );
                     this.Dispatcher.Invoke(() =>
                     {
@@ -142,7 +144,7 @@ namespace QUESTionBot
                 {
                     debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
                     $"в чат {message.Chat.Id} в {message.Date}. " +
-                    $"Это ответ на сообщение {e.Message.MessageId} ";
+                    $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
                 });
             }
         }

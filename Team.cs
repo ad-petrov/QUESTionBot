@@ -11,6 +11,7 @@ namespace QUESTionBot
     {
         public int teamID { get; set; }
         public Chat linkedChat { get; set; }
+        public Location teamCurrentLocation { get; set; }
 
         public static Dictionary<string, Team> CreateTeamList()
         {
