@@ -12,11 +12,21 @@ namespace QUESTionBot
         public int teamID { get; set; }
         public Chat linkedChat { get; set; }
         public Location teamCurrentLocation { get; set; }
+        public Stack<int> taskList { get; set; } = new Stack<int>();
+
+        public Team(int id, string tasks)
+        {
+            teamID = id;
+            foreach (var task in tasks.Trim().Split(',').Reverse())
+            {
+                taskList.Push(Int32.Parse(task));
+            }
+        }
 
         public static Dictionary<string, Team> CreateTeamList()
         {
             Dictionary<string, Team> teamList = new Dictionary<string, Team>();
-            teamList.Add("276425", new Team() { teamID=1});
+            teamList.Add("276425", new Team(1, "1"));
             return teamList;
         }
     }
