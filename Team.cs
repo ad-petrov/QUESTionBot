@@ -13,6 +13,8 @@ namespace QUESTionBot
         public Chat linkedChat { get; set; }
         public Location teamCurrentLocation { get; set; }
         public Stack<int> taskList { get; set; } = new Stack<int>();
+        public DateTime questStartedAt { get; set; }
+        public DateTime questFinishedAt { get; set; }
 
         public Team(int id, string tasks)
         {

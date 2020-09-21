@@ -1,6 +1,8 @@
-﻿using System;
+﻿using GemBox.Document;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,7 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Xceed.Words.NET;
 
 namespace QUESTionBot
 {
@@ -35,12 +38,40 @@ namespace QUESTionBot
         public MainWindow()
         {
             InitializeComponent();
-            botClient = new TelegramBotClient("");
+            botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
             botInfo = botClient.GetMeAsync().Result;
             teamList = Team.CreateTeamList();
             tasks.Add(new Task(new Location() { Latitude = 15, Longitude=15 }, "Как дела?"));
             debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
             botStopButton.IsEnabled = false;
+            try
+            {
+                if (Directory.GetFiles("D:\\Other\\BotLog\\", "Log.docx").Length == 0)
+                {
+                    ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                    var doc = new DocumentModel();
+                    doc.Save("D:\\Other\\BotLog\\Log.docx");
+                }
+                else
+                {
+                    MessageBoxResult mbResult = MessageBox.Show("Файл с логами найден. Хотите продолжить его заполнять, не стирая записей?", "Логи", MessageBoxButton.YesNo);
+                    if (mbResult == MessageBoxResult.Yes)
+                    {
+                        
+                    }
+                    else if (mbResult == MessageBoxResult.No)
+                    {
+                        System.IO.File.Delete("D:\\Other\\BotLog\\Log.docx");
+                        ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                        var doc = new DocumentModel();
+                        doc.Save("D:\\Other\\BotLog\\Log.docx");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private void botLaunchButton_Click(object sender, RoutedEventArgs e)
