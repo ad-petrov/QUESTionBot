@@ -38,7 +38,7 @@ namespace QUESTionBot
         public MainWindow()
         {
             InitializeComponent();
-            botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
+            botClient = new TelegramBotClient("");
             botInfo = botClient.GetMeAsync().Result;
             teamList = Team.CreateTeamList();
             tasks.Add(new Task(new Location() { Latitude = 15, Longitude=15 }, "Как дела?"));
