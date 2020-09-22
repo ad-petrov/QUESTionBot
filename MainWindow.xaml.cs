@@ -105,8 +105,7 @@ namespace QUESTionBot
                   chatId: e.Message.Chat,
                   //replyToMessageId: e.Message.MessageId,
                   parseMode: ParseMode.Markdown,
-                  text: "Приветствую! Я робот, созданный для квеста QUESTion." +
-                  "\nТы, должно быть, капитан команды? Пришли мне свой ключ, и мы сможем продолжить."
+                  text: TextTemplates.greetingMessage
                 ) ;
                 this.Dispatcher.Invoke(() =>
                 {

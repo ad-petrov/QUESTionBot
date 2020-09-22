@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="Task.cs" />
     <Compile Include="Team.cs" />
+    <Compile Include="TextTemplates.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
