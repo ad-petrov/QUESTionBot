@@ -28,7 +28,7 @@ namespace QUESTionBot
         public static Dictionary<string, Team> CreateTeamList()
         {
             Dictionary<string, Team> teamList = new Dictionary<string, Team>();
-            teamList.Add("276425", new Team(1, "1"));
+            teamList.Add("question123", new Team(1, "1"));
             return teamList;
         }
     }

@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Telegram.Bot;
 using Telegram.Bot.Args;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -38,10 +39,10 @@ namespace QUESTionBot
         public MainWindow()
         {
             InitializeComponent();
-            botClient = new TelegramBotClient("");
+            botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
             botInfo = botClient.GetMeAsync().Result;
             teamList = Team.CreateTeamList();
-            tasks.Add(new Task(new Location() { Latitude = 15, Longitude=15 }, "Как дела?"));
+            tasks.Add(new Task(new Location() { Latitude = 15, Longitude = 15 }, "Как дела?"));
             debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
             botStopButton.IsEnabled = false;
             try
@@ -57,7 +58,7 @@ namespace QUESTionBot
                     MessageBoxResult mbResult = MessageBox.Show("Файл с логами найден. Хотите продолжить его заполнять, не стирая записей?", "Логи", MessageBoxButton.YesNo);
                     if (mbResult == MessageBoxResult.Yes)
                     {
-                        
+
                     }
                     else if (mbResult == MessageBoxResult.No)
                     {
@@ -67,6 +68,7 @@ namespace QUESTionBot
                         doc.Save("D:\\Other\\BotLog\\Log.docx");
                     }
                 }
+
             }
             catch (Exception e)
             {
@@ -79,6 +81,7 @@ namespace QUESTionBot
             if (botClient.IsReceiving == false)
             {
                 botClient.OnMessage += Bot_OnMessage;
+                botClient.OnCallbackQuery += BotOnCallbackQueryReceived;
                 botClient.StartReceiving();
                 debugTextBlock.Text += "\nБот начал принимать сообщения.";
                 botStopButton.IsEnabled = true;
@@ -106,8 +109,8 @@ namespace QUESTionBot
                   //replyToMessageId: e.Message.MessageId,
                   parseMode: ParseMode.Markdown,
                   text: TextTemplates.greetingMessage,
-                  replyMarkup: new ReplyKeyboardMarkup(new KeyboardButton("Согласен(на)"))
-                ) ;
+                  replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Согласен/согласна", "agreement"))//new ReplyKeyboardMarkup(new KeyboardButton("Согласен(на)")),
+                );
                 this.Dispatcher.Invoke(() =>
                 {
                     debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
@@ -116,7 +119,7 @@ namespace QUESTionBot
                 });
 
             }
-            else if (e.Message.Text == "276425")
+            else if (e.Message.Text == "question123")
             {
                 if (teamList[e.Message.Text].linkedChat is null)
                 {
@@ -148,21 +151,7 @@ namespace QUESTionBot
                         $"Это ответ на сообщение {e.Message.MessageId}. " +
                         $"Команда номер {teamList[e.Message.Text].teamID} повторно ввела свой ключ.";
                     });
-                }
-                else if (!(e.Message.Location is null))
-                {
-                    Message message = await botClient.SendTextMessageAsync(
-                                        chatId: e.Message.Chat,
-                                        text: $"Спасибо, я получил вашу геолокацию."
-                                        );
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
-                        $"в чат {message.Chat.Id} в {message.Date}. " +
-                        $"Это ответ на сообщение {e.Message.MessageId}. " +
-                        $"Команда номер {teamList[e.Message.Text].teamID} поделилась геолокацией.";
-                    });
-                }
+                }              
                 else
                 {
                     Message message = await botClient.SendTextMessageAsync(
@@ -180,6 +169,13 @@ namespace QUESTionBot
                     });
                 }
             }
+            else if(e.Message.Location != null)
+            {
+                Message message = await botClient.SendTextMessageAsync(
+                                        chatId: e.Message.Chat,
+                                        text: "Геолокация получена!"
+                                        );
+            }
             else if (e.Message.Text != null)
             {
                 Message message = await botClient.SendTextMessageAsync(
@@ -194,6 +190,25 @@ namespace QUESTionBot
                     $"в чат {message.Chat.Id} в {message.Date}. " +
                     $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
                 });
+            }
+        }
+
+        private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
+        {
+            var callbackQuery = callbackQueryEventArgs.CallbackQuery;
+
+            if (callbackQuery.Data == "agreement")
+            {
+                await botClient.AnswerCallbackQueryAsync(
+                    callbackQueryId: callbackQuery.Id,
+                    text: $"Спасибо, что цените установленные правила!"
+                );
+
+                await botClient.SendTextMessageAsync(
+                    chatId: callbackQuery.Message.Chat.Id,
+                    text: $"Спасибо, что цените установленные правила!" +
+                    $"\n\n Теперь мы можем начинать квест. Пожалуйста, отправьте мне ключ вашей команды, полученный от организатора."
+                );
             }
         }
     }
