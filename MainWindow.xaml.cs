@@ -127,9 +127,14 @@ namespace QUESTionBot
                                         chatId: e.Message.Chat,
                                         replyToMessageId: e.Message.MessageId,
                                         text: $"Ключ принят! Стало быть, вы представляете команду номер {teamList[e.Message.Text].teamID}!",
-                                        replyMarkup: new ReplyKeyboardMarkup(new KeyboardButton("Поделиться геолокацией") { RequestLocation = true })
-                                        
-                                        ); ;
+                                        replyMarkup: new ReplyKeyboardMarkup(new KeyboardButton("Поделиться геолокацией") { RequestLocation = true })                                      
+                                        );
+                    await botClient.SendVenueAsync(chatId: e.Message.Chat,
+                                            latitude: (float)60.022518,
+                                            longitude: (float)30.380434,
+                                            title: "1",
+                                            address: "2"
+                                           );                                            
                     teamList[e.Message.Text].linkedChat = e.Message.Chat;
                     this.Dispatcher.Invoke(() =>
                     {
@@ -173,10 +178,13 @@ namespace QUESTionBot
             }
             else if(e.Message.Location != null)
             {
-                Message message = await botClient.SendTextMessageAsync(
-                                        chatId: e.Message.Chat,
-                                        text: "Геолокация получена!"
-                                        );
+                if (e.Message.Location.Latitude != 100)
+                {
+                    Message message = await botClient.SendTextMessageAsync(
+                                            chatId: e.Message.Chat,
+                                            text: "Геолокация получена!"
+                                            );
+                }
             }
             else if (e.Message.Text != null)
             {
