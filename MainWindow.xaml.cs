@@ -105,7 +105,8 @@ namespace QUESTionBot
                   chatId: e.Message.Chat,
                   //replyToMessageId: e.Message.MessageId,
                   parseMode: ParseMode.Markdown,
-                  text: TextTemplates.greetingMessage
+                  text: TextTemplates.greetingMessage,
+                  replyMarkup: new ReplyKeyboardMarkup(new KeyboardButton("Согласен(на)"))
                 ) ;
                 this.Dispatcher.Invoke(() =>
                 {
