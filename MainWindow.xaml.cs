@@ -126,8 +126,10 @@ namespace QUESTionBot
                     Message message = await botClient.SendTextMessageAsync(
                                         chatId: e.Message.Chat,
                                         replyToMessageId: e.Message.MessageId,
-                                        text: $"Ключ принят! Стало быть, вы представляете команду номер {teamList[e.Message.Text].teamID}!"
-                                        );
+                                        text: $"Ключ принят! Стало быть, вы представляете команду номер {teamList[e.Message.Text].teamID}!",
+                                        replyMarkup: new ReplyKeyboardMarkup(new KeyboardButton("Поделиться геолокацией") { RequestLocation = true })
+                                        
+                                        ); ;
                     teamList[e.Message.Text].linkedChat = e.Message.Chat;
                     this.Dispatcher.Invoke(() =>
                     {
