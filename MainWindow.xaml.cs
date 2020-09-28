@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -104,18 +105,22 @@ namespace QUESTionBot
         {
             if (e.Message.Text == "/start")
             {
-                Message message = await botClient.SendTextMessageAsync(
+                Message message1 = await botClient.SendTextMessageAsync(
                   chatId: e.Message.Chat,
-                  //replyToMessageId: e.Message.MessageId,
-                  parseMode: ParseMode.Markdown,
-                  text: TextTemplates.greetingMessage,
-                  replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Согласен/согласна", "agreement"))//new ReplyKeyboardMarkup(new KeyboardButton("Согласен(на)")),
+                  text: TextTemplates.message1
                 );
+
+                Thread.Sleep(4000);
+                Message message2 = await botClient.SendTextMessageAsync(
+                    chatId: e.Message.Chat,
+                    text: TextTemplates.message2,
+                    replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Я и моя команда обязуемся соблюдать правила дорожного движения", "agreement"))
+                    );
+
                 this.Dispatcher.Invoke(() =>
                 {
-                    debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
-                    $"в чат {message.Chat.Id} в {message.Date}. " +
-                    $"Это ответ на сообщение {e.Message.MessageId} ";
+                    debugTextBlock.Text += $"\nОтправлено приветственное сообщение { message1.MessageId} " +
+                    $"в чат {message1.Chat.Id} в {message1.Date.ToLocalTime()}. ";
                 });
 
             }
@@ -216,9 +221,14 @@ namespace QUESTionBot
 
                 await botClient.SendTextMessageAsync(
                     chatId: callbackQuery.Message.Chat.Id,
-                    text: $"Спасибо, что цените установленные правила!" +
-                    $"\n\n Теперь мы можем начинать квест. Пожалуйста, отправьте мне ключ вашей команды, полученный от организатора."
-                );
+                    text: $"Спасибо, что цените установленные правила!"
+                ) ;
+
+                Thread.Sleep(2000);
+                await botClient.SendTextMessageAsync(
+                    chatId: callbackQuery.Message.Chat.Id,
+                    text: TextTemplates.message3
+                ) ;
             }
         }
     }
