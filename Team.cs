@@ -23,6 +23,8 @@ namespace QUESTionBot
         public Team(int id)
         {
             TeamID = id;
+            CurrentTask = 0;
+            QuestStartedAt = DateTime.Now.ToLocalTime();
         }
 
     }
