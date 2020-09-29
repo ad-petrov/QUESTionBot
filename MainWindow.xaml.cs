@@ -33,8 +33,8 @@ namespace QUESTionBot
     {
         public static TelegramBotClient botClient;
         public User botInfo;
-        Dictionary<string, Team> teamList;
-        List<Task> taskList;
+        Dictionary<Chat, Team> teamList = new Dictionary<Chat, Team>();
+        Dictionary<string, Task> taskList;
 
 
         public MainWindow()
@@ -42,7 +42,6 @@ namespace QUESTionBot
             InitializeComponent();
             botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
             botInfo = botClient.GetMeAsync().Result;
-            teamList = Team.CreateTeamList();
             taskList = Task.CreateTaskList();
             debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
             botStopButton.IsEnabled = false;
@@ -124,41 +123,42 @@ namespace QUESTionBot
                 });
 
             }
-            else if (teamList.ContainsKey(e.Message.Text))
+            else if (Team.KeyWordsList.Contains(e.Message.Text))
             {
-                if (teamList[e.Message.Text].linkedChat is null)
+                teamList.Add(e.Message.Chat, new Team(Team.KeyWordsList.ToList().IndexOf(e.Message.Text)));
+                if (teamList[e.Message.Chat].LinkedChat is null)
                 {
                     Message message = await botClient.SendTextMessageAsync(
                                         chatId: e.Message.Chat,
-                                        text: $"Команда № {teamList[e.Message.Text].teamID}, ваше время пошло. Первая станция во вложении ниже."
+                                        text: $"Команда № {teamList[e.Message.Chat].TeamID}, ваше время пошло. Первая станция во вложении ниже."
                                         );
                     await botClient.SendVenueAsync(chatId: e.Message.Chat,
-                                            latitude: (float)59.963555,
-                                            longitude: (float)30.313474, 
-                                            title: "Сад Андрея Петрова",
-                                            address: "Каменоостровский проспект"
+                                            latitude: taskList[Team.KeyWordsList[teamList[e.Message.Chat].CurrentTask]].LinkedLocation.Latitude,
+                                            longitude: taskList[Team.KeyWordsList[teamList[e.Message.Chat].CurrentTask]].LinkedLocation.Longitude, 
+                                            title: taskList[Team.KeyWordsList[teamList[e.Message.Chat].CurrentTask]].Title,
+                                            address: taskList[Team.KeyWordsList[teamList[e.Message.Chat].CurrentTask]].Address
                                            );                                            
-                    teamList[e.Message.Text].linkedChat = e.Message.Chat;
+                    teamList[e.Message.Chat].LinkedChat = e.Message.Chat;
                     this.Dispatcher.Invoke(() =>
                     {
                         debugTextBlock.Text += $"\nОтправлена инструкция { message.MessageId} " +
                         $"в чат {message.Chat.Id} в {message.Date.ToLocalTime()}. " +
-                        $"Команда номер {teamList[e.Message.Text].teamID} успешно ввела свой ключ и получила задания.";
+                        $"Команда номер {teamList[e.Message.Chat].TeamID} успешно ввела свой ключ и получила задания.";
                     });
                 }
-                else if (teamList[e.Message.Text].linkedChat.Id == e.Message.Chat.Id)
+                else if (teamList[e.Message.Chat].LinkedChat.Id == e.Message.Chat.Id)
                 {
                     Message message = await botClient.SendTextMessageAsync(
                                         chatId: e.Message.Chat,
                                         text: $"Необязательно присылать мне ключ во второй раз. " +
-                                        $"Я уже знаю, что вы представляете команду номер {teamList[e.Message.Text].teamID}."
+                                        $"Я уже знаю, что вы представляете команду номер {teamList[e.Message.Chat].TeamID}."
                                         );
                     this.Dispatcher.Invoke(() =>
                     {
                         debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
                         $"в чат {message.Chat.Id} в {message.Date}. " +
                         $"Это ответ на сообщение {e.Message.MessageId}. " +
-                        $"Команда номер {teamList[e.Message.Text].teamID} повторно ввела свой ключ.";
+                        $"Команда номер {teamList[e.Message.Chat].TeamID} повторно ввела свой ключ.";
                     });
                 }              
                 else
@@ -174,7 +174,7 @@ namespace QUESTionBot
                         debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
                         $"в чат {message.Chat.Id} в {message.Date}. " +
                         $"Это ответ на сообщение {e.Message.MessageId}. " +
-                        $"Ключ был отклонён, поскольку команда номер {teamList[e.Message.Text].teamID} уже занята.";
+                        $"Ключ был отклонён, поскольку команда номер {teamList[e.Message.Chat].TeamID} уже занята.";
                     });
                 }
             }
