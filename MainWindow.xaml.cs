@@ -34,7 +34,7 @@ namespace QUESTionBot
         public static TelegramBotClient botClient;
         public User botInfo;
         Dictionary<string, Team> teamList;
-        List<Task> tasks = new List<Task>();
+        List<Task> taskList;
 
 
         public MainWindow()
@@ -43,7 +43,7 @@ namespace QUESTionBot
             botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
             botInfo = botClient.GetMeAsync().Result;
             teamList = Team.CreateTeamList();
-            tasks.Add(new Task(new Location() { Latitude = 15, Longitude = 15 }, "Как дела?"));
+            taskList = Task.CreateTaskList();
             debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
             botStopButton.IsEnabled = false;
             try
@@ -124,28 +124,25 @@ namespace QUESTionBot
                 });
 
             }
-            else if (e.Message.Text == "question123")
+            else if (teamList.ContainsKey(e.Message.Text))
             {
                 if (teamList[e.Message.Text].linkedChat is null)
                 {
                     Message message = await botClient.SendTextMessageAsync(
                                         chatId: e.Message.Chat,
-                                        replyToMessageId: e.Message.MessageId,
-                                        text: $"Ключ принят! Стало быть, вы представляете команду номер {teamList[e.Message.Text].teamID}!",
-                                        replyMarkup: new ReplyKeyboardMarkup(new KeyboardButton("Поделиться геолокацией") { RequestLocation = true })                                      
+                                        text: $"Команда № {teamList[e.Message.Text].teamID}, ваше время пошло. Первая станция во вложении ниже."
                                         );
                     await botClient.SendVenueAsync(chatId: e.Message.Chat,
-                                            latitude: (float)60.022518,
-                                            longitude: (float)30.380434,
-                                            title: "1",
-                                            address: "2"
+                                            latitude: (float)59.963555,
+                                            longitude: (float)30.313474, 
+                                            title: "Сад Андрея Петрова",
+                                            address: "Каменоостровский проспект"
                                            );                                            
                     teamList[e.Message.Text].linkedChat = e.Message.Chat;
                     this.Dispatcher.Invoke(() =>
                     {
-                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
-                        $"в чат {message.Chat.Id} в {message.Date}. " +
-                        $"Это ответ на сообщение {e.Message.MessageId}. " +
+                        debugTextBlock.Text += $"\nОтправлена инструкция { message.MessageId} " +
+                        $"в чат {message.Chat.Id} в {message.Date.ToLocalTime()}. " +
                         $"Команда номер {teamList[e.Message.Text].teamID} успешно ввела свой ключ и получила задания.";
                     });
                 }
@@ -229,6 +226,19 @@ namespace QUESTionBot
                     chatId: callbackQuery.Message.Chat.Id,
                     text: TextTemplates.message3
                 ) ;
+
+                Thread.Sleep(3000);
+                await botClient.SendTextMessageAsync(
+                    chatId: callbackQuery.Message.Chat.Id,
+                    text: TextTemplates.message4,
+                    parseMode: ParseMode.Markdown
+                );
+
+                Thread.Sleep(3000);
+                await botClient.SendTextMessageAsync(
+                    chatId: callbackQuery.Message.Chat.Id,
+                    text: TextTemplates.message5
+                );
             }
         }
     }
