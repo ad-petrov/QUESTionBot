@@ -45,6 +45,8 @@ namespace QUESTionBot
             taskList = Task.CreateTaskList();
             debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
             botStopButton.IsEnabled = false;
+
+            // заготовка для работы с Word
             try
             {
                 if (Directory.GetFiles("D:\\Other\\BotLog\\", "Log.docx").Length == 0)
@@ -76,6 +78,7 @@ namespace QUESTionBot
             }
         }
 
+        //кнопки запуска Бота в программе
         private void botLaunchButton_Click(object sender, RoutedEventArgs e)
         {
             if (botClient.IsReceiving == false)
@@ -102,6 +105,7 @@ namespace QUESTionBot
 
         public async void Bot_OnMessage(object sender, MessageEventArgs e)
         {
+            // стартовый пак
             if (e.Message.Text == "/start")
             {
                 Message message1 = await botClient.SendTextMessageAsync(
@@ -123,6 +127,7 @@ namespace QUESTionBot
                 });
 
             }
+            // если человек прислал ключик
             else if (Team.KeyWordsList.Contains(e.Message.Text))
             {
                 if (!teamList.ContainsKey(e.Message.Chat.Id))
@@ -138,7 +143,11 @@ namespace QUESTionBot
                                                 title: taskList[Task.KeyPhrasesList[teamList[e.Message.Chat.Id].CurrentTask]].Title,
                                                 address: taskList[Task.KeyPhrasesList[teamList[e.Message.Chat.Id].CurrentTask]].Address
                                                );
-                        teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat;
+                    await botClient.SendTextMessageAsync(
+                                            chatId: e.Message.Chat,
+                                            text: taskList[Task.KeyPhrasesList[teamList[e.Message.Chat.Id].CurrentTask]].MessageTrigger
+                                            );
+                    teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat;
                         this.Dispatcher.Invoke(() =>
                         {
                             debugTextBlock.Text += $"\nОтправлена инструкция { message.MessageId} " +
@@ -155,8 +164,8 @@ namespace QUESTionBot
                                         );
                     this.Dispatcher.Invoke(() =>
                     {
-                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
-                        $"в чат {message.Chat.Id} в {message.Date}. " +
+                        debugTextBlock.Text += $"Отправлено сообщение { message.MessageId} " +
+                        $"в чат {message.Chat.Id} в {message.Date.ToLocalTime()}. " +
                         $"Это ответ на сообщение {e.Message.MessageId}. " +
                         $"Команда номер {teamList[e.Message.Chat.Id].TeamID} повторно ввела свой ключ.";
                     });
@@ -171,28 +180,30 @@ namespace QUESTionBot
                                         );
                     this.Dispatcher.Invoke(() =>
                     {
-                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId} " +
-                        $"в чат {message.Chat.Id} в {message.Date}. " +
+                        debugTextBlock.Text += $"\nОтправлено сообщение { message.MessageId} " +
+                        $"в чат {message.Chat.Id} в {message.Date.ToLocalTime()}. " +
                         $"Это ответ на сообщение {e.Message.MessageId}. " +
                         $"Ключ был отклонён, поскольку команда номер {teamList[e.Message.Chat.Id].TeamID} уже занята.";
                     });
                 }
             }
-            else if(e.Message.Location != null)
+            // приём ответов на вопросы-триггеры
+            else if (Task.KeyPhrasesList.Contains(e.Message.Text))
             {
-                if (e.Message.Location.Latitude != 100)
-                {
-                    Message message = await botClient.SendTextMessageAsync(
-                                            chatId: e.Message.Chat,
-                                            text: "Геолокация получена!"
-                                            );
-                }
+                Task.TaskInteraction(Task.KeyPhrasesList.ToList().IndexOf(e.Message.Text));
+                //this.Dispatcher.Invoke(() =>
+                //{
+                //    debugTextBlock.Text += $"\nОтправлено сообщение { message.MessageId} " +
+                //    $"в чат {message.Chat.Id} в {message.Date.ToLocalTime()}. " +
+                //    $"Это ответ на сообщение {e.Message.MessageId}. " +
+                //    $"Команда номер {teamList[e.Message.Chat.Id].TeamID} верно ввела ответ на триггер номер {Task.KeyPhrasesList.ToList().IndexOf(e.Message.Text)+1}";
+                //});
             }
+            // дефолтный ответ на нераспознанную команду
             else if (e.Message.Text != null)
             {
                 Message message = await botClient.SendTextMessageAsync(
                   chatId: e.Message.Chat,
-                  //replyToMessageId: e.Message.MessageId,
                   parseMode: ParseMode.Markdown,
                   text: "Я не смог распознать вашей команды. Попробуйте ввести её более чётко или используйте команду /help, чтобы узнать мои возможности"
                 );
