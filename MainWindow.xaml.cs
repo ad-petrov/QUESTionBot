@@ -138,17 +138,8 @@ namespace QUESTionBot
                                             chatId: e.Message.Chat,
                                             text: $"Команда № {teamList[e.Message.Chat.Id].TeamID}, ваше время пошло. Первая станция во вложении ниже."
                                             );
-                        await botClient.SendVenueAsync(chatId: e.Message.Chat,
-                                                latitude: taskList[Task.KeyPhrasesList[teamList[e.Message.Chat.Id].CurrentTask]].LinkedLocation.Latitude,
-                                                longitude: taskList[Task.KeyPhrasesList[teamList[e.Message.Chat.Id].CurrentTask]].LinkedLocation.Longitude,
-                                                title: taskList[Task.KeyPhrasesList[teamList[e.Message.Chat.Id].CurrentTask]].Title,
-                                                address: taskList[Task.KeyPhrasesList[teamList[e.Message.Chat.Id].CurrentTask]].Address
-                                               );
-                    await botClient.SendTextMessageAsync(
-                                            chatId: e.Message.Chat,
-                                            text: taskList[Task.KeyPhrasesList[teamList[e.Message.Chat.Id].CurrentTask]].MessageTrigger
-                                            );
-                    teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat;
+                    BetweenTaskInteraction(e.Message.Chat.Id);
+                  teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat;
                         this.Dispatcher.Invoke(() =>
                         {
                             debugTextBlock.Text += $"\nОтправлена инструкция { message.MessageId} " +
@@ -193,7 +184,7 @@ namespace QUESTionBot
             {
                 try
                 {
-                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentQuestion, teamList[e.Message.Chat.Id].CurrentTask, e.Message.Chat);
+                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
                 }
                 catch
                 {
@@ -207,6 +198,7 @@ namespace QUESTionBot
                 //    $"Команда номер {teamList[e.Message.Chat.Id].TeamID} верно ввела ответ на триггер номер {Task.KeyPhrasesList.ToList().IndexOf(e.Message.Text)+1}";
                 //});
             }
+            // приём триггера вопросов внутри станции
             else if (Task.QuestionTriggers.Contains(e.Message.Text.Trim().ToLower()))
             {
                 Task.TriggerHandler(e.Message.Text, teamList[e.Message.Chat.Id], e.Message.Chat.Id);
@@ -273,8 +265,8 @@ namespace QUESTionBot
                         text: TextTemplates.message5
                     );
                     break;
-                case ("task1"):
-                    teamList[callbackQuery.Message.Chat.Id].CurrentTask++;
+                case ("nexttask"):
+                    teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
                     Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask, 
                         teamList[callbackQuery.Message.Chat.Id].CurrentQuestion, 
                         callbackQuery.Message.Chat.Id);
@@ -305,14 +297,14 @@ namespace QUESTionBot
             teamList[chatid.Identifier].CurrentQuestion = 0;
             teamList[chatid.Identifier].CurrentTask++;
             await MainWindow.botClient.SendVenueAsync(chatId: chatid,
-                                                latitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].LinkedLocation.Latitude,
-                                                longitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].LinkedLocation.Longitude,
-                                                title: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].Title,
-                                                address: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].Address
+                                                latitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].LinkedLocation.Latitude,
+                                                longitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].LinkedLocation.Longitude,
+                                                title: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].Title,
+                                                address: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].Address
                                                );
             await MainWindow.botClient.SendTextMessageAsync(
                                     chatId: chatid,
-                                    text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].MessageTrigger
+                                    text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].MessageTrigger
                                     );
         }
     }

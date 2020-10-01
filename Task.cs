@@ -21,7 +21,7 @@ namespace QUESTionBot
 
 
         public static string[] KeyPhrasesList = new string[] { "отцовская любовь", "1914", "премьера", "6", "9", "розовый", "14", "кто моет форточки?", "гуманитарный", "4930" };
-        public static string[] QuestionTriggers = new string[] { "хармс", "чти"};
+        public static string[] QuestionTriggers = new string[] { "хармс", "чти", "прокофьев"};
 
         public Task(Location location, string text, string address, string trigger)
         {
@@ -116,7 +116,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatid,
                             text: TextTemplates.message8,
-                            replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "task1"))
+                            replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask"))
                             );
                     }
                     else if (questionnumber == 1)
@@ -231,9 +231,75 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Погнали дальше!");
-                        
+                        MainWindow.BetweenTaskInteraction(chatid);
                     }
                     break;
+                case (2):
+                    if (questionnumber == 0)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message27,
+                        replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
+                    }
+                    if(questionnumber == 1)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Почему премьера симфонии состоялась 9 августа?",
+                        replyMarkup: InlineKeyboards.message28keyboard);
+                    }
+                    if(questionnumber == 2)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Именно 9 августа 1942 Ленинград должен был пасть от блокады.");
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Искусство не умирало во время блокады. Удивительно, как изнеможенные холодом, голодом и обстрелами жители Ленинграда не падали духом.");
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Вспомните, кто был голосом Ленинграда во времена блокады?",
+                        replyMarkup: InlineKeyboards.message30keyboard );
+                    }
+                    if(questionnumber == 3)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.answer30);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Пикча Ленинграда");
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Найдите мемориальную доску еще одному деятелю искусства, на этот раз поэту. Она расположена на фасаде здания. Напишите только его фамилию.");
+                        MainWindow.noWrongAnswer = true;
+                    }
+                    if (questionnumber == 4)
+                    {
+                        MainWindow.noWrongAnswer = false;
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.answer31);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message32);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message33);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Вспомните историю и ответьте на вопрос: В каких политических событиях того времени Киров не принимал участие?",
+                        replyMarkup: InlineKeyboards.message34keyboard);
+                    }
+                    if (questionnumber == 5)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.answer34);
+                    }
+
+                        break;
                 default:
                     break;
             }
@@ -256,6 +322,11 @@ namespace QUESTionBot
                     {
                         team.Points++;
                     }
+                    team.CurrentQuestion++;
+                    Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
+                    break;
+                case ("прокофьев"):
+                    team.Points++;
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
@@ -358,7 +429,7 @@ namespace QUESTionBot
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("3” Чайковского", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
                     },
                 });
             public static InlineKeyboardMarkup message23keyboard = new InlineKeyboardMarkup(new[]
@@ -377,6 +448,61 @@ namespace QUESTionBot
                     },
                 });
 
+            public static InlineKeyboardMarkup message28keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Это любимое число Шостаковича", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("Согласно приказу Сталина", "wrong"),
+                    },
+                    // second row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("В прошлом все премьеры должны были проходить 9-го числа", "wrong"),
+                    },
+                    new[]
+                    {
+                    
+                        InlineKeyboardButton.WithCallbackData("В этот день по плану Гитлера Ленинград должен был пасть от блокады", "right"),
+                    }
+                });
+
+            public static InlineKeyboardMarkup message30keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Даниил Гранин", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("Ольга Берггольц", "right"),
+                    },
+                    // second row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Анна Ахматова", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("Вера Инбер", "wrong"),
+                    },
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Михаил Дудин", "wrong"),
+                    }
+                });
+
+            public static InlineKeyboardMarkup message34keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Защита интересов большевиков на Дальнем Востоке", "right"),
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("Организация обороны Астрахани против сил Белой армии", "wrong"),
+                    },
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Установление советской власти В Азербайджане и Грузии", "wrong"),
+                    },
+                });
         }
     }
 

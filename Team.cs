@@ -29,7 +29,7 @@ namespace QUESTionBot
         {
             TeamID = id;
             CurrentTask = 0;
-            CurrentQuestion = 1;
+            CurrentQuestion = 0;
             Points = 0;
             QuestStartedAt = DateTime.Now.ToLocalTime();
         }
