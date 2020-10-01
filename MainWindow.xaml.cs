@@ -33,8 +33,9 @@ namespace QUESTionBot
     {
         public static TelegramBotClient botClient;
         public User botInfo;
-        Dictionary<long, Team> teamList = new Dictionary<long, Team>();
-        Dictionary<string, Task> taskList;
+        static Dictionary<long, Team> teamList = new Dictionary<long, Team>();
+        static Dictionary<string, Task> taskList;
+        public static bool noWrongAnswer = false;
 
 
         public MainWindow()
@@ -188,9 +189,16 @@ namespace QUESTionBot
                 }
             }
             // приём ответов на вопросы-триггеры
-            else if (Task.KeyPhrasesList.Contains(e.Message.Text))
+            else if (Task.KeyPhrasesList.Contains(e.Message.Text.Trim().ToLower()))
             {
-                Task.TaskInteraction(Task.KeyPhrasesList.ToList().IndexOf(e.Message.Text));
+                try
+                {
+                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentQuestion, teamList[e.Message.Chat.Id].CurrentTask, e.Message.Chat);
+                }
+                catch
+                {
+
+                }
                 //this.Dispatcher.Invoke(() =>
                 //{
                 //    debugTextBlock.Text += $"\nОтправлено сообщение { message.MessageId} " +
@@ -199,20 +207,33 @@ namespace QUESTionBot
                 //    $"Команда номер {teamList[e.Message.Chat.Id].TeamID} верно ввела ответ на триггер номер {Task.KeyPhrasesList.ToList().IndexOf(e.Message.Text)+1}";
                 //});
             }
+            else if (Task.QuestionTriggers.Contains(e.Message.Text.Trim().ToLower()))
+            {
+                Task.TriggerHandler(e.Message.Text, teamList[e.Message.Chat.Id], e.Message.Chat.Id);
+            }
             // дефолтный ответ на нераспознанную команду
             else if (e.Message.Text != null)
             {
-                Message message = await botClient.SendTextMessageAsync(
-                  chatId: e.Message.Chat,
-                  parseMode: ParseMode.Markdown,
-                  text: "Я не смог распознать вашей команды. Попробуйте ввести её более чётко или используйте команду /help, чтобы узнать мои возможности"
-                );
-                this.Dispatcher.Invoke(() =>
+                if (noWrongAnswer)
                 {
-                    debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId } " +
-                    $"в чат {message.Chat.Id} в {message.Date}. " +
-                    $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
-                });
+                    teamList[e.Message.Chat.Id].CurrentQuestion++;
+                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
+                }
+                else
+                {
+                    Message message = await botClient.SendTextMessageAsync(
+                      chatId: e.Message.Chat,
+                      parseMode: ParseMode.Markdown,
+                      text: "Либо вы пишете мне неправильный ответ, либо я не могу распознать вашей команды. Попробуйте ещё раз!"+
+                      "\nЕсли ситуация тупиковая, напишите @katchern и вам подскажут, что делать."
+                    );
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId } " +
+                        $"в чат {message.Chat.Id} в {message.Date}. " +
+                        $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
+                    });
+                }
             }
         }
 
@@ -220,37 +241,79 @@ namespace QUESTionBot
         {
             var callbackQuery = callbackQueryEventArgs.CallbackQuery;
 
-            if (callbackQuery.Data == "agreement")
+            switch (callbackQuery.Data)
             {
-                await botClient.AnswerCallbackQueryAsync(
+                case ("agreement"):
+                    await botClient.AnswerCallbackQueryAsync(
                     callbackQueryId: callbackQuery.Id,
                     text: $"Спасибо, что цените установленные правила!"
                 );
 
-                await botClient.SendTextMessageAsync(
-                    chatId: callbackQuery.Message.Chat.Id,
-                    text: $"Спасибо, что цените установленные правила!"
-                ) ;
+                    await botClient.SendTextMessageAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        text: $"Спасибо, что цените установленные правила!"
+                    );
 
-                Thread.Sleep(2000);
-                await botClient.SendTextMessageAsync(
-                    chatId: callbackQuery.Message.Chat.Id,
-                    text: TextTemplates.message3
-                ) ;
+                    Thread.Sleep(2000);
+                    await botClient.SendTextMessageAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        text: TextTemplates.message3
+                    );
 
-                Thread.Sleep(3000);
-                await botClient.SendTextMessageAsync(
-                    chatId: callbackQuery.Message.Chat.Id,
-                    text: TextTemplates.message4,
-                    parseMode: ParseMode.Markdown
-                );
+                    Thread.Sleep(3000);
+                    await botClient.SendTextMessageAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        text: TextTemplates.message4,
+                        parseMode: ParseMode.Markdown
+                    );
 
-                Thread.Sleep(3000);
-                await botClient.SendTextMessageAsync(
-                    chatId: callbackQuery.Message.Chat.Id,
-                    text: TextTemplates.message5
-                );
+                    Thread.Sleep(3000);
+                    await botClient.SendTextMessageAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        text: TextTemplates.message5
+                    );
+                    break;
+                case ("task1"):
+                    teamList[callbackQuery.Message.Chat.Id].CurrentTask++;
+                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask, 
+                        teamList[callbackQuery.Message.Chat.Id].CurrentQuestion, 
+                        callbackQuery.Message.Chat.Id);
+                    break;
+                case ("right"):
+                    if(((teamList[callbackQuery.Message.Chat.Id].CurrentTask == 1) && (teamList[callbackQuery.Message.Chat.Id].CurrentQuestion == 6)) && (teamList[callbackQuery.Message.Chat.Id].hint2used == false))
+                    {
+                        teamList[callbackQuery.Message.Chat.Id].Points++;
+                    }
+                    teamList[callbackQuery.Message.Chat.Id].Points++;
+                    goto case ("wrong");
+                case ("wrong"):
+                    teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
+                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask,
+                        teamList[callbackQuery.Message.Chat.Id].CurrentQuestion,
+                        callbackQuery.Message.Chat.Id);
+                    break;
+                case ("hint"):
+                    Task.HintHandler(teamList[callbackQuery.Message.Chat.Id], callbackQuery.Message.Chat.Id);
+                    break;
+                default:
+                    break;
             }
+        }
+
+        public static async void BetweenTaskInteraction(ChatId chatid)
+        {
+            teamList[chatid.Identifier].CurrentQuestion = 0;
+            teamList[chatid.Identifier].CurrentTask++;
+            await MainWindow.botClient.SendVenueAsync(chatId: chatid,
+                                                latitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].LinkedLocation.Latitude,
+                                                longitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].LinkedLocation.Longitude,
+                                                title: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].Title,
+                                                address: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].Address
+                                               );
+            await MainWindow.botClient.SendTextMessageAsync(
+                                    chatId: chatid,
+                                    text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask]].MessageTrigger
+                                    );
         }
     }
 }
