@@ -203,6 +203,11 @@ namespace QUESTionBot
             {
                 Task.TriggerHandler(e.Message.Text, teamList[e.Message.Chat.Id], e.Message.Chat.Id);
             }
+            //приём "мы готовы" на задании с Лениным
+            else if ((e.Message.Text.Trim().ToLower() == "мы готовы")&&(teamList[e.Message.Chat.Id].CurrentTask==7))
+            {
+                BetweenTaskInteraction(e.Message.Chat.Id);
+            }
             // дефолтный ответ на нераспознанную команду
             else if (e.Message.Text != null)
             {
@@ -286,6 +291,28 @@ namespace QUESTionBot
                     break;
                 case ("hint"):
                     Task.HintHandler(teamList[callbackQuery.Message.Chat.Id], callbackQuery.Message.Chat.Id);
+                    break;
+                case ("questend"):
+                    Thread.Sleep(2000);
+                    await botClient.SendTextMessageAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        text: TextTemplates.message97
+                    );
+                    Thread.Sleep(2000);
+                    await botClient.SendTextMessageAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        text: TextTemplates.message98
+                    );
+                    Thread.Sleep(2000);
+                    await botClient.SendTextMessageAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        text: TextTemplates.message99
+                    );
+                    Thread.Sleep(2000);
+                    await botClient.SendTextMessageAsync(
+                        chatId: callbackQuery.Message.Chat.Id,
+                        text: TextTemplates.message100
+                    );
                     break;
                 default:
                     break;

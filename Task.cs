@@ -21,7 +21,7 @@ namespace QUESTionBot
 
 
         public static string[] KeyPhrasesList = new string[] { "отцовская любовь", "1914", "премьера", "6", "9", "розовый", "14", "кто моет форточки?", "гуманитарный", "4930" };
-        public static string[] QuestionTriggers = new string[] { "хармс", "чти", "прокофьев", "фортуна меркурий", "пушкин", "348956", "бриллиантовая рука"};
+        public static string[] QuestionTriggers = new string[] { "хармс", "чти", "прокофьев", "фортуна меркурий", "пушкин", "348956", "бриллиантовая рука", "максим горький", "архитектоника"};
 
         public Task(Location location, string text, string address, string trigger)
         {
@@ -126,7 +126,7 @@ namespace QUESTionBot
                         text: $"Пройдитесь по саду и отметьте, какой скрипки нет:",
                         replyMarkup: Task.InlineKeyboards.message9keyboard);
                     }
-                    else if(questionnumber == 2)
+                    else if (questionnumber == 2)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -137,7 +137,7 @@ namespace QUESTionBot
                         text: $"Помните, что Андрей Павлович Петров лично посадил одно из деревьев в этом саду? Найдите его и отметьте, что это за дерево.",
                         replyMarkup: Task.InlineKeyboards.message10keyboard);
                     }
-                    else if(questionnumber == 3)
+                    else if (questionnumber == 3)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -151,7 +151,7 @@ namespace QUESTionBot
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message12); 
+                        text: TextTemplates.message12);
                         await MainWindow.botClient.SendTextMessageAsync(
                          chatId: chatid,
                          text: TextTemplates.message13);
@@ -162,7 +162,7 @@ namespace QUESTionBot
                          replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Подсказка", "hint")));
                         MainWindow.noWrongAnswer = true;
                     }
-                    else if(questionnumber == 5)
+                    else if (questionnumber == 5)
                     {
                         MainWindow.noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
@@ -187,7 +187,7 @@ namespace QUESTionBot
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
                         replyMarkup: InlineKeyboards.message18keyboard);
                     }
-                    else if(questionnumber == 7)
+                    else if (questionnumber == 7)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -203,7 +203,7 @@ namespace QUESTionBot
                         text: "Прослушайте три отрывка и определите, какой из них - часть Ленинградской симфонии.",
                         replyMarkup: InlineKeyboards.message21keyboard);
                     }
-                    else if(questionnumber == 8)
+                    else if (questionnumber == 8)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatid,
@@ -216,7 +216,7 @@ namespace QUESTionBot
                         text: TextTemplates.message23,
                         replyMarkup: InlineKeyboards.message23keyboard);
                     }
-                    else if(questionnumber == 9)
+                    else if (questionnumber == 9)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -242,14 +242,14 @@ namespace QUESTionBot
                         text: TextTemplates.message27,
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
                     }
-                    if(questionnumber == 1)
+                    if (questionnumber == 1)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Почему премьера симфонии состоялась 9 августа?",
                         replyMarkup: InlineKeyboards.message28keyboard);
                     }
-                    if(questionnumber == 2)
+                    if (questionnumber == 2)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -260,9 +260,9 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Вспомните, кто был голосом Ленинграда во времена блокады?",
-                        replyMarkup: InlineKeyboards.message30keyboard );
+                        replyMarkup: InlineKeyboards.message30keyboard);
                     }
-                    if(questionnumber == 3)
+                    if (questionnumber == 3)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -302,7 +302,7 @@ namespace QUESTionBot
                         text: TextTemplates.message35,
                         replyMarkup: InlineKeyboards.message35keyboard);
                     }
-                    if(questionnumber == 6)
+                    if (questionnumber == 6)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -321,14 +321,14 @@ namespace QUESTionBot
                         text: "Вы готовы приступить к заданию?",
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
                     }
-                    if(questionnumber == 1)
+                    if (questionnumber == 1)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message38,
                         replyMarkup: InlineKeyboards.message38keyboard);
                     }
-                    if(questionnumber == 2)
+                    if (questionnumber == 2)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -339,7 +339,7 @@ namespace QUESTionBot
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         MainWindow.noWrongAnswer = true;
                     }
-                    if(questionnumber == 3)
+                    if (questionnumber == 3)
                     {
                         MainWindow.noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
@@ -350,7 +350,7 @@ namespace QUESTionBot
                         text: TextTemplates.message41);
                         MainWindow.noWrongAnswer = true;
                     }
-                    if(questionnumber == 4)
+                    if (questionnumber == 4)
                     {
                         MainWindow.noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
@@ -378,7 +378,7 @@ namespace QUESTionBot
                         text: "Перед зданием лицея ранее было несколько бюстов различных людей. \nА чьего бюста перед учебным заведением никогда не было ?",
                         replyMarkup: InlineKeyboards.message44keyboard);
                     }
-                    if(questionnumber == 2)
+                    if (questionnumber == 2)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -402,7 +402,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message48,
-                        replyMarkup: InlineKeyboards.message48keyboard);                       
+                        replyMarkup: InlineKeyboards.message48keyboard);
                     }
                     if (questionnumber == 4)
                     {
@@ -427,7 +427,7 @@ namespace QUESTionBot
                     }
                     break;
                 case (5):
-                    if(questionnumber == 0)
+                    if (questionnumber == 0)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatid,
@@ -445,7 +445,7 @@ namespace QUESTionBot
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         MainWindow.noWrongAnswer = true;
                     }
-                    if(questionnumber == 2)
+                    if (questionnumber == 2)
                     {
                         MainWindow.noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
@@ -469,7 +469,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message57,
-                        replyMarkup: InlineKeyboards.message57keyboard); 
+                        replyMarkup: InlineKeyboards.message57keyboard);
                     }
                     if (questionnumber == 4)
                     {
@@ -498,6 +498,238 @@ namespace QUESTionBot
                            text: "Половина маршрута уже пройдена. Хорошая работа, друзья! Двигаемся дальше. *К*",
                            parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         MainWindow.BetweenTaskInteraction(chatid);
+                    }
+                    break;
+                case (6):
+                    if (questionnumber == 0)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message60);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message61);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatid,
+                            text: TextTemplates.message62,
+                            replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
+                    }
+                    if (questionnumber == 1)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message63,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message64,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        MainWindow.noWrongAnswer = true;
+                    }
+                    if (questionnumber == 2)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message65,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Больше никаких убийств сегодня! Идём дальше. *Р*",
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                    }
+                    break;
+                case (7):
+                    if (questionnumber == 0)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message68);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message69);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message70);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message71,
+                        replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask"))
+                        );
+                    }
+                    if (questionnumber == 1)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message72);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "После завершения задания напишите сюда \"Мы готовы\"");
+                    }
+                    break;
+                case (8):
+                    if (questionnumber == 0)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message74);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message75);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message76,
+                        replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
+                    }
+                    if (questionnumber == 1)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message77,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
+                        replyMarkup: InlineKeyboards.message77keyboard);
+                    }
+                    if (questionnumber == 2)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.answer77,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message78);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message79,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        MainWindow.noWrongAnswer = true;
+                    }
+                    if (questionnumber == 3)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                                                chatId: chatid,
+                                                text: TextTemplates.message80,
+                                                parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message81,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                    }
+                    break;
+                case (9):
+                    if (questionnumber == 0)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message83,
+                        replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
+                        
+                    }
+                    if (questionnumber == 1)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                         chatId: chatid,
+                         text: "А теперь давайте узнаем, насколько хорошо вы знаете историю нашего университета.\nПервое здание ИТМО (тогда ещё ЛИТМО) расположено по адресу:",
+                         replyMarkup: InlineKeyboards.message85keyboard);
+                    }
+                    if (questionnumber == 2)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Первое здание расположено по адресу: переулок Гривцова, 14");
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "В каком году ИТМО получил статус национального исследовательского университета?",
+                        replyMarkup: InlineKeyboards.message86keyboard);
+                    }
+                    if (questionnumber == 3)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                                               chatId: chatid,
+                                               text: "ИТМО получил статус национального исследовательского университета в 2009 году.");
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Во дворе какого корпуса был установлен первый в России памятник Стиву Джобсу?",
+                        replyMarkup: InlineKeyboards.message87keyboard);
+                    }
+                    if (questionnumber == 4)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.answer87);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message88);
+                        MainWindow.noWrongAnswer = true;
+                    }
+                    if (questionnumber == 5)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.answer88);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message89,
+                        replyMarkup: InlineKeyboards.message89keyboard);
+                    }
+                    if (questionnumber == 6)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.answer89);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message90,
+                        replyMarkup: InlineKeyboards.message90keyboard);
+                    }
+                    if (questionnumber == 7)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.answer90);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message901);
+                    }
+                    break;
+                case (10):
+                    if (questionnumber == 0)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Перед вами - мастерская Михаила Константиновича Аникушина (1917-1997), с которым мы уже сегодня встретились.",
+                        replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
+                    }
+                    if (questionnumber == 1)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message93);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message94,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
+                        replyMarkup: InlineKeyboards.message94keyboard);
+                    }
+                    if (questionnumber == 2)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                                                chatId: chatid,
+                                                text: "К сожалению, Ленина не найти в окнах музея. Может, он внутри?");
+                        await MainWindow.botClient.SendTextMessageAsync(
+                                                chatId: chatid,
+                                                text: "Кстати, на счету Аникушина 5 памятника А. С. Пушкину, а еще именем скульптора названа малая планета.");
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message96);
+                        MainWindow.noWrongAnswer = true;
+                    }
+                    if (questionnumber == 3)
+                    {
+                        await MainWindow.botClient.SendTextMessageAsync(
+                           chatId: chatid,
+                           text: TextTemplates.answer96,
+                           replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Завершить квест.", "questend")));
+
                     }
                     break;
                 default:
@@ -547,6 +779,16 @@ namespace QUESTionBot
                     break;
                 case ("бриллиантовая рука"):
                     team.Points += 2;
+                    team.CurrentQuestion++;
+                    Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
+                    break;
+                case ("максим горький"):
+                    team.Points += 2;
+                    team.CurrentQuestion++;
+                    Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
+                    break;
+                case ("архитектоника"):
+                    team.Points += 3;
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
@@ -867,6 +1109,112 @@ namespace QUESTionBot
                     {
                         InlineKeyboardButton.WithCallbackData("Детеныши медведей", "wrong"),
                         InlineKeyboardButton.WithCallbackData("Бегемотиха Красавица", "right"),
+                    }
+                });
+
+            public static InlineKeyboardMarkup message77keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("1", "right"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
+                    },
+                });
+
+            public static InlineKeyboardMarkup message85keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Кронверкский пр. 49", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("ул. Ломоносова 9", "wrong"),
+                    },
+                    // second row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("ул. Чайковского 11/2", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("пер. Гривцова 14", "right"),
+                    }
+                });
+
+            public static InlineKeyboardMarkup message86keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("1997", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2005", "wrong"),
+                    },
+                    // second row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("2009", "right"),
+                        InlineKeyboardButton.WithCallbackData("2012", "wrong"),
+                    }
+                });
+
+            public static InlineKeyboardMarkup message87keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Биржевая линия 4", "right"),
+                        InlineKeyboardButton.WithCallbackData("Кронверкский пр. 49", "wrong"),
+                    },
+                    // second row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("ул. Ломоносова 9", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("пер. Гривцова 14", "wrong"),
+                    }
+                });
+
+            public static InlineKeyboardMarkup message89keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Голова барана на фасаде корпуса на Чайковского", "wrong"),
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("Голова быка на фасаде главного корпуса", "right"),
+                    },
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Голова буйвола на фасаде корпуса на Гривцова", "wrong"),
+                    },
+                });
+
+            public static InlineKeyboardMarkup message90keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Биржевая линия д.14", "right"),
+                        InlineKeyboardButton.WithCallbackData("улица Чайковского 11/2", "wrong"),
+                    },
+                    // second row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Кадетская линия В.О. д.3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("улица Гастелло д.12", "wrong"),
+                    }
+                });
+
+            public static InlineKeyboardMarkup message94keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("1", "right"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
+                    },
+                    // second row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
         }
