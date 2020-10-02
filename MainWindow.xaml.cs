@@ -118,7 +118,7 @@ namespace QUESTionBot
                 Message message2 = await botClient.SendTextMessageAsync(
                     chatId: e.Message.Chat,
                     text: TextTemplates.message2,
-                    replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Я и моя команда обязуемся соблюдать правила дорожного движения", "agreement"))
+                    replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Согласен/согласна", "agreement"))
                     );
 
                 this.Dispatcher.Invoke(() =>

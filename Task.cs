@@ -246,7 +246,7 @@ namespace QUESTionBot
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: "Почему премьера симфонии состоялась 9 августа?",
+                        text: "Почему премьера симфонии состоялась 9 августа?\n1)Это любимое число Шостаковича\n2)Согласно приказу сталина\n3)В прошлом все премьеры должны были проходить 9-го числа\n4)В этот день по плану Гитлера Ленинград должен был пасть от блокады",
                         replyMarkup: InlineKeyboards.message28keyboard);
                     }
                     if (questionnumber == 2)
@@ -344,6 +344,10 @@ namespace QUESTionBot
                         MainWindow.noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
+                        text: TextTemplates.answer39,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
                         text: TextTemplates.message40);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -412,6 +416,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message49,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
                         replyMarkup: InlineKeyboards.message49keyboard);
                     }
                     if (questionnumber == 5)
@@ -474,6 +479,9 @@ namespace QUESTionBot
                     if (questionnumber == 4)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
+                           chatId: chatid,
+                           text: TextTemplates.answer57);
+                           await MainWindow.botClient.SendTextMessageAsync(
                                                 chatId: chatid,
                                                 text: "В романе Ф.М. Достоевского “Преступление и наказание” один из героев умирает от болезни туберкулеза, которая в то время называлась чахоткой. Кто же этот герой?",
                                                 replyMarkup: InlineKeyboards.message58keyboard);
@@ -536,6 +544,7 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: "Больше никаких убийств сегодня! Идём дальше. *Р*",
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        MainWindow.BetweenTaskInteraction(chatid);
                     }
                     break;
                 case (7):
@@ -613,6 +622,7 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: TextTemplates.message81,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        MainWindow.BetweenTaskInteraction(chatid);
                     }
                     break;
                 case (9):
@@ -689,6 +699,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message901);
+                        MainWindow.BetweenTaskInteraction(chatid);
                     }
                     break;
                 case (10):
@@ -915,18 +926,18 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Это любимое число Шостаковича", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Согласно приказу Сталина", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("В прошлом все премьеры должны были проходить 9-го числа", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
                     },
                     new[]
                     {
                     
-                        InlineKeyboardButton.WithCallbackData("В этот день по плану Гитлера Ленинград должен был пасть от блокады", "right"),
+                        InlineKeyboardButton.WithCallbackData("4", "right"),
                     }
                 });
 
