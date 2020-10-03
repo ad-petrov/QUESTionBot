@@ -1,4 +1,6 @@
 ﻿using GemBox.Document;
+using Google.Protobuf.WellKnownTypes;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -112,6 +114,7 @@ namespace QUESTionBot
                 if (noWrongAnswer)
                 {
                     teamList[e.Message.Chat.Id].CurrentQuestion++;
+                    DB.UpdateTeamNote(teamList[e.Message.Chat.Id]);
                     Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
                     return;
                 }
@@ -155,7 +158,7 @@ namespace QUESTionBot
 
             }
             // если человек прислал ключик
-            else if (Team.KeyWordsList.Contains(e.Message.Text))
+            else if (Team.KeyWordsList.Contains(e.Message.Text.Trim().ToLower()))
             {
                 if (!teamList.ContainsKey(e.Message.Chat.Id))
                 {
@@ -165,8 +168,13 @@ namespace QUESTionBot
                                             text: $"Команда № {teamList[e.Message.Chat.Id].TeamID}, ваше время пошло. Первая станция во вложении ниже. *К*",
                                             parseMode: ParseMode.Markdown
                                             );
+
+                    teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat;
+
+                    DB.TeamAdd(teamList[e.Message.Chat.Id], (e.Message.Text.Trim().ToLower()));
+
                     BetweenTaskInteraction(e.Message.Chat.Id);
-                  teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat;
+                  
                         this.Dispatcher.Invoke(() =>
                         {
                             debugTextBlock.Text += $"\nОтправлена инструкция { message.MessageId} " +
@@ -242,6 +250,7 @@ namespace QUESTionBot
                 if (noWrongAnswer)
                 {
                     teamList[e.Message.Chat.Id].CurrentQuestion++;
+                    DB.UpdateTeamNote(teamList[e.Message.Chat.Id]);
                     Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
                 }
                 else
@@ -300,19 +309,17 @@ namespace QUESTionBot
                     break;
                 case ("nexttask"):
                     teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
+                    DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
                     Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask, 
                         teamList[callbackQuery.Message.Chat.Id].CurrentQuestion, 
                         callbackQuery.Message.Chat.Id);
                     break;
                 case ("right"):
-                    if(((teamList[callbackQuery.Message.Chat.Id].CurrentTask == 1) && (teamList[callbackQuery.Message.Chat.Id].CurrentQuestion == 6)) && (teamList[callbackQuery.Message.Chat.Id].hint2used == false))
-                    {
-                        teamList[callbackQuery.Message.Chat.Id].Points++;
-                    }
                     teamList[callbackQuery.Message.Chat.Id].Points++;
                     goto case ("wrong");
                 case ("wrong"):
                     teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
+                    DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
                     Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask,
                         teamList[callbackQuery.Message.Chat.Id].CurrentQuestion,
                         callbackQuery.Message.Chat.Id);
@@ -357,6 +364,7 @@ namespace QUESTionBot
         {
             teamList[chatid.Identifier].CurrentQuestion = 0;
             teamList[chatid.Identifier].CurrentTask++;
+            DB.UpdateTeamNote(teamList[chatid.Identifier]);
             if (teamList[chatid.Identifier].CurrentTask == 10) 
             {
                 await MainWindow.botClient.SendTextMessageAsync(

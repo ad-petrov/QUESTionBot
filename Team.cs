@@ -18,8 +18,7 @@ namespace QUESTionBot
         public int CurrentQuestion { get; set; }
         public int Points { get; set; }
 
-        public bool hint1used { get; set; } = false;
-        public bool hint2used { get; set; } = false;
+        public int HintsUsed { get; set; }
 
         public static string[] KeyWordsList = new string[] { "kronva228", "good_job_oleg", "chaikagopka", "pk2020", "mne_nujen_beliash", "ilovetiktok", "badboy14let", 
             "rovesnik8", "ktopridumal7", "belissimo_gracia", "rechka_donetck", "minecraft_moya_zizn", "bokal_polon_xo", "djip_v_moskve", "emae_kruto_uril",
@@ -34,6 +33,7 @@ namespace QUESTionBot
             CurrentTask = 0;
             CurrentQuestion = 0;
             Points = 0;
+            HintsUsed = 0;
             QuestStartedAt = DateTime.Now.ToLocalTime();
         }
 

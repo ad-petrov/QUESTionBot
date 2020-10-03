@@ -938,14 +938,7 @@ namespace QUESTionBot
                     TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
                 case ("чти"):
-                    if (team.hint1used)
-                    {
-                        team.Points+=2;
-                    }
-                    else
-                    {
-                        team.Points++;
-                    }
+                    team.Points++;
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
@@ -991,26 +984,28 @@ namespace QUESTionBot
         {
             if ((team.CurrentTask == 1) && (team.CurrentQuestion == 4))
             {
-                team.hint1used = true;
+                team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Это одно из слов");
             }
             if ((team.CurrentTask == 1) && (team.CurrentQuestion == 6))
             {
-                team.hint2used = true;
+                team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Обратите внимание на страну, в которой жил Дали.");
             }
             if ((team.CurrentTask == 8) && (team.CurrentQuestion == 1))
             {
+                team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Обратите внимание на название последнего упомянутого заведения");
             }
             if ((team.CurrentTask == 9) && (team.CurrentQuestion == 4))
             {
+                team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Обратите внимание на название ближайшей станции  метро.");
