@@ -160,7 +160,8 @@ namespace QUESTionBot
                     teamList.Add(e.Message.Chat.Id, new Team(Team.KeyWordsList.ToList().IndexOf(e.Message.Text) + 1));
                         Message message = await botClient.SendTextMessageAsync(
                                             chatId: e.Message.Chat,
-                                            text: $"Команда № {teamList[e.Message.Chat.Id].TeamID}, ваше время пошло. Первая станция во вложении ниже."
+                                            text: $"Команда № {teamList[e.Message.Chat.Id].TeamID}, ваше время пошло. Первая станция во вложении ниже. *К*",
+                                            parseMode: ParseMode.Markdown
                                             );
                     BetweenTaskInteraction(e.Message.Chat.Id);
                   teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat;
@@ -209,7 +210,7 @@ namespace QUESTionBot
                 try
                 {
                     //if ((e.Message.Text.Trim().ToLower() == "розовые") || (e.Message.Text.Trim().ToLower() == "фиолетовый") || (e.Message.Text.Trim().ToLower() == "фиолетовые")) { }
-                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
+                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, 0, e.Message.Chat);
                 }
                 catch
                 {

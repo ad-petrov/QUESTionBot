@@ -339,7 +339,7 @@ namespace QUESTionBot
                         text: "Вспомните историю и ответьте на вопрос: В каких политических событиях того времени Киров не принимал участие?" +
                         "\n1) Защищал интересы большевиков на Дальнем Востоке;" +
                         "\n2) Организация обороны Астрахани против сил Белой армии;" +
-                        "\n3) Установление советской власти В Азербайджане и Грузии",
+                        "\n3) Установление советской власти в Азербайджане и Грузии",
                         replyMarkup: InlineKeyboards.message34keyboard);
                     }
                     if (questionnumber == 5)
@@ -386,23 +386,23 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.answer38);
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatid,
-                        text: TextTemplates.message39,
-                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.noWrongAnswer = true;
-                    }
-                    if (questionnumber == 3)
-                    {
-                        MainWindow.noWrongAnswer = false;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1843.png"))
                         {
                             await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
                         photo: stream,
-                        caption: TextTemplates.answer39,
+                        caption: TextTemplates.message39,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         }
+                        MainWindow.noWrongAnswer = true;
+                    }
+                    if (questionnumber == 3)
+                    {
+                        MainWindow.noWrongAnswer = false;
+                            await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.answer39,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         await MainWindow.botClient.SendVenueAsync(chatId: chatid,
                                                 latitude: (float)59.962526,
                                                 longitude: (float)30.314253,
@@ -629,21 +629,22 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message61);
-                        await MainWindow.botClient.SendTextMessageAsync(
-                            chatId: chatid,
-                            text: TextTemplates.message62,
-                            replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
-                    }
-                    if (questionnumber == 1)
-                    {
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\unnamed.jpg"))
                         {
                             await MainWindow.botClient.SendPhotoAsync(
-                        chatId: chatid,
-                        photo: stream,
-                        caption: TextTemplates.message63,
-                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                            chatId: chatid,
+                            photo: stream,
+                            caption: TextTemplates.message62,
+                            replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
                         }
+                    }
+                    if (questionnumber == 1)
+                    {
+                            await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: TextTemplates.message63,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message64,
@@ -676,7 +677,11 @@ namespace QUESTionBot
                         }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message69);
+                        text: TextTemplates.message69,
+                        replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Далее", "nexttask")));                      
+                    }
+                    if (questionnumber == 1)
+                    {
                         await MainWindow.botClient.SendVenueAsync(chatId: chatid,
                                                 latitude: (float)59.970433,
                                                 longitude: (float)30.308610,
@@ -700,7 +705,7 @@ namespace QUESTionBot
                         );
                         }
                     }
-                    if (questionnumber == 1)
+                    if (questionnumber == 2)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
