@@ -113,6 +113,7 @@ namespace QUESTionBot
                 {
                     teamList[e.Message.Chat.Id].CurrentQuestion++;
                     Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
+                    return;
                 }
                 else
                 {
@@ -128,6 +129,7 @@ namespace QUESTionBot
                         $"в чат {message.Chat.Id} в {message.Date}. " +
                         $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
                     });
+                    return;
                 }
             }
                 // стартовый пак

@@ -293,7 +293,7 @@ namespace QUESTionBot
                         text: "Искусство не умирало во время блокады. Удивительно, как изнеможенные холодом, голодом и обстрелами жители Ленинграда не падали духом.");
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: "Вспомните, кто был голосом Ленинграда во времена блокады?\n1) Даниил Гранин\n2) Ольго Берггольц\n3) Анна Ахматова\n4) Вера Инбер\n5) Михаил Дудин",
+                        text: "Вспомните, кто был голосом Ленинграда во времена блокады?\n1) Даниил Гранин\n2) Ольга Берггольц\n3) Анна Ахматова\n4) Вера Инбер\n5) Михаил Дудин",
                         replyMarkup: InlineKeyboards.message30keyboard);
                     }
                     if (questionnumber == 3)
@@ -307,9 +307,6 @@ namespace QUESTionBot
                             chatId: chatid,
                             photo: stream);
                         }
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatid,
-                        text: "Пикча Ленинграда");
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Найдите мемориальную доску еще одному деятелю искусства, на этот раз поэту. Она расположена на фасаде здания. Напишите только его фамилию.");
@@ -407,8 +404,13 @@ namespace QUESTionBot
                                                 latitude: (float)59.962526,
                                                 longitude: (float)30.314253,
                                                 title: "Переход в другой двор",
-                                                address: ""
-                                               );
+                                                address: "",
+                                                replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Готовы", "nexttask"))
+                                               ) ;
+                        
+                    }
+                    if (questionnumber == 4)
+                    {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message40);
@@ -418,7 +420,7 @@ namespace QUESTionBot
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         MainWindow.noWrongAnswer = true;
                     }
-                    if (questionnumber == 4)
+                    if (questionnumber == 5)
                     {
                         MainWindow.noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
@@ -677,17 +679,19 @@ namespace QUESTionBot
                         }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message69,
-                        replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Далее", "nexttask")));                      
-                    }
-                    if (questionnumber == 1)
-                    {
+                        text: TextTemplates.message69
+                        );
                         await MainWindow.botClient.SendVenueAsync(chatId: chatid,
                                                 latitude: (float)59.970433,
                                                 longitude: (float)30.308610,
                                                 title: "",
-                                                address: ""
+                                                address: "",
+                                                replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Далее", "nexttask"))
                                                );
+                    }
+                    if (questionnumber == 1)
+                    {
+                        
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1845.png"))
                         {
                             await MainWindow.botClient.SendPhotoAsync(
