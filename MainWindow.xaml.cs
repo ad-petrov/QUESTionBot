@@ -139,12 +139,19 @@ namespace QUESTionBot
             {
                 if ((keyValue.Value.QuestStartedAt != null) && (keyValue.Value.QuestFinishedAt == null))
                 {
-                    await botClient.SendTextMessageAsync(
-                      chatId: keyValue.Value.LinkedChat,
-                      parseMode: ParseMode.Markdown,
-                      text: "Капитаны! У бота технические непо-непо-неполадки!... Я вернусь в течение 3-5 минут... Не пишите мне, пока я вам сам не скажу!" +
-                      "\n Если я за-за-задержусь, свяжитесь, пожалуйста, с @katchern!"
-                    );
+                    try
+                    {
+                        await botClient.SendTextMessageAsync(
+                          chatId: keyValue.Value.LinkedChat,
+                          parseMode: ParseMode.Markdown,
+                          text: "Капитаны! У бота технические непо-непо-неполадки!... Я вернусь в течение 3-5 минут... Не пишите мне, пока я вам сам не скажу!" +
+                          "\n Если я за-за-задержусь, свяжитесь, пожалуйста, с @katchern!"
+                        );
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
         }
@@ -181,10 +188,13 @@ namespace QUESTionBot
                 // стартовый пак
                 if (e.Message.Text == "/start")
             {
-                Message message1 = await botClient.SendTextMessageAsync(
-                  chatId: e.Message.Chat,
-                  text: TextTemplates.message1
-                );
+                
+                    Message message1 = await botClient.SendTextMessageAsync(
+                      chatId: e.Message.Chat,
+                      text: TextTemplates.message1
+                    );
+                
+                
 
                 Thread.Sleep(4000);
                 Message message2 = await botClient.SendTextMessageAsync(
@@ -303,6 +313,7 @@ namespace QUESTionBot
             // дефолтный ответ на нераспознанную команду
             else if (e.Message.Text != null)
             {
+                
                 if (noWrongAnswer)
                 {
                     DB.AddAnswer(teamList[e.Message.Chat.Id], e.Message.Text);
@@ -312,6 +323,7 @@ namespace QUESTionBot
                 }
                 else
                 {
+
                     Message message = await botClient.SendTextMessageAsync(
                       chatId: e.Message.Chat,
                       parseMode: ParseMode.Markdown,
