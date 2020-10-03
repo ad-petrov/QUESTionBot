@@ -8,11 +8,14 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Label Content="Клиент Телеграм-бота для квеста QUESTion" HorizontalAlignment="Left" Margin="180,28,0,0" VerticalAlignment="Top" Height="39" Width="502" FontSize="24"/>
-        <Button x:Name="botLaunchButton" Content="Запустить бота" HorizontalAlignment="Left" Margin="101,98,0,0" VerticalAlignment="Top" Width="194" Height="94" FontSize="20" Background="#FF34EA0C" Click="botLaunchButton_Click" RenderTransformOrigin="0.495,0.5"/>
-        <Button x:Name="botStopButton" Content="Офнуть бота" HorizontalAlignment="Left" Margin="101,266,0,0" VerticalAlignment="Top" Width="194" Height="94" Click="botStopButton_Click" Background="#FFFF2020" FontSize="20"/>
+        <Button x:Name="botLaunchButton" Content="Запустить бота" HorizontalAlignment="Left" Margin="44,89,0,0" VerticalAlignment="Top" Width="152" Height="64" FontSize="20" Background="#FF34EA0C" Click="botLaunchButton_Click" RenderTransformOrigin="0.495,0.5"/>
+        <Button x:Name="botStopButton" Content="Офнуть бота" HorizontalAlignment="Left" Margin="44,275,0,0" VerticalAlignment="Top" Width="152" Height="67" Click="botStopButton_Click" Background="#FFFF2020" FontSize="20"/>
         <Label Content="Консоль вывода:" HorizontalAlignment="Left" Margin="372,98,0,0" VerticalAlignment="Top" Width="410" FontSize="16"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="226" Margin="372,134,0,0" VerticalAlignment="Top" Width="384"/>
         <TextBox x:Name="debugTextBlock" HorizontalAlignment="Left" Height="226" Margin="372,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="384" VerticalScrollBarVisibility="Visible" IsReadOnly="True"/>
+        <Button x:Name="loadButton" Content="Загрузить данные из БД&#xD;&#xA;" HorizontalAlignment="Left" Margin="44,180,0,0" VerticalAlignment="Top" Width="152" Height="64" Click="loadButton_Click"/>
+        <Button x:Name="alarmBrokenButton" Content="Рассылка &#xD;&#xA;капитанам о &#xD;&#xA;неполадках" HorizontalAlignment="Left" Margin="215,89,0,0" VerticalAlignment="Top" Width="152" Height="64" Click="alarmBrokenButton_Click"/>
+        <Button x:Name="startWorkingButton" Content="Рассылка о &#xD;&#xA;начале работы" HorizontalAlignment="Left" Margin="215,180,0,0" VerticalAlignment="Top" Width="152" Height="64" Click="startWorkingButton_Click"/>
 
     </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,9 +12,9 @@ namespace QUESTionBot
     class Team
     {
         public int TeamID { get; set; }
-        public Chat LinkedChat { get; set; }
+        public long LinkedChat { get; set; }
         public DateTime QuestStartedAt { get; set; }
-        public DateTime QuestFinishedAt { get; set; }
+        public DateTime? QuestFinishedAt { get; set; }
         public int CurrentTask { get; set; }
         public int CurrentQuestion { get; set; }
         public int Points { get; set; }
@@ -35,6 +36,18 @@ namespace QUESTionBot
             Points = 0;
             HintsUsed = 0;
             QuestStartedAt = DateTime.Now.ToLocalTime();
+            QuestFinishedAt = null;
+        }
+
+        public Team(DataRow row)
+        {
+            TeamID = Convert.ToInt32(row["ID"]);
+            LinkedChat = (long)Convert.ToDouble(row["ChatId"]);
+            CurrentTask = Convert.ToInt32(row["Task"]);
+            CurrentQuestion = Convert.ToInt32(row["question"]);
+            Points = Convert.ToInt32(row["points"]);
+            HintsUsed = Convert.ToInt32(row["hints"]);
+            QuestStartedAt = Convert.ToDateTime(row["start"]);
         }
 
     }

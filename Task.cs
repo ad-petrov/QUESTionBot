@@ -939,40 +939,49 @@ namespace QUESTionBot
                     break;
                 case ("чти"):
                     team.Points++;
+                    DB.AddAnswer(team, "чти");
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
                 case ("прокофьев"):
                     team.Points++;
+                    DB.AddAnswer(team, "прокофьев");
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
                 case ("фортуна меркурий"):
                     team.Points+=2;
+                    DB.AddAnswer(team, "фортуна меркурий");
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
                 case ("пушкин"):
+                    DB.AddAnswer(team, "пушкин");
                     team.Points += 3;
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
                 case ("348956"):
+                    DB.AddAnswer(team, "348956");
                     team.Points += 2;
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
                 case ("бриллиантовая рука"):
+                    DB.AddAnswer(team, "бриллиантовая рука");
                     team.Points += 2;
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
                 case ("максим горький"):
+                    DB.AddAnswer(team, "максим горький");
+
                     team.Points += 2;
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);
                     break;
                 case ("архитектоника"):
+                    DB.AddAnswer(team, "архитектоника");
                     team.Points += 3;
                     team.CurrentQuestion++;
                     Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatid);

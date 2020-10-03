@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,28 +35,45 @@ namespace QUESTionBot
 
         public static void UpdateTeamNote(Team team)
         {
-            DB database = new DB();
-
-            MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU " +
-                "WHERE `teamId`=@tId", database.GetConnection());
-            command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
-            //command.Parameters.Add("@tK", MySqlDbType.VarChar).Value = e.Message.Text.Trim().ToLower();
-            //command.Parameters.Add("@lCh", MySqlDbType.Double).Value = team.LinkedChat.Id;
-            //command.Parameters.Add("@sAt", MySqlDbType.DateTime).Value = teamList[e.Message.Chat.Id].QuestStartedAt;
-            command.Parameters.Add("@cT", MySqlDbType.Int64).Value = team.CurrentTask;
-            command.Parameters.Add("@cQ", MySqlDbType.Int64).Value = team.CurrentQuestion;
-            command.Parameters.Add("@pO", MySqlDbType.Int64).Value = team.Points;
-            command.Parameters.Add("@hU", MySqlDbType.Int64).Value = team.HintsUsed;
-
-            database.OpenConnection();
-
-            if (command.ExecuteNonQuery() == 1)
+            try
             {
-                database.CloseConnection();
+                DB database = new DB();
+
+                MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU " +
+                    "WHERE `teamId`=@tId", database.GetConnection());
+                command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
+                //command.Parameters.Add("@tK", MySqlDbType.VarChar).Value = e.Message.Text.Trim().ToLower();
+                //command.Parameters.Add("@lCh", MySqlDbType.Double).Value = team.LinkedChat.Id;
+                //command.Parameters.Add("@sAt", MySqlDbType.DateTime).Value = teamList[e.Message.Chat.Id].QuestStartedAt;
+                command.Parameters.Add("@cT", MySqlDbType.Int64).Value = team.CurrentTask;
+                command.Parameters.Add("@cQ", MySqlDbType.Int64).Value = team.CurrentQuestion;
+                command.Parameters.Add("@pO", MySqlDbType.Int64).Value = team.Points;
+                command.Parameters.Add("@hU", MySqlDbType.Int64).Value = team.HintsUsed;
+
+                if (team.QuestFinishedAt != null)
+                {
+                    MySqlCommand command2 = new MySqlCommand("UPDATE `teams` SET `finishedAt`=@fAt " +
+                    "WHERE `teamId`=@tId", database.GetConnection());
+                    command2.Parameters.Add("@fAt", MySqlDbType.DateTime).Value = team.QuestFinishedAt;
+                    database.OpenConnection();
+                    command2.ExecuteNonQuery();
+                    database.CloseConnection();
+                }
+
+                database.OpenConnection();
+
+                if (command.ExecuteNonQuery() == 1)
+                {
+                    database.CloseConnection();
+                    return;
+                }
+
+                throw new Exception();
+            }
+            catch
+            {
                 return;
             }
-
-            throw new Exception();
             }
 
         public static bool TeamAdd(Team team, string teamkey)
@@ -66,7 +84,7 @@ namespace QUESTionBot
                 ", `currentTask`, `currentQuestion`, `points`, `hintsUsed`) VALUES (@tId, @tK, @lCh, @sAt, @cT, @cQ, @pO, @hU)", database.GetConnection());
             command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
             command.Parameters.Add("@tK", MySqlDbType.VarChar).Value = teamkey;
-            command.Parameters.Add("@lCh", MySqlDbType.Double).Value = team.LinkedChat.Id;
+            command.Parameters.Add("@lCh", MySqlDbType.Double).Value = team.LinkedChat;
             command.Parameters.Add("@sAt", MySqlDbType.DateTime).Value = team.QuestStartedAt;
             command.Parameters.Add("@cT", MySqlDbType.Int64).Value = 0;
             command.Parameters.Add("@cQ", MySqlDbType.Int64).Value = 0;
@@ -74,20 +92,155 @@ namespace QUESTionBot
             command.Parameters.Add("@hU", MySqlDbType.Int64).Value = 0;
 
             database.OpenConnection();
-
-            if (command.ExecuteNonQuery() == 1)
+            try
             {
-                database.CloseConnection();
-                return true;
+                if (command.ExecuteNonQuery() == 1)
+                {
+                    database.CloseConnection();
+                    return true;
+                }
+                else
+                {
+                    database.CloseConnection();
+                    return false;
+                }
             }
-            else
+            catch
             {
-                database.CloseConnection();
                 return false;
             }
         } 
 
-    
+        public static Dictionary<long, Team> LoadData()
+        {
+            try
+            {
+                Dictionary<long, Team> result = new Dictionary<long, Team>();
+
+                DB database = new DB();
+                MySqlDataAdapter adapter = new MySqlDataAdapter();
+                DataTable dataTable = new DataTable();
+
+                MySqlCommand command = new MySqlCommand("SELECT `teamId` AS 'ID', `teamKey` AS `Key`, `linkedChatId` AS `ChatId`," +
+                    "`startedAt` as `start`, `currentTask` AS `Task`, `currentQuestion` AS `question`, `points` AS `points`, `hintsUsed` AS `hints`" +
+                    " FROM `teams`", database.GetConnection());
+                adapter.SelectCommand = command;
+                adapter.Fill(dataTable);
+
+                foreach (var row in dataTable.Rows)
+                {
+                    Team team = (Team)Activator.CreateInstance(typeof(Team), row);
+                    result.Add(team.LinkedChat, team);
+                }
+
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static void AddAnswer(Team team, string answer)
+        {
+            try {
+                int tasknumber = 0;
+                if (team.CurrentTask == 1)
+                {
+                    if (team.CurrentQuestion == 3) return;
+                    tasknumber = team.CurrentQuestion;
+                }
+                if (team.CurrentTask == 2)
+                {
+                    tasknumber = team.CurrentQuestion + 7;
+                }
+                if (team.CurrentTask == 3)
+                {
+                    tasknumber = team.CurrentQuestion + 12;
+                }
+                if (team.CurrentTask == 4)
+                {
+                    tasknumber = team.CurrentQuestion + 15;
+                }
+                if (team.CurrentTask == 5)
+                {
+                    tasknumber = team.CurrentQuestion + 19;
+                }
+                if (team.CurrentTask == 6)
+                {
+                    tasknumber = team.CurrentQuestion + 24;
+                }
+                if (team.CurrentTask == 7)
+                {
+                    tasknumber = team.CurrentQuestion + 25;
+                }
+                if (team.CurrentTask == 8)
+                {
+                    tasknumber = team.CurrentQuestion + 26;
+                }
+                if (team.CurrentTask == 9)
+                {
+                    tasknumber = team.CurrentQuestion + 28;
+                }
+                if (team.CurrentTask == 10)
+                {
+                    tasknumber = team.CurrentQuestion + 34;
+                }
+                if (tasknumber == 1)
+                {
+                    DB database = new DB();
+
+                    MySqlCommand command = new MySqlCommand("INSERT INTO `answers` (`teamId`, `task1`, `task2`, `task3`, `task4`, " +
+                        "`task5`, `task6`, `task7`, `task8`, `task9`, `task10`, `task11`, `task12`, `task13`, `task14`," +
+                        " `task15`, `task16`, `task17`, `task18`, `task19`, `task20`, `task21`, `task22`, `task23`, `task24`," +
+                        " `task25`, `task26`, `task27`, `task28`, `task29`, `task30`, `task31`, `task32`, `task33`, `task34`," +
+                        $" `task35`, `task36`, `task37`) VALUES (@tId, \"{answer}\", 0, 0, 0, 0, 0, 0, 0, 0, 0," +
+                    " 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)", database.GetConnection());
+                    command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
+
+                    database.OpenConnection();
+
+
+                    if (command.ExecuteNonQuery() == 1)
+                    {
+                        database.CloseConnection();
+
+                    }
+                    else
+                    {
+                        database.CloseConnection();
+
+                    }
+
+
+                }
+                else
+                {
+                    DB database = new DB();
+
+                    MySqlCommand command = new MySqlCommand($"UPDATE `answers` SET `{"task" + tasknumber.ToString()}`=\"{answer}\"" +
+                    " WHERE `teamId`=@tId", database.GetConnection());
+                    command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
+                    database.OpenConnection();
+                    if (command.ExecuteNonQuery() == 1)
+                    {
+                        database.CloseConnection();
+
+                    }
+                    else
+                    {
+                        database.CloseConnection();
+
+                    }
+
+
+                }
+            }
+            catch
+            {
+
+            }
+            }
     }
     }
 

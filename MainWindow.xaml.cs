@@ -92,6 +92,7 @@ namespace QUESTionBot
                 botClient.StartReceiving();
                 debugTextBlock.Text += "\nБот начал принимать сообщения.";
                 botStopButton.IsEnabled = true;
+                loadButton.IsEnabled = false;
                 botLaunchButton.IsEnabled = false;
             }
         }
@@ -103,7 +104,48 @@ namespace QUESTionBot
                 botClient.StopReceiving();
                 debugTextBlock.Text += "\nБот перестал принимать сообщения.";
                 botLaunchButton.IsEnabled = true;
+                loadButton.IsEnabled = true;
                 botStopButton.IsEnabled = false;
+            }
+        }
+
+        private void loadButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (botClient.IsReceiving == false)
+            {
+                teamList = DB.LoadData();
+                MessageBox.Show("База данных загружена");
+            }
+        }
+
+        private async void startWorkingButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (KeyValuePair<long, Team> keyValue in teamList)
+            {
+                if ((keyValue.Value.QuestStartedAt != null)&&(keyValue.Value.QuestFinishedAt==null))
+                {
+                    await botClient.SendTextMessageAsync(
+                          chatId: keyValue.Value.LinkedChat,
+                          parseMode: ParseMode.Markdown,
+                          text: "Капитаны! Бот возвращается! Меня за-за-запустят в течение минуты! По её прошествии смело продолжайте квест!"
+                        );
+                }
+            }
+        }
+
+        private async void alarmBrokenButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (KeyValuePair<long, Team> keyValue in teamList)
+            {
+                if ((keyValue.Value.QuestStartedAt != null) && (keyValue.Value.QuestFinishedAt == null))
+                {
+                    await botClient.SendTextMessageAsync(
+                      chatId: keyValue.Value.LinkedChat,
+                      parseMode: ParseMode.Markdown,
+                      text: "Капитаны! У бота технические непо-непо-неполадки!... Я вернусь в течение 3-5 минут... Не пишите мне, пока я вам сам не скажу!" +
+                      "\n Если я за-за-задержусь, свяжитесь, пожалуйста, с @katchern!"
+                    );
+                }
             }
         }
 
@@ -113,6 +155,7 @@ namespace QUESTionBot
             {
                 if (noWrongAnswer)
                 {
+                    DB.AddAnswer(teamList[e.Message.Chat.Id], e.Message.Text);
                     teamList[e.Message.Chat.Id].CurrentQuestion++;
                     DB.UpdateTeamNote(teamList[e.Message.Chat.Id]);
                     Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
@@ -163,15 +206,28 @@ namespace QUESTionBot
                 if (!teamList.ContainsKey(e.Message.Chat.Id))
                 {
                     teamList.Add(e.Message.Chat.Id, new Team(Team.KeyWordsList.ToList().IndexOf(e.Message.Text) + 1));
-                        Message message = await botClient.SendTextMessageAsync(
+
+                    teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat.Id;
+
+                    if (!DB.TeamAdd(teamList[e.Message.Chat.Id], (e.Message.Text.Trim().ToLower())))
+                    {
+                        await botClient.SendTextMessageAsync(
+                                            chatId: e.Message.Chat,
+                                            text: $"Команда № {teamList[e.Message.Chat.Id].TeamID} уже ввела этот ключ. Если вы являетесь членом команды" +
+                                            $"и пытаетесь сменить капитана, обратитесь к организатору квеста (@katchren)",
+                                            parseMode: ParseMode.Markdown
+                                            );
+                        teamList.Remove(e.Message.Chat.Id);
+                        return;
+                    };
+
+                    Message message = await botClient.SendTextMessageAsync(
                                             chatId: e.Message.Chat,
                                             text: $"Команда № {teamList[e.Message.Chat.Id].TeamID}, ваше время пошло. Первая станция во вложении ниже. *К*",
                                             parseMode: ParseMode.Markdown
                                             );
 
-                    teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat;
-
-                    DB.TeamAdd(teamList[e.Message.Chat.Id], (e.Message.Text.Trim().ToLower()));
+                    
 
                     BetweenTaskInteraction(e.Message.Chat.Id);
                   
@@ -182,7 +238,7 @@ namespace QUESTionBot
                             $"Команда номер {teamList[e.Message.Chat.Id].TeamID} успешно ввела свой ключ и получила задания.";
                         });
                 }
-                else if (teamList[e.Message.Chat.Id].LinkedChat.Id == e.Message.Chat.Id)
+                else if (teamList[e.Message.Chat.Id].LinkedChat == e.Message.Chat.Id)
                 {
                     Message message = await botClient.SendTextMessageAsync(
                                         chatId: e.Message.Chat,
@@ -249,6 +305,7 @@ namespace QUESTionBot
             {
                 if (noWrongAnswer)
                 {
+                    DB.AddAnswer(teamList[e.Message.Chat.Id], e.Message.Text);
                     teamList[e.Message.Chat.Id].CurrentQuestion++;
                     DB.UpdateTeamNote(teamList[e.Message.Chat.Id]);
                     Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
@@ -316,8 +373,15 @@ namespace QUESTionBot
                     break;
                 case ("right"):
                     teamList[callbackQuery.Message.Chat.Id].Points++;
-                    goto case ("wrong");
+                    DB.AddAnswer(teamList[callbackQuery.Message.Chat.Id], "верно");
+                    teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
+                    DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
+                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask,
+                        teamList[callbackQuery.Message.Chat.Id].CurrentQuestion,
+                        callbackQuery.Message.Chat.Id);
+                    break;
                 case ("wrong"):
+                    DB.AddAnswer(teamList[callbackQuery.Message.Chat.Id], "неверно");
                     teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
                     DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
                     Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask,
@@ -329,6 +393,7 @@ namespace QUESTionBot
                     break;
                 case ("questend"):
                     teamList[callbackQuery.Message.Chat.Id].QuestFinishedAt = DateTime.Now.ToLocalTime();
+                    DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
                     Thread.Sleep(2000);
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
@@ -386,5 +451,7 @@ namespace QUESTionBot
                                         );
             }
         }
+
+        
     }
 }
