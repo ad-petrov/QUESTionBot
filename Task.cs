@@ -16,8 +16,6 @@ namespace QUESTionBot
         public string Title { get; set; }
         public string Address { get; set; }
         public string MessageTrigger { get; set; }
-        public string[] AttendantMessages { get; set; }
-        public string[] AttendantMessagesWithTest { get; set; }
 
 
         public static string[] KeyPhrasesList = new string[] { "отцовская любовь", "1914", "премьера", "6", "9", "розовый", "14", "кто моет форточки?", "гуманитарный", "4930" };
@@ -113,17 +111,20 @@ namespace QUESTionBot
                             text: TextTemplates.message7
                             );
                         Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\I1v2bT5BSFM.jpg")) {
+                            await MainWindow.botClient.SendPhotoAsync(
                             chatId: chatid,
-                            text: TextTemplates.message8,
+                            photo: stream,
+                            caption: TextTemplates.message8,
                             replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask"))
                             );
+                        }
                     }
                     else if (questionnumber == 1)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: $"Пройдитесь по саду и отметьте, какой скрипки нет:",
+                        text: $"Пройдитесь по саду и отметьте, какой скрипки нет:\n1) Скрипка-женщина\n2) Скрипка-туфелька\n3) Скрипка-зонт\n4) Скрипка-граммофон",
                         replyMarkup: Task.InlineKeyboards.message9keyboard);
                     }
                     else if (questionnumber == 2)
@@ -134,7 +135,7 @@ namespace QUESTionBot
                         Thread.Sleep(2000);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: $"Помните, что Андрей Павлович Петров лично посадил одно из деревьев в этом саду? Найдите его и отметьте, что это за дерево.",
+                        text: $"Помните, что Андрей Павлович Петров лично посадил одно из деревьев в этом саду? Найдите его и отметьте, что это за дерево.\n1) Береза\n2) Рябина\n3) Лиственница\n4) Дуб",
                         replyMarkup: Task.InlineKeyboards.message10keyboard);
                     }
                     else if (questionnumber == 3)
@@ -171,10 +172,14 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                          chatId: chatid,
                          text: TextTemplates.message16);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1712.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                          chatId: chatid,
-                         text: "Я уверен, почти каждый видел его картины. А какая из представленных работ не его?",
+                         photo: stream,
+                         caption: "Я уверен, почти каждый видел его картины. А какая из представленных работ не его?",
                          replyMarkup: InlineKeyboards.message17keyboard);
+                        }
                     }
                     else if (questionnumber == 6)
                     {
@@ -183,21 +188,43 @@ namespace QUESTionBot
                          text: TextTemplates.answer17);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: "Мало кто знает об этом, но Дали создал логотип для этой компании. Как она называется? _За это задание вы можете получить 2 балла._",
+                        text: "Мало кто знает об этом, но Дали создал логотип для этой компании. Как она называется? _За это задание вы можете получить 2 балла._\n1) Coca-cola\n2)Chupa-chps\n3) Batman\n4) McDonald's",
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
                         replyMarkup: InlineKeyboards.message18keyboard);
                     }
                     else if (questionnumber == 7)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\HYj3VP-tUPw.jpg"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.answer18);
+                        photo: stream,
+                        caption: TextTemplates.answer18);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message19);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message20);
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\1.mp3"))
+                        {
+                            await MainWindow.botClient.SendAudioAsync(
+                                chatId: chatid,
+                                audio: stream);
+                        }
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\2.mp3"))
+                        {
+                            await MainWindow.botClient.SendAudioAsync(
+                                chatId: chatid,
+                                audio: stream);
+                        }
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\3.mp3"))
+                        {
+                            await MainWindow.botClient.SendAudioAsync(
+                                chatId: chatid,
+                                audio: stream);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Прослушайте три отрывка и определите, какой из них - часть Ленинградской симфонии.",
@@ -207,7 +234,7 @@ namespace QUESTionBot
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatid,
-                           text: "Симфония под номером 2");
+                           text: "Ленинградская симфония находится под номером 2");
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Дмитрий Лихачёв (1906-1999) — советский и российский филолог, культуролог, искусствовед, доктор филологических наук, профессор.");
@@ -225,9 +252,12 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: TextTemplates.message25,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatid,
-                        text: "Пикча с бодровым");
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\AuJdMkI6xFI.jpg"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
+                            chatId: chatid,
+                            photo: stream);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Погнали дальше!");
@@ -237,10 +267,14 @@ namespace QUESTionBot
                 case (2):
                     if (questionnumber == 0)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\Iy46pcYcYrQ.jpg"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message27,
+                        photo: stream,
+                        caption: TextTemplates.message27,
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
+                        }
                     }
                     if (questionnumber == 1)
                     {
@@ -259,7 +293,7 @@ namespace QUESTionBot
                         text: "Искусство не умирало во время блокады. Удивительно, как изнеможенные холодом, голодом и обстрелами жители Ленинграда не падали духом.");
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: "Вспомните, кто был голосом Ленинграда во времена блокады?",
+                        text: "Вспомните, кто был голосом Ленинграда во времена блокады?\n1) Даниил Гранин\n2) Ольго Берггольц\n3) Анна Ахматова\n4) Вера Инбер\n5) Михаил Дудин",
                         replyMarkup: InlineKeyboards.message30keyboard);
                     }
                     if (questionnumber == 3)
@@ -267,6 +301,12 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.answer30);
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\EnD4MBXdGEw.jpg"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
+                            chatId: chatid,
+                            photo: stream);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Пикча Ленинграда");
@@ -278,18 +318,28 @@ namespace QUESTionBot
                     if (questionnumber == 4)
                     {
                         MainWindow.noWrongAnswer = false;
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using(var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\xRWztQjYxJ0.jpg")){
+                            await MainWindow.botClient.SendPhotoAsync(
+                            chatId: chatid,
+                            photo: stream,
+                            caption: TextTemplates.answer31);
+                        }
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\9Dk5AHTcA70.jpg"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.answer31);
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatid,
-                        text: TextTemplates.message32);
+                        photo: stream,
+                        caption: TextTemplates.message32);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message33);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: "Вспомните историю и ответьте на вопрос: В каких политических событиях того времени Киров не принимал участие?",
+                        text: "Вспомните историю и ответьте на вопрос: В каких политических событиях того времени Киров не принимал участие?" +
+                        "\n1) Защищал интересы большевиков на Дальнем Востоке;" +
+                        "\n2) Организация обороны Астрахани против сил Белой армии;" +
+                        "\n3) Установление советской власти В Азербайджане и Грузии",
                         replyMarkup: InlineKeyboards.message34keyboard);
                     }
                     if (questionnumber == 5)
@@ -325,7 +375,10 @@ namespace QUESTionBot
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message38,
+                        text: TextTemplates.message38+ "\n1) Два родных брата и один двоюродный" +
+                        "\n2) Отец и два сына" +
+                        "\n3) Они не были родственниками" +
+                        "\n4) Три родных брата",
                         replyMarkup: InlineKeyboards.message38keyboard);
                     }
                     if (questionnumber == 2)
@@ -342,16 +395,27 @@ namespace QUESTionBot
                     if (questionnumber == 3)
                     {
                         MainWindow.noWrongAnswer = false;
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1843.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.answer39,
+                        photo: stream,
+                        caption: TextTemplates.answer39,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        }
+                        await MainWindow.botClient.SendVenueAsync(chatId: chatid,
+                                                latitude: (float)59.962526,
+                                                longitude: (float)30.314253,
+                                                title: "Переход в другой двор",
+                                                address: ""
+                                               );
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message40);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message41);
+                        text: TextTemplates.message41,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         MainWindow.noWrongAnswer = true;
                     }
                     if (questionnumber == 4)
@@ -379,14 +443,22 @@ namespace QUESTionBot
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: "Перед зданием лицея ранее было несколько бюстов различных людей. \nА чьего бюста перед учебным заведением никогда не было ?",
+                        text: "Перед зданием лицея ранее было несколько бюстов различных людей. \nА чьего бюста перед учебным заведением никогда не было ?" +
+                        "\n1) Пушкину" +
+                        "\n2) Ленину" +
+                        "\n3) Николаю I" +
+                        "\n4) Александру I",
                         replyMarkup: InlineKeyboards.message44keyboard);
                     }
                     if (questionnumber == 2)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1713.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.answer44);
+                        photo: stream,
+                        caption: TextTemplates.answer44);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message45);
@@ -395,7 +467,11 @@ namespace QUESTionBot
                         text: TextTemplates.message46);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: "Что случилось?",
+                        text: "Что случилось?" +
+                        "\n1) Пистолеты забыли зарядить;" +
+                        "\n2) Они стрелялись из поддельных пистолетов;" +
+                        "\n3) Пистолеты зарядили ягодами;" +
+                        "\n4) Порох в пистолетах намок и выстрела не получилось",
                         replyMarkup: InlineKeyboards.message47keyboard);
                     }
                     if (questionnumber == 3)
@@ -405,7 +481,10 @@ namespace QUESTionBot
                         text: TextTemplates.answer47);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message48,
+                        text: TextTemplates.message48+ "\n1) “Горе от ума” Александр Грибоедов" +
+                        "\n2) “Маскарад” М.Ю. Лермонтов" +
+                        "\n3) “Ревизор” Н. В. Гоголь" +
+                        "\n4) “Спящая царевна” В. А Жуковский",
                         replyMarkup: InlineKeyboards.message48keyboard);
                     }
                     if (questionnumber == 4)
@@ -415,7 +494,10 @@ namespace QUESTionBot
                         text: TextTemplates.answer48);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message49,
+                        text: TextTemplates.message49+"\n1) Петр Гринев" +
+                        "\n2) Владимир Дубровский" +
+                        "\n3) Евгений Онегин" +
+                        "\n4) Алексей Швабрин",
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
                         replyMarkup: InlineKeyboards.message49keyboard);
                     }
@@ -441,9 +523,13 @@ namespace QUESTionBot
                     }
                     if (questionnumber == 1)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\e1w13JkJxfI.jpg"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message53);
+                        photo: stream,
+                        caption: TextTemplates.message53);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Составьте число из цифр(чисел), между которыми располагаются следующие знаки: Весы Рыбы Стрелец\n_За это задание вы можете получить 2 балла._",
@@ -458,8 +544,15 @@ namespace QUESTionBot
                         text: "Правильный ответ - 348956");
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message55);
-                        MainWindow.noWrongAnswer = true;
+                        text: TextTemplates.message55,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\RPReplay_Final1600799227.mp4"))
+                        {
+                            await MainWindow.botClient.SendVideoAsync(
+                        chatId: chatid,
+                        video: stream);
+                        }
+                            MainWindow.noWrongAnswer = true;
                     }
                     if (questionnumber == 3)
                     {
@@ -467,14 +560,25 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Бриллиантовая рука - легендарная советская комедия, снятая в 1986 году режиссёром Леонидом Гайдаем.");
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1714.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: "А вот такие показы были совсем рядом, в Доме Мод, в этом здании находится ст. метро “Петроградская”, у которой вы собирались сегодня." +
+                        photo: stream,
+                        caption: "А вот такие показы были совсем рядом, в Доме Мод, в этом здании находится ст. метро “Петроградская”, у которой вы собирались сегодня." +
                         "Совсем недавно стало известно, что Дом Мод обновят до современного фэшн-пространства. Здесь будут располагаться шоурумы, офисы модных брендов и будут проводиться показы одежды.");
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        }
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1715.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message57,
+                        photo: stream,
+                        caption: TextTemplates.message57 + "\n1) Ресторан" +
+                        "\n2) Кинотеатр" +
+                        "\n3) Туберкулезный диспансер" +
+                        "\n4) Детский дом",
                         replyMarkup: InlineKeyboards.message57keyboard);
+                        }
                     }
                     if (questionnumber == 4)
                     {
@@ -483,7 +587,12 @@ namespace QUESTionBot
                            text: TextTemplates.answer57);
                            await MainWindow.botClient.SendTextMessageAsync(
                                                 chatId: chatid,
-                                                text: "В романе Ф.М. Достоевского “Преступление и наказание” один из героев умирает от болезни туберкулеза, которая в то время называлась чахоткой. Кто же этот герой?",
+                                                text: "В романе Ф.М. Достоевского “Преступление и наказание” один из героев умирает от болезни туберкулеза, которая в то время называлась чахоткой. Кто же этот герой?" +
+                                                "\n1) Соня Мармеладова;" +
+                                                "\n2) Семён Захарович Мармеладов;" +
+                                                "\n3) Сестра Раскольникова - Авдотья;" +
+                                                "\n4) Катерина Ивановна Мармеладова;" +
+                                                "\n5) Петр Петрович Лужин",
                                                 replyMarkup: InlineKeyboards.message58keyboard);
                     }
                     if (questionnumber == 5)
@@ -493,7 +602,10 @@ namespace QUESTionBot
                         text: TextTemplates.answer58);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message59,
+                        text: TextTemplates.message59+ "\n1) Слониха Бэтти" +
+                        "\n2) Американский крокодил" +
+                        "\n3) Детеныши медведей" +
+                        "\n4) Бегемотиха Красавица",
                         replyMarkup: InlineKeyboards.message59keyboard);
                     }
                     if (questionnumber == 6)
@@ -524,10 +636,14 @@ namespace QUESTionBot
                     }
                     if (questionnumber == 1)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\unnamed.jpg"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message63,
+                        photo: stream,
+                        caption: TextTemplates.message63,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message64,
@@ -536,6 +652,7 @@ namespace QUESTionBot
                     }
                     if (questionnumber == 2)
                     {
+                        MainWindow.noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message65,
@@ -550,26 +667,45 @@ namespace QUESTionBot
                 case (7):
                     if (questionnumber == 0)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1844.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message68);
+                        photo: stream,
+                        caption: TextTemplates.message68);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message69);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        await MainWindow.botClient.SendVenueAsync(chatId: chatid,
+                                                latitude: (float)59.970433,
+                                                longitude: (float)30.308610,
+                                                title: "",
+                                                address: ""
+                                               );
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1845.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message70);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        photo: stream,
+                        caption: TextTemplates.message70);
+                        }
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1847.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message71,
+                        photo: stream,
+                        caption: TextTemplates.message71,
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask"))
                         );
+                        }
                     }
                     if (questionnumber == 1)
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message72);
+                        text: TextTemplates.message72,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "После завершения задания напишите сюда \"Мы готовы\"");
@@ -581,9 +717,13 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message74);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\Glsw61-v6o0.jpg"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message75);
+                        photo: stream,
+                        caption: TextTemplates.message75);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message76,
@@ -591,11 +731,15 @@ namespace QUESTionBot
                     }
                     if (questionnumber == 1)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1716.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message77,
+                        photo: stream,
+                        caption: TextTemplates.message77,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
                         replyMarkup: InlineKeyboards.message77keyboard);
+                        }
                     }
                     if (questionnumber == 2)
                     {
@@ -614,6 +758,7 @@ namespace QUESTionBot
                     }
                     if (questionnumber == 3)
                     {
+                        MainWindow.noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
                                                 chatId: chatid,
                                                 text: TextTemplates.message80,
@@ -638,7 +783,11 @@ namespace QUESTionBot
                     {
                         await MainWindow.botClient.SendTextMessageAsync(
                          chatId: chatid,
-                         text: "А теперь давайте узнаем, насколько хорошо вы знаете историю нашего университета.\nПервое здание ИТМО (тогда ещё ЛИТМО) расположено по адресу:",
+                         text: "А теперь давайте узнаем, насколько хорошо вы знаете историю нашего университета.\nПервое здание ИТМО (тогда ещё ЛИТМО) расположено по адресу:" +
+                         "\n1) Кронверкский пр. 49" +
+                         "\n2) ул. Ломоносова 9" +
+                         "\n3) ул. Чайковского 11/2" +
+                         "\n4) пер. Гривцова 14",
                          replyMarkup: InlineKeyboards.message85keyboard);
                     }
                     if (questionnumber == 2)
@@ -658,7 +807,11 @@ namespace QUESTionBot
                                                text: "ИТМО получил статус национального исследовательского университета в 2009 году.");
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: "Во дворе какого корпуса был установлен первый в России памятник Стиву Джобсу?",
+                        text: "Во дворе какого корпуса был установлен первый в России памятник Стиву Джобсу?" +
+                        "\n1) Биржевая линия 4" +
+                        "\n2) Кронверкский пр. 49" +
+                        "\n3) ул. Ломоносова 9" +
+                        "\n4) пер. Гривцова 14",
                         replyMarkup: InlineKeyboards.message87keyboard);
                     }
                     if (questionnumber == 4)
@@ -668,27 +821,39 @@ namespace QUESTionBot
                         text: TextTemplates.answer87);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message88);
+                        text: TextTemplates.message88,
+                        replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Подсказка", "hint")));
                         MainWindow.noWrongAnswer = true;
                     }
                     if (questionnumber == 5)
                     {
+                        MainWindow.noWrongAnswer = false;
+
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.answer88);
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message89,
+                        text: TextTemplates.message89+ "\n1) Голова барана на фасаде корпуса на Чайковского" +
+                        "\n2) Голова быка на фасаде главного корпуса" +
+                        "\n3) Голова буйвола на фасаде корпуса на Гривцова",
                         replyMarkup: InlineKeyboards.message89keyboard);
                     }
                     if (questionnumber == 6)
                     {
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\Sge1i7YUy1E.jpg"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
+                        chatId: chatid,
+                        photo: stream,
+                        caption: TextTemplates.answer89);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.answer89);
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatid,
-                        text: TextTemplates.message90,
+                        text: TextTemplates.message90+ "\n1) Биржевая линия д.14" +
+                        "\n2) улица Чайковского 11/2" +
+                        "\n3) Кадетская линия В.О. д.3" +
+                        "\n4) улица Гастелло д.12",
                         replyMarkup: InlineKeyboards.message90keyboard);
                     }
                     if (questionnumber == 7)
@@ -712,9 +877,13 @@ namespace QUESTionBot
                     }
                     if (questionnumber == 1)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1853.png"))
+                        {
+                            await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatid,
-                        text: TextTemplates.message93);
+                        photo: stream,
+                        caption: TextTemplates.message93);
+                        }
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message94,
@@ -731,15 +900,18 @@ namespace QUESTionBot
                                                 text: "Кстати, на счету Аникушина 5 памятника А. С. Пушкину, а еще именем скульптора названа малая планета.");
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
-                        text: TextTemplates.message96);
+                        text: TextTemplates.message96,
+                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         MainWindow.noWrongAnswer = true;
                     }
                     if (questionnumber == 3)
                     {
+                        MainWindow.noWrongAnswer = false;
+
                         await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatid,
                            text: TextTemplates.answer96,
-                           replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Завершить квест.", "questend")));
+                           replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Завершить квест", "questend")));
 
                     }
                     break;
@@ -822,6 +994,18 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: "Обратите внимание на страну, в которой жил Дали.");
             }
+            if ((team.CurrentTask == 8) && (team.CurrentQuestion == 1))
+            {
+                await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Обратите внимание на название последнего упомянутого заведения");
+            }
+            if ((team.CurrentTask == 9) && (team.CurrentQuestion == 4))
+            {
+                await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatid,
+                        text: "Обратите внимание на название ближайшей станции  метро.");
+            }
 
 
         }
@@ -833,14 +1017,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Скрипка-женщина", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Скрипка-туфелька", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Скрипка-зонт", "right"),
-                        InlineKeyboardButton.WithCallbackData("Скрипка-граммофон", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "right"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
             public static InlineKeyboardMarkup message10keyboard = new InlineKeyboardMarkup(new[]
@@ -848,14 +1032,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Берёза", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Рябина", "right"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "right"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Лиственница", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Дуб", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
             public static InlineKeyboardMarkup message17keyboard = new InlineKeyboardMarkup(new[]
@@ -877,13 +1061,13 @@ namespace QUESTionBot
                 {
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Coca-Cola", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Chupa-Chups", "right"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "right"),
                     },
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Batman", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("McDonald's", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     },
                 new[]
                 {
@@ -909,15 +1093,15 @@ namespace QUESTionBot
                 {
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Императорский Санкт-Петербургский университет", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Санкт-Петербургский государственный университет", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Петроградский государственный университет", "right"),
+                        InlineKeyboardButton.WithCallbackData("3", "right"),
                     },
                 });
 
@@ -933,10 +1117,6 @@ namespace QUESTionBot
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                    },
-                    new[]
-                    {
-                    
                         InlineKeyboardButton.WithCallbackData("4", "right"),
                     }
                 });
@@ -946,18 +1126,24 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Даниил Гранин", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Ольга Берггольц", "right"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("2", "right"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Анна Ахматова", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Вера Инбер", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     },
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Михаил Дудин", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("5", "wrong"),
                     }
                 });
 
@@ -965,15 +1151,15 @@ namespace QUESTionBot
                 {
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Защита интересов большевиков на Дальнем Востоке", "right"),
+                        InlineKeyboardButton.WithCallbackData("1", "right"),
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Организация обороны Астрахани против сил Белой армии", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Установление советской власти В Азербайджане и Грузии", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
                     },
                 });
 
@@ -998,14 +1184,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Два родных брата и один двоюродный", "right"),
-                        InlineKeyboardButton.WithCallbackData("Отец и два сына", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "right"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Они не были родственниками", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Три родных брата", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
             public static InlineKeyboardMarkup message44keyboard = new InlineKeyboardMarkup(new[]
@@ -1013,14 +1199,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Пушкину", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Ленину", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Николаю I", "right"),
-                        InlineKeyboardButton.WithCallbackData("Александру I", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "right"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
             public static InlineKeyboardMarkup message47keyboard = new InlineKeyboardMarkup(new[]
@@ -1028,14 +1214,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Пистолеты забыли зарядить", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Они стрелялись из поддельных пистолетов", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Пистолеты зарядили ягодами", "right"),
-                        InlineKeyboardButton.WithCallbackData("Порох в пистолетах намок и выстрела не cлучилось", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "right"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
 
@@ -1044,14 +1230,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("“Горе от ума” Александр Грибоедов", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("“Маскарад” М.Ю. Лермонтов", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("“Ревизор” Н. В. Гоголь", "right"),
-                        InlineKeyboardButton.WithCallbackData("“Спящая царевна” В. А Жуковский", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "right"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
 
@@ -1060,14 +1246,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Петр Гринев", "right"),
-                        InlineKeyboardButton.WithCallbackData("Владимир Дубровский", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "right"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Евгений Онегин", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Алексей Швабрин", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
 
@@ -1076,14 +1262,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Ресторан", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Кинотеатр", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Туберкулезный диспансер", "right"),
-                        InlineKeyboardButton.WithCallbackData("Детский дом", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "right"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
 
@@ -1092,18 +1278,24 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Соня Мармеладова;", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Семён Захарович Мармеладов", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Сестра Раскольникова - Авдотья", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Катерина Ивановна Мармеладова", "right"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("4", "right"),
                     },
                 new[]
                 {
-                        InlineKeyboardButton.WithCallbackData("Петр Петрович Лужин", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("5", "wrong"),
                 }
                 });
 
@@ -1112,14 +1304,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Слониха Бэтти", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Американский крокодил", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Детеныши медведей", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("Бегемотиха Красавица", "right"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("4", "right"),
                     }
                 });
 
@@ -1131,6 +1323,11 @@ namespace QUESTionBot
                         InlineKeyboardButton.WithCallbackData("1", "right"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
+                new[]
+                {
+                        InlineKeyboardButton.WithCallbackData("Подсказка", "hint"),
+
+                }
                 });
 
             public static InlineKeyboardMarkup message85keyboard = new InlineKeyboardMarkup(new[]
@@ -1138,14 +1335,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Кронверкский пр. 49", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("ул. Ломоносова 9", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("ул. Чайковского 11/2", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("пер. Гривцова 14", "right"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("4", "right"),
                     }
                 });
 
@@ -1170,14 +1367,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Биржевая линия 4", "right"),
-                        InlineKeyboardButton.WithCallbackData("Кронверкский пр. 49", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "right"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("ул. Ломоносова 9", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("пер. Гривцова 14", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
 
@@ -1185,15 +1382,15 @@ namespace QUESTionBot
                 {
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Голова барана на фасаде корпуса на Чайковского", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData("Голова быка на фасаде главного корпуса", "right"),
+                        InlineKeyboardButton.WithCallbackData("2", "right"),
                     },
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Голова буйвола на фасаде корпуса на Гривцова", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
                     },
                 });
 
@@ -1202,14 +1399,14 @@ namespace QUESTionBot
                     // first row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Биржевая линия д.14", "right"),
-                        InlineKeyboardButton.WithCallbackData("улица Чайковского 11/2", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("1", "right"),
+                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
                     // second row
                     new []
                     {
-                        InlineKeyboardButton.WithCallbackData("Кадетская линия В.О. д.3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("улица Гастелло д.12", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
                     }
                 });
 

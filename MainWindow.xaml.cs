@@ -40,7 +40,7 @@ namespace QUESTionBot
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();           
             botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
             botInfo = botClient.GetMeAsync().Result;
             taskList = Task.CreateTaskList();
@@ -84,6 +84,7 @@ namespace QUESTionBot
         {
             if (botClient.IsReceiving == false)
             {
+                botClient.MessageOffset = -1;
                 botClient.OnMessage += Bot_OnMessage;
                 botClient.OnCallbackQuery += BotOnCallbackQueryReceived;
                 botClient.StartReceiving();
@@ -106,8 +107,31 @@ namespace QUESTionBot
 
         public async void Bot_OnMessage(object sender, MessageEventArgs e)
         {
-            // стартовый пак
-            if (e.Message.Text == "/start")
+            if (e.Message.Text == null) 
+            {
+                if (noWrongAnswer)
+                {
+                    teamList[e.Message.Chat.Id].CurrentQuestion++;
+                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
+                }
+                else
+                {
+                    Message message = await botClient.SendTextMessageAsync(
+                      chatId: e.Message.Chat,
+                      parseMode: ParseMode.Markdown,
+                      text: "Либо вы пишете мне неправильный ответ, либо я не могу распознать вашей команды. Попробуйте ещё раз!" +
+                      "\nЕсли ситуация тупиковая, напишите @katchern и вам подскажут, что делать."
+                    );
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId } " +
+                        $"в чат {message.Chat.Id} в {message.Date}. " +
+                        $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
+                    });
+                }
+            }
+                // стартовый пак
+                if (e.Message.Text == "/start")
             {
                 Message message1 = await botClient.SendTextMessageAsync(
                   chatId: e.Message.Chat,
@@ -180,10 +204,11 @@ namespace QUESTionBot
                 }
             }
             // приём ответов на вопросы-триггеры
-            else if (Task.KeyPhrasesList.Contains(e.Message.Text.Trim().ToLower()))
+            else if (Task.KeyPhrasesList.Contains(e.Message.Text.Trim().ToLower())||(e.Message.Text.Trim().ToLower() == "розовые") || (e.Message.Text.Trim().ToLower() == "фиолетовый") || (e.Message.Text.Trim().ToLower() == "фиолетовые"))
             {
                 try
                 {
+                    //if ((e.Message.Text.Trim().ToLower() == "розовые") || (e.Message.Text.Trim().ToLower() == "фиолетовый") || (e.Message.Text.Trim().ToLower() == "фиолетовые")) { }
                     Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
                 }
                 catch
@@ -293,6 +318,7 @@ namespace QUESTionBot
                     Task.HintHandler(teamList[callbackQuery.Message.Chat.Id], callbackQuery.Message.Chat.Id);
                     break;
                 case ("questend"):
+                    teamList[callbackQuery.Message.Chat.Id].QuestFinishedAt = DateTime.Now.ToLocalTime();
                     Thread.Sleep(2000);
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
@@ -306,13 +332,18 @@ namespace QUESTionBot
                     Thread.Sleep(2000);
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
-                        text: TextTemplates.message99
+                        text: TextTemplates.message99,
+                        parseMode: ParseMode.Markdown
                     );
                     Thread.Sleep(2000);
-                    await botClient.SendTextMessageAsync(
-                        chatId: callbackQuery.Message.Chat.Id,
-                        text: TextTemplates.message100
-                    );
+                    using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\hashtag.png"))
+                    {
+                        await botClient.SendPhotoAsync(
+                            chatId: callbackQuery.Message.Chat.Id,
+                            photo: stream,
+                            caption: TextTemplates.message100
+                        );
+                    }
                     break;
                 default:
                     break;
@@ -323,16 +354,26 @@ namespace QUESTionBot
         {
             teamList[chatid.Identifier].CurrentQuestion = 0;
             teamList[chatid.Identifier].CurrentTask++;
-            await MainWindow.botClient.SendVenueAsync(chatId: chatid,
-                                                latitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].LinkedLocation.Latitude,
-                                                longitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].LinkedLocation.Longitude,
-                                                title: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].Title,
-                                                address: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].Address
-                                               );
-            await MainWindow.botClient.SendTextMessageAsync(
-                                    chatId: chatid,
-                                    text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask-1]].MessageTrigger
-                                    );
+            if (teamList[chatid.Identifier].CurrentTask == 10) 
+            {
+                await MainWindow.botClient.SendTextMessageAsync(
+                                        chatId: chatid,
+                                        text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].MessageTrigger
+                                        );
+            }
+            else
+            {
+                await MainWindow.botClient.SendVenueAsync(chatId: chatid,
+                                                    latitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].LinkedLocation.Latitude,
+                                                    longitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].LinkedLocation.Longitude,
+                                                    title: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].Title,
+                                                    address: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].Address
+                                                   );
+                await MainWindow.botClient.SendTextMessageAsync(
+                                        chatId: chatid,
+                                        text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].MessageTrigger
+                                        );
+            }
         }
     }
 }
