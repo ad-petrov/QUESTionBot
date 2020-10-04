@@ -9,7 +9,7 @@ using Telegram.Bot.Types;
 
 namespace QUESTionBot
 {
-    class Team
+    public class Team
     {
         public int TeamID { get; set; }
         public long LinkedChat { get; set; }
@@ -18,8 +18,9 @@ namespace QUESTionBot
         public int CurrentTask { get; set; }
         public int CurrentQuestion { get; set; }
         public int Points { get; set; }
-
         public int HintsUsed { get; set; }
+        public bool noWrongAnswer { get; set; }
+             
 
         public static string[] KeyWordsList = new string[] { "kronva228", "good_job_oleg", "chaikagopka", "pk2020", "mne_nujen_beliash", "ilovetiktok", "badboy14let", 
             "rovesnik8", "ktopridumal7", "belissimo_gracia", "rechka_donetck", "minecraft_moya_zizn", "bokal_polon_xo", "djip_v_moskve", "emae_kruto_uril",
@@ -35,6 +36,7 @@ namespace QUESTionBot
             CurrentQuestion = 0;
             Points = 0;
             HintsUsed = 0;
+            noWrongAnswer = false;
             QuestStartedAt = DateTime.Now.ToLocalTime();
             QuestFinishedAt = null;
         }

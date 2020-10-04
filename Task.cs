@@ -106,7 +106,7 @@ namespace QUESTionBot
                 case (1):
                     if (questionnumber == 0)
                     {
-                        Message message = await MainWindow.botClient.SendTextMessageAsync(
+                        await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatid,
                             text: TextTemplates.message7
                             );
@@ -161,11 +161,11 @@ namespace QUESTionBot
                          text: TextTemplates.message14,
                          parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
                          replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Подсказка", "hint")));
-                        MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     else if (questionnumber == 5)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Собаку звали Чти. Оригинально, не так ли?");
@@ -310,11 +310,11 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Найдите мемориальную доску еще одному деятелю искусства, на этот раз поэту. Она расположена на фасаде здания. Напишите только его фамилию.");
-                        MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     if (questionnumber == 4)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
                         using(var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\xRWztQjYxJ0.jpg")){
                             await MainWindow.botClient.SendPhotoAsync(
                             chatId: chatid,
@@ -391,11 +391,11 @@ namespace QUESTionBot
                         caption: TextTemplates.message39,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
                         }
-                        MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     if (questionnumber == 3)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
                             await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.answer39,
@@ -418,11 +418,11 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: TextTemplates.message41,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     if (questionnumber == 5)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Это Александр Сергеевич Пушкин");
@@ -536,11 +536,11 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: "Составьте число из цифр(чисел), между которыми располагаются следующие знаки: Весы Рыбы Стрелец\n_За это задание вы можете получить 2 балла._",
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     if (questionnumber == 2)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Правильный ответ - 348956");
@@ -554,11 +554,11 @@ namespace QUESTionBot
                         chatId: chatid,
                         video: stream);
                         }
-                            MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     if (questionnumber == 3)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: "Бриллиантовая рука - легендарная советская комедия, снятая в 1986 году режиссёром Леонидом Гайдаем.");
@@ -651,11 +651,11 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: TextTemplates.message64,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     if (questionnumber == 2)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
                         text: TextTemplates.message65,
@@ -763,11 +763,11 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: TextTemplates.message79,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     if (questionnumber == 3)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
                         await MainWindow.botClient.SendTextMessageAsync(
                                                 chatId: chatid,
                                                 text: TextTemplates.message80,
@@ -832,11 +832,11 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: TextTemplates.message88,
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Подсказка", "hint")));
-                        MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     if (questionnumber == 5)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
 
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatid,
@@ -911,11 +911,11 @@ namespace QUESTionBot
                         chatId: chatid,
                         text: TextTemplates.message96,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.noWrongAnswer = true;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = true;
                     }
                     if (questionnumber == 3)
                     {
-                        MainWindow.noWrongAnswer = false;
+                        MainWindow.teamList[chatid.Identifier].noWrongAnswer = false;
 
                         await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatid,

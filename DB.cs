@@ -144,7 +144,7 @@ namespace QUESTionBot
         public static void AddAnswer(Team team, string answer)
         {
             try {
-                int tasknumber = 0;
+                int tasknumber=0;
                 if (team.CurrentTask == 1)
                 {
                     if (team.CurrentQuestion == 3) return;

@@ -24,7 +24,6 @@ using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using Xceed.Words.NET;
 
 namespace QUESTionBot
 {
@@ -35,9 +34,9 @@ namespace QUESTionBot
     {
         public static TelegramBotClient botClient;
         public User botInfo;
-        static Dictionary<long, Team> teamList = new Dictionary<long, Team>();
+        public static Dictionary<long, Team> teamList = new Dictionary<long, Team>();
         static Dictionary<string, Task> taskList;
-        public static bool noWrongAnswer = false;
+        
 
 
         public MainWindow()
@@ -48,37 +47,6 @@ namespace QUESTionBot
             taskList = Task.CreateTaskList();
             debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
             botStopButton.IsEnabled = false;
-
-            // заготовка для работы с Word
-            try
-            {
-                if (Directory.GetFiles("D:\\Other\\BotLog\\", "Log.docx").Length == 0)
-                {
-                    ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-                    var doc = new DocumentModel();
-                    doc.Save("D:\\Other\\BotLog\\Log.docx");
-                }
-                else
-                {
-                    MessageBoxResult mbResult = MessageBox.Show("Файл с логами найден. Хотите продолжить его заполнять, не стирая записей?", "Логи", MessageBoxButton.YesNo);
-                    if (mbResult == MessageBoxResult.Yes)
-                    {
-
-                    }
-                    else if (mbResult == MessageBoxResult.No)
-                    {
-                        System.IO.File.Delete("D:\\Other\\BotLog\\Log.docx");
-                        ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-                        var doc = new DocumentModel();
-                        doc.Save("D:\\Other\\BotLog\\Log.docx");
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
         }
 
         //кнопки запуска Бота в программе
@@ -160,16 +128,7 @@ namespace QUESTionBot
         {
             if (e.Message.Text == null) 
             {
-                if (noWrongAnswer)
-                {
-                    DB.AddAnswer(teamList[e.Message.Chat.Id], e.Message.Text);
-                    teamList[e.Message.Chat.Id].CurrentQuestion++;
-                    DB.UpdateTeamNote(teamList[e.Message.Chat.Id]);
-                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
-                    return;
-                }
-                else
-                {
+
                     Message message = await botClient.SendTextMessageAsync(
                       chatId: e.Message.Chat,
                       parseMode: ParseMode.Markdown,
@@ -183,7 +142,7 @@ namespace QUESTionBot
                         $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
                     });
                     return;
-                }
+                
             }
                 // стартовый пак
                 if (e.Message.Text == "/start")
@@ -314,7 +273,7 @@ namespace QUESTionBot
             else if (e.Message.Text != null)
             {
                 
-                if (noWrongAnswer)
+                if (MainWindow.teamList[e.Message.Chat.Id].noWrongAnswer)
                 {
                     DB.AddAnswer(teamList[e.Message.Chat.Id], e.Message.Text);
                     teamList[e.Message.Chat.Id].CurrentQuestion++;
