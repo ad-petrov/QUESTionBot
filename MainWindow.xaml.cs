@@ -244,6 +244,10 @@ namespace QUESTionBot
             {
                 if ((e.Message != null) && (e.Message.Chat != null))
                 {
+                    if (e.Message.Text.Trim().ToLower() == "хармс")
+                    {
+                        teamList[e.Message.Chat.Id].CurrentQuestion++;
+                    }
                     Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                 }
 
@@ -300,7 +304,7 @@ namespace QUESTionBot
         {
             var callbackQuery = callbackQueryEventArgs.CallbackQuery;
 
-            if(callbackQuery.Data != "hint")
+            if((callbackQuery.Data != "hint")&&(callbackQuery.Data != "agreement"))
             {
                 await botClient.EditMessageReplyMarkupAsync(chatId: callbackQuery.Message.Chat.Id, teamList[callbackQuery.Message.Chat.Id].lastQuestion.MessageId);
             }
