@@ -266,7 +266,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Погнали дальше!");
-                        MainWindow.BetweenTaskInteraction(chatId);
+                        MainWindow.BetweenTaskInteraction(team);
                     }
                     break;
                 case (2):
@@ -362,7 +362,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message36);
-                        MainWindow.BetweenTaskInteraction(chatId);
+                        MainWindow.BetweenTaskInteraction(team);
                     }
                     break;
                 case (3):
@@ -435,7 +435,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.message42,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.BetweenTaskInteraction(chatId);
+                        MainWindow.BetweenTaskInteraction(team);
                     }
                     break;
                 case (4):
@@ -517,7 +517,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: "Ладно, заканчиваю доставать вас вопросами из школьной программы. Отправляемся дальше, к не менее интересному месту. \n*ТО*",
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.BetweenTaskInteraction(chatId);
+                        MainWindow.BetweenTaskInteraction(team);
                     }
                     break;
                 case (5):
@@ -624,7 +624,7 @@ namespace QUESTionBot
                            chatId: chatId,
                            text: "Половина маршрута уже пройдена. Хорошая работа, друзья! Двигаемся дальше. *К*",
                            parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.BetweenTaskInteraction(chatId);
+                        MainWindow.BetweenTaskInteraction(team);
                     }
                     break;
                 case (6):
@@ -669,7 +669,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: "Больше никаких убийств сегодня! Идём дальше. *Р*",
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.BetweenTaskInteraction(chatId);
+                        MainWindow.BetweenTaskInteraction(team);
                     }
                     break;
                 case (7):
@@ -781,7 +781,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.message81,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        MainWindow.BetweenTaskInteraction(chatId);
+                        MainWindow.BetweenTaskInteraction(team);
                     }
                     break;
                 case (9):
@@ -878,7 +878,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message901);
-                        MainWindow.BetweenTaskInteraction(chatId);
+                        MainWindow.BetweenTaskInteraction(team);
                     }
                     break;
                 case (10):
