@@ -242,15 +242,12 @@ namespace QUESTionBot
             // приём ответов на вопросы-триггеры
             else if (Task.KeyPhrasesList.Contains(e.Message.Text.Trim().ToLower())||(e.Message.Text.Trim().ToLower() == "розовые") || (e.Message.Text.Trim().ToLower() == "фиолетовый") || (e.Message.Text.Trim().ToLower() == "фиолетовые"))
             {
-                try
+                if ((e.Message != null) && (e.Message.Chat != null))
                 {
-                    //if ((e.Message.Text.Trim().ToLower() == "розовые") || (e.Message.Text.Trim().ToLower() == "фиолетовый") || (e.Message.Text.Trim().ToLower() == "фиолетовые")) { }
-                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, 0, e.Message.Chat);
+                    Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                 }
-                catch
-                {
-
-                }
+                
+               
                 //this.Dispatcher.Invoke(() =>
                 //{
                 //    debugTextBlock.Text += $"\nОтправлено сообщение { message.MessageId} " +
@@ -260,12 +257,12 @@ namespace QUESTionBot
                 //});
             }
             // приём триггера вопросов внутри станции
-            else if (Task.QuestionTriggers.Contains(e.Message.Text.Trim().ToLower()))
-            {
-                Task.TriggerHandler(e.Message.Text, teamList[e.Message.Chat.Id], e.Message.Chat.Id);
-            }
+            //else if (Task.QuestionTriggers.Contains(e.Message.Text.Trim().ToLower()))
+            //{
+            //    Task.TriggerHandler(e.Message.Text, teamList[e.Message.Chat.Id], e.Message.Chat.Id);
+            //}
             //приём "мы готовы" на задании с Лениным
-            else if ((e.Message.Text.Trim().ToLower() == "мы готовы")&&(teamList[e.Message.Chat.Id].CurrentTask==7))
+            else if ((e.Message.Text.Trim().ToLower() == "мы готовы")&&(teamList[e.Message.Chat.Id].CurrentStation==7))
             {
                 BetweenTaskInteraction(e.Message.Chat.Id);
             }
@@ -278,7 +275,7 @@ namespace QUESTionBot
                     DB.AddAnswer(teamList[e.Message.Chat.Id], e.Message.Text);
                     teamList[e.Message.Chat.Id].CurrentQuestion++;
                     DB.UpdateTeamNote(teamList[e.Message.Chat.Id]);
-                    Task.TaskInteraction(teamList[e.Message.Chat.Id].CurrentTask, teamList[e.Message.Chat.Id].CurrentQuestion, e.Message.Chat);
+                    Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                 }
                 else
                 {
@@ -302,6 +299,11 @@ namespace QUESTionBot
         private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
             var callbackQuery = callbackQueryEventArgs.CallbackQuery;
+
+            if(callbackQuery.Data != "hint")
+            {
+                await botClient.EditMessageReplyMarkupAsync(chatId: callbackQuery.Message.Chat.Id, teamList[callbackQuery.Message.Chat.Id].lastQuestion.MessageId);
+            }
 
             switch (callbackQuery.Data)
             {
@@ -336,28 +338,25 @@ namespace QUESTionBot
                     );
                     break;
                 case ("nexttask"):
+                    
                     teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
                     DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
-                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask, 
-                        teamList[callbackQuery.Message.Chat.Id].CurrentQuestion, 
-                        callbackQuery.Message.Chat.Id);
+                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id]);
                     break;
                 case ("right"):
+                    
                     teamList[callbackQuery.Message.Chat.Id].Points++;
                     DB.AddAnswer(teamList[callbackQuery.Message.Chat.Id], "верно");
                     teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
                     DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
-                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask,
-                        teamList[callbackQuery.Message.Chat.Id].CurrentQuestion,
-                        callbackQuery.Message.Chat.Id);
+                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id]);
                     break;
                 case ("wrong"):
+                    
                     DB.AddAnswer(teamList[callbackQuery.Message.Chat.Id], "неверно");
                     teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
                     DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
-                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id].CurrentTask,
-                        teamList[callbackQuery.Message.Chat.Id].CurrentQuestion,
-                        callbackQuery.Message.Chat.Id);
+                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id]);
                     break;
                 case ("hint"):
                     Task.HintHandler(teamList[callbackQuery.Message.Chat.Id], callbackQuery.Message.Chat.Id);
@@ -399,26 +398,26 @@ namespace QUESTionBot
         public static async void BetweenTaskInteraction(ChatId chatid)
         {
             teamList[chatid.Identifier].CurrentQuestion = 0;
-            teamList[chatid.Identifier].CurrentTask++;
+            teamList[chatid.Identifier].CurrentStation++;
             DB.UpdateTeamNote(teamList[chatid.Identifier]);
-            if (teamList[chatid.Identifier].CurrentTask == 10) 
+            if (teamList[chatid.Identifier].CurrentStation == 10) 
             {
                 await MainWindow.botClient.SendTextMessageAsync(
                                         chatId: chatid,
-                                        text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].MessageTrigger
+                                        text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentStation - 1]].MessageTrigger
                                         );
             }
             else
             {
                 await MainWindow.botClient.SendVenueAsync(chatId: chatid,
-                                                    latitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].LinkedLocation.Latitude,
-                                                    longitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].LinkedLocation.Longitude,
-                                                    title: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].Title,
-                                                    address: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].Address
+                                                    latitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentStation - 1]].LinkedLocation.Latitude,
+                                                    longitude: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentStation - 1]].LinkedLocation.Longitude,
+                                                    title: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentStation - 1]].Title,
+                                                    address: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentStation - 1]].Address
                                                    );
                 await MainWindow.botClient.SendTextMessageAsync(
                                         chatId: chatid,
-                                        text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentTask - 1]].MessageTrigger
+                                        text: taskList[Task.KeyPhrasesList[teamList[chatid.Identifier].CurrentStation - 1]].MessageTrigger
                                         );
             }
         }

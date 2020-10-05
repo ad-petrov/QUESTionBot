@@ -15,11 +15,13 @@ namespace QUESTionBot
         public long LinkedChat { get; set; }
         public DateTime QuestStartedAt { get; set; }
         public DateTime? QuestFinishedAt { get; set; }
-        public int CurrentTask { get; set; }
+        public int CurrentStation { get; set; }
         public int CurrentQuestion { get; set; }
         public int Points { get; set; }
         public int HintsUsed { get; set; }
         public bool noWrongAnswer { get; set; }
+
+        public Message lastQuestion { get; set; }
              
 
         public static string[] KeyWordsList = new string[] { "kronva228", "good_job_oleg", "chaikagopka", "pk2020", "mne_nujen_beliash", "ilovetiktok", "badboy14let", 
@@ -32,7 +34,7 @@ namespace QUESTionBot
         public Team(int id)
         {
             TeamID = id;
-            CurrentTask = 0;
+            CurrentStation = 0;
             CurrentQuestion = 0;
             Points = 0;
             HintsUsed = 0;
@@ -45,7 +47,7 @@ namespace QUESTionBot
         {
             TeamID = Convert.ToInt32(row["ID"]);
             LinkedChat = (long)Convert.ToDouble(row["ChatId"]);
-            CurrentTask = Convert.ToInt32(row["Task"]);
+            CurrentStation = Convert.ToInt32(row["Task"]);
             CurrentQuestion = Convert.ToInt32(row["question"]);
             Points = Convert.ToInt32(row["points"]);
             HintsUsed = Convert.ToInt32(row["hints"]);

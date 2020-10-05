@@ -45,7 +45,7 @@ namespace QUESTionBot
                 //command.Parameters.Add("@tK", MySqlDbType.VarChar).Value = e.Message.Text.Trim().ToLower();
                 //command.Parameters.Add("@lCh", MySqlDbType.Double).Value = team.LinkedChat.Id;
                 //command.Parameters.Add("@sAt", MySqlDbType.DateTime).Value = teamList[e.Message.Chat.Id].QuestStartedAt;
-                command.Parameters.Add("@cT", MySqlDbType.Int64).Value = team.CurrentTask;
+                command.Parameters.Add("@cT", MySqlDbType.Int64).Value = team.CurrentStation;
                 command.Parameters.Add("@cQ", MySqlDbType.Int64).Value = team.CurrentQuestion;
                 command.Parameters.Add("@pO", MySqlDbType.Int64).Value = team.Points;
                 command.Parameters.Add("@hU", MySqlDbType.Int64).Value = team.HintsUsed;
@@ -145,44 +145,44 @@ namespace QUESTionBot
         {
             try {
                 int tasknumber=0;
-                if (team.CurrentTask == 1)
+                if (team.CurrentStation == 1)
                 {
                     if (team.CurrentQuestion == 3) return;
                     tasknumber = team.CurrentQuestion;
                 }
-                if (team.CurrentTask == 2)
+                if (team.CurrentStation == 2)
                 {
                     tasknumber = team.CurrentQuestion + 7;
                 }
-                if (team.CurrentTask == 3)
+                if (team.CurrentStation == 3)
                 {
                     tasknumber = team.CurrentQuestion + 12;
                 }
-                if (team.CurrentTask == 4)
+                if (team.CurrentStation == 4)
                 {
                     tasknumber = team.CurrentQuestion + 15;
                 }
-                if (team.CurrentTask == 5)
+                if (team.CurrentStation == 5)
                 {
                     tasknumber = team.CurrentQuestion + 19;
                 }
-                if (team.CurrentTask == 6)
+                if (team.CurrentStation == 6)
                 {
                     tasknumber = team.CurrentQuestion + 24;
                 }
-                if (team.CurrentTask == 7)
+                if (team.CurrentStation == 7)
                 {
                     tasknumber = team.CurrentQuestion + 25;
                 }
-                if (team.CurrentTask == 8)
+                if (team.CurrentStation == 8)
                 {
                     tasknumber = team.CurrentQuestion + 26;
                 }
-                if (team.CurrentTask == 9)
+                if (team.CurrentStation == 9)
                 {
                     tasknumber = team.CurrentQuestion + 28;
                 }
-                if (team.CurrentTask == 10)
+                if (team.CurrentStation == 10)
                 {
                     tasknumber = team.CurrentQuestion + 34;
                 }
