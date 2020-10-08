@@ -110,7 +110,7 @@ namespace QUESTionBot
                         await botClient.SendTextMessageAsync(
                           chatId: keyValue.Value.LinkedChat,
                           parseMode: ParseMode.Markdown,
-                          text: "Капитаны! У бота технические непо-непо-неполадки!... Я вернусь в течение 3-5 минут... Не пишите мне, пока я вам сам не скажу!" +
+                          text: "Капитаны! У бота технические шоколадки!... Я вернусь в течение 3-5 минут... Не пишите мне, пока я вам сам не скажу!" +
                           "\n Если я за-за-задержусь, свяжитесь, пожалуйста, с @katchern!"
                         );
                 }
@@ -120,7 +120,6 @@ namespace QUESTionBot
         public async void Bot_OnMessage(object sender, MessageEventArgs e)
         {
             long chatId = e.Message.Chat.Id;
-            string recievedText = e.Message.Text.Trim().ToLower();
 
 
 
@@ -141,6 +140,9 @@ namespace QUESTionBot
                     return;
                 
             }
+
+            string recievedText = e.Message.Text.Trim().ToLower();
+
             // стартовый пак
             if (e.Message.Text == "/start")
             {
@@ -356,7 +358,7 @@ namespace QUESTionBot
                     Task.TaskInteraction(team);
                     break;
                 case ("hint"):
-                    Task.HintHandler(team);
+                    Task.HintHandler(team, lastMessageId);
                     break;
                 case ("questend"):
                     team.QuestFinishedAt = DateTime.Now.ToLocalTime();

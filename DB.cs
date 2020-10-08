@@ -38,7 +38,7 @@ namespace QUESTionBot
             
                 DB database = new DB();
 
-                MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU, `lastBotMessageId`=@lId " +
+                MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU " +
                     "WHERE `teamId`=@tId", database.GetConnection());
                 command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
                 //command.Parameters.Add("@tK", MySqlDbType.VarChar).Value = e.Message.Text.Trim().ToLower();
@@ -48,13 +48,13 @@ namespace QUESTionBot
                 command.Parameters.Add("@cQ", MySqlDbType.Int64).Value = team.CurrentQuestion;
                 command.Parameters.Add("@pO", MySqlDbType.Int64).Value = team.Points;
                 command.Parameters.Add("@hU", MySqlDbType.Int64).Value = team.HintsUsed;
-                command.Parameters.Add("@lId", MySqlDbType.Int64).Value = team.LastBotMessageId;
 
                 if (team.QuestFinishedAt != null)
                 {
                     MySqlCommand command2 = new MySqlCommand("UPDATE `teams` SET `finishedAt`=@fAt " +
                     "WHERE `teamId`=@tId", database.GetConnection());
                     command2.Parameters.Add("@fAt", MySqlDbType.DateTime).Value = team.QuestFinishedAt;
+                    command2.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
                     database.OpenConnection();
                     command2.ExecuteNonQuery();
                     database.CloseConnection();
@@ -109,7 +109,7 @@ namespace QUESTionBot
                 DataTable dataTable = new DataTable();
 
                 MySqlCommand command = new MySqlCommand("SELECT `teamId` AS 'ID', `teamKey` AS `Key`, `linkedChatId` AS `ChatId`," +
-                    "`startedAt` as `start`, `currentTask` AS `Task`, `currentQuestion` AS `question`, `points` AS `points`, `hintsUsed` AS `hints`, `lastBotMessageId` AS `lastBotMessageId`" +
+                    "`startedAt` as `start`, `currentTask` AS `Task`, `currentQuestion` AS `question`, `points` AS `points`, `hintsUsed` AS `hints`" +
                     " FROM `teams`", database.GetConnection());
                 adapter.SelectCommand = command;
                 adapter.Fill(dataTable);
@@ -144,39 +144,50 @@ namespace QUESTionBot
                 }
                 if (team.CurrentStation == 2)
                 {
-                    tasknumber = team.CurrentQuestion + 6;
+                    tasknumber = team.CurrentQuestion + 7;
                 }
                 if (team.CurrentStation == 3)
                 {
-                    tasknumber = team.CurrentQuestion + 11;
+                    if (team.CurrentQuestion < 3)
+                    {
+                        tasknumber = team.CurrentQuestion + 12;
+                    }
+                    else if (team.CurrentQuestion == 3)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        tasknumber = team.CurrentQuestion + 11;
+                    }
                 }
                 if (team.CurrentStation == 4)
                 {
-                    tasknumber = team.CurrentQuestion + 14;
+                    tasknumber = team.CurrentQuestion + 15;
                 }
                 if (team.CurrentStation == 5)
                 {
-                    tasknumber = team.CurrentQuestion + 18;
+                    tasknumber = team.CurrentQuestion + 19;
                 }
                 if (team.CurrentStation == 6)
                 {
-                    tasknumber = team.CurrentQuestion + 23;
+                    tasknumber = team.CurrentQuestion + 24;
                 }
                 if (team.CurrentStation == 7)
                 {
-                    tasknumber = team.CurrentQuestion + 24;
+                    tasknumber = team.CurrentQuestion + 25;
                 }
                 if (team.CurrentStation == 8)
                 {
-                    tasknumber = team.CurrentQuestion + 25;
+                    tasknumber = team.CurrentQuestion + 26;
                 }
                 if (team.CurrentStation == 9)
                 {
-                    tasknumber = team.CurrentQuestion + 27;
+                    tasknumber = team.CurrentQuestion + 28;
                 }
                 if (team.CurrentStation == 10)
                 {
-                    tasknumber = team.CurrentQuestion + 33;
+                    tasknumber = team.CurrentQuestion + 34;
                 }
                 if (tasknumber == 1)
                 {
