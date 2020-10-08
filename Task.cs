@@ -131,7 +131,7 @@ namespace QUESTionBot
                             team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: $"Пройдитесь по саду и отметьте, какой скрипки нет:\n1) Скрипка-женщина\n2) Скрипка-туфелька\n3) Скрипка-зонт\n4) Скрипка-граммофон",
-                                replyMarkup: Task.InlineKeyboards.message9keyboard);
+                                replyMarkup: CreateKeyboard(4, 3));
                             break;
 
                         case 2:
@@ -142,7 +142,7 @@ namespace QUESTionBot
                             team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: $"Помните, что Андрей Павлович Петров лично посадил одно из деревьев в этом саду? Найдите его и отметьте, что это за дерево.\n1) Береза\n2) Рябина\n3) Лиственница\n4) Дуб",
-                            replyMarkup: Task.InlineKeyboards.message10keyboard);
+                            replyMarkup: CreateKeyboard(4,2));
                             break;
 
                         case 3:
@@ -184,7 +184,7 @@ namespace QUESTionBot
                              chatId: chatId,
                              photo: stream,
                              caption: "Я уверен, почти каждый видел его картины. А какая из представленных работ не его?",
-                             replyMarkup: InlineKeyboards.message17keyboard);
+                             replyMarkup: CreateKeyboard(4,4));
                             }
                             break;
 
@@ -196,7 +196,7 @@ namespace QUESTionBot
                             chatId: chatId,
                             text: "Мало кто знает об этом, но Дали создал логотип для этой компании. Как она называется? _За это задание вы можете получить 2 балла._\n1) Coca-cola\n2)Chupa-chps\n3) Batman\n4) McDonald's",
                             parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
-                            replyMarkup: InlineKeyboards.message18keyboard);
+                            replyMarkup: CreateKeyboard(4,2));
                             break;
 
                         case 7:
@@ -234,7 +234,7 @@ namespace QUESTionBot
                             team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: "Прослушайте три отрывка и определите, какой из них - часть Ленинградской симфонии.",
-                            replyMarkup: InlineKeyboards.message21keyboard);
+                            replyMarkup: CreateKeyboard(3,2));
                             break;
 
                         case 8:
@@ -247,7 +247,7 @@ namespace QUESTionBot
                             team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: TextTemplates.message23,
-                            replyMarkup: InlineKeyboards.message23keyboard);
+                            replyMarkup: CreateKeyboard(3,3));
                             break;
 
                         case 9:
@@ -288,7 +288,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Почему премьера симфонии состоялась 9 августа?\n1)Это любимое число Шостаковича\n2)Согласно приказу сталина\n3)В прошлом все премьеры должны были проходить 9-го числа\n4)В этот день по плану Гитлера Ленинград должен был пасть от блокады",
-                        replyMarkup: InlineKeyboards.message28keyboard);
+                        replyMarkup: CreateKeyboard(4,4));
                     }
                     if (currentQuestion == 2)
                     {
@@ -301,7 +301,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Вспомните, кто был голосом Ленинграда во времена блокады?\n1) Даниил Гранин\n2) Ольга Берггольц\n3) Анна Ахматова\n4) Вера Инбер\n5) Михаил Дудин",
-                        replyMarkup: InlineKeyboards.message30keyboard);
+                        replyMarkup: CreateKeyboard(5,2));
                     }
                     if (currentQuestion == 3)
                     {
@@ -344,7 +344,7 @@ namespace QUESTionBot
                         "\n1) Защищал интересы большевиков на Дальнем Востоке;" +
                         "\n2) Организация обороны Астрахани против сил Белой армии;" +
                         "\n3) Установление советской власти в Азербайджане и Грузии",
-                        replyMarkup: InlineKeyboards.message34keyboard);
+                        replyMarkup: CreateKeyboard(3,1));
                     }
                     if (currentQuestion == 5)
                     {
@@ -354,7 +354,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message35,
-                        replyMarkup: InlineKeyboards.message35keyboard);
+                        replyMarkup: CreateKeyboard(4, 4, customValues: new[] { "1924", "1952", "1962", "1991" }));
                     }
                     if (currentQuestion == 6)
                     {
@@ -383,7 +383,7 @@ namespace QUESTionBot
                         "\n2) Отец и два сына" +
                         "\n3) Они не были родственниками" +
                         "\n4) Три родных брата",
-                        replyMarkup: InlineKeyboards.message38keyboard);
+                        replyMarkup: CreateKeyboard(4,1));
                     }
                     if (currentQuestion == 2)
                     {
@@ -457,7 +457,7 @@ namespace QUESTionBot
                         "\n2) Ленину" +
                         "\n3) Николаю I" +
                         "\n4) Александру I",
-                        replyMarkup: InlineKeyboards.message44keyboard);
+                        replyMarkup: CreateKeyboard(4,3));
                     }
                     if (currentQuestion == 2)
                     {
@@ -481,7 +481,7 @@ namespace QUESTionBot
                         "\n2) Они стрелялись из поддельных пистолетов;" +
                         "\n3) Пистолеты зарядили ягодами;" +
                         "\n4) Порох в пистолетах намок и выстрела не получилось",
-                        replyMarkup: InlineKeyboards.message47keyboard);
+                        replyMarkup: CreateKeyboard(4,3));
                     }
                     if (currentQuestion == 3)
                     {
@@ -494,7 +494,7 @@ namespace QUESTionBot
                         "\n2) “Маскарад” М.Ю. Лермонтов" +
                         "\n3) “Ревизор” Н. В. Гоголь" +
                         "\n4) “Спящая царевна” В. А Жуковский",
-                        replyMarkup: InlineKeyboards.message48keyboard);
+                        replyMarkup: CreateKeyboard(4,3));
                     }
                     if (currentQuestion == 4)
                     {
@@ -508,7 +508,7 @@ namespace QUESTionBot
                         "\n3) Евгений Онегин" +
                         "\n4) Алексей Швабрин",
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
-                        replyMarkup: InlineKeyboards.message49keyboard);
+                        replyMarkup: CreateKeyboard(4,1));
                     }
                     if (currentQuestion == 5)
                     {
@@ -586,7 +586,7 @@ namespace QUESTionBot
                         "\n2) Кинотеатр" +
                         "\n3) Туберкулезный диспансер" +
                         "\n4) Детский дом",
-                        replyMarkup: InlineKeyboards.message57keyboard);
+                        replyMarkup: CreateKeyboard(4,3));
                         }
                     }
                     if (currentQuestion == 4)
@@ -602,7 +602,7 @@ namespace QUESTionBot
                                                 "\n3) Сестра Раскольникова - Авдотья;" +
                                                 "\n4) Катерина Ивановна Мармеладова;" +
                                                 "\n5) Петр Петрович Лужин",
-                                                replyMarkup: InlineKeyboards.message58keyboard);
+                                                replyMarkup: CreateKeyboard(5,4));
                     }
                     if (currentQuestion == 5)
                     {
@@ -615,7 +615,7 @@ namespace QUESTionBot
                         "\n2) Американский крокодил" +
                         "\n3) Детеныши медведей" +
                         "\n4) Бегемотиха Красавица",
-                        replyMarkup: InlineKeyboards.message59keyboard);
+                        replyMarkup: CreateKeyboard(4,4));
                     }
                     if (currentQuestion == 6)
                     {
@@ -754,7 +754,7 @@ namespace QUESTionBot
                         photo: stream,
                         caption: TextTemplates.message77,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
-                        replyMarkup: InlineKeyboards.message77keyboard);
+                        replyMarkup: CreateKeyboard(4,2,true));
                         }
                     }
                     if (currentQuestion == 2)
@@ -804,7 +804,7 @@ namespace QUESTionBot
                          "\n2) ул. Ломоносова 9" +
                          "\n3) ул. Чайковского 11/2" +
                          "\n4) пер. Гривцова 14",
-                         replyMarkup: InlineKeyboards.message85keyboard);
+                         replyMarkup: CreateKeyboard(4,2,true));
                     }
                     if (currentQuestion == 2)
                     {
@@ -814,7 +814,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "В каком году ИТМО получил статус национального исследовательского университета?",
-                        replyMarkup: InlineKeyboards.message86keyboard);
+                        replyMarkup: CreateKeyboard(4, 3, customValues: new[] { "1997", "2005", "2009", "2012" }));
                     }
                     if (currentQuestion == 3)
                     {
@@ -828,7 +828,7 @@ namespace QUESTionBot
                         "\n2) Кронверкский пр. 49" +
                         "\n3) ул. Ломоносова 9" +
                         "\n4) пер. Гривцова 14",
-                        replyMarkup: InlineKeyboards.message87keyboard);
+                        replyMarkup: CreateKeyboard(4,1));
                     }
                     if (currentQuestion == 4)
                     {
@@ -853,7 +853,7 @@ namespace QUESTionBot
                         text: TextTemplates.message89+ "\n1) Голова барана на фасаде корпуса на Чайковского" +
                         "\n2) Голова быка на фасаде главного корпуса" +
                         "\n3) Голова буйвола на фасаде корпуса на Гривцова",
-                        replyMarkup: InlineKeyboards.message89keyboard);
+                        replyMarkup: CreateKeyboard(3,2));
                     }
                     if (currentQuestion == 6)
                     {
@@ -870,7 +870,7 @@ namespace QUESTionBot
                         "\n2) улица Чайковского 11/2" +
                         "\n3) Кадетская линия В.О. д.3" +
                         "\n4) улица Гастелло д.12",
-                        replyMarkup: InlineKeyboards.message90keyboard);
+                        replyMarkup: CreateKeyboard(4,1));
                     }
                     if (currentQuestion == 7)
                     {
@@ -904,7 +904,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.message94,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
-                        replyMarkup: InlineKeyboards.message94keyboard);
+                        replyMarkup: CreateKeyboard(4,1));
                     }
                     if (currentQuestion == 2)
                     {
@@ -947,7 +947,9 @@ namespace QUESTionBot
             }
             if ((team.CurrentStation == 1) && (team.CurrentQuestion == 6))
             {
-                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: team.LinkedChat, team.lastBotMessage.MessageId, replyMarkup: InlineKeyboards.message18keyboardWithoutHint);
+                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: team.LinkedChat, 
+                    team.lastBotMessage.MessageId, 
+                    replyMarkup: CreateKeyboard(4,2));
                 team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
                         chatId: team.LinkedChat,
@@ -955,7 +957,9 @@ namespace QUESTionBot
             }
             if ((team.CurrentStation == 8) && (team.CurrentQuestion == 1))
             {
-                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: team.LinkedChat, team.lastBotMessage.MessageId, replyMarkup: InlineKeyboards.message77keyboardWithoutHint);
+                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: team.LinkedChat, 
+                    team.lastBotMessage.MessageId, 
+                    replyMarkup: CreateKeyboard(2,1));
                 team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
                         chatId: team.LinkedChat,
@@ -998,7 +1002,7 @@ namespace QUESTionBot
                 return null;
         }*/
 
-        public static InlineKeyboardMarkup CreateKeyboard(int numberOfButtons, int rightAnswer, bool hasHint, IEnumerable<string> customValues = null)
+        public static InlineKeyboardMarkup CreateKeyboard(int numberOfButtons, int rightAnswer, bool hasHint = false, IEnumerable<string> customValues = null)
         {
             List<List<InlineKeyboardButton>> result = new List<List<InlineKeyboardButton>>();
             for (int i = 0; i < numberOfButtons / 2; i++)
@@ -1017,449 +1021,6 @@ namespace QUESTionBot
                 result.Add(new List<InlineKeyboardButton>() { InlineKeyboardButton.WithCallbackData("Подсказка", "hint") });
             }
             return new InlineKeyboardMarkup(result);
-        }
-
-        public struct InlineKeyboards
-        {
-            public static InlineKeyboardMarkup message9keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "right"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-            public static InlineKeyboardMarkup message10keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "right"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-            public static InlineKeyboardMarkup message17keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "right"),
-                    }
-                });
-            public static InlineKeyboardMarkup message18keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "right"),
-                    },
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Подсказка", "hint"),
-                }
-                });
-
-            public static InlineKeyboardMarkup message18keyboardWithoutHint = new InlineKeyboardMarkup(new[]
-               {
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "right"),
-                    },
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-
-                });
-
-            public static InlineKeyboardMarkup message21keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("2", "right"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                    },
-                });
-            public static InlineKeyboardMarkup message23keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "right"),
-                    },
-                });
-
-            public static InlineKeyboardMarkup message28keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "right"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message30keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("2", "right"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    },
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("5", "wrong"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message34keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "right"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                    },
-                });
-
-            public static InlineKeyboardMarkup message35keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1924", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("1952", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1962", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("1991", "right"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message38keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "right"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-            public static InlineKeyboardMarkup message44keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "right"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-            public static InlineKeyboardMarkup message47keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "right"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message48keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "right"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message49keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "right"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message57keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "right"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message58keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("4", "right"),
-                    },
-                new[]
-                {
-                        InlineKeyboardButton.WithCallbackData("5", "wrong"),
-                }
-                });
-
-            public static InlineKeyboardMarkup message59keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "right"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message77keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "right"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                new[]
-                {
-                        InlineKeyboardButton.WithCallbackData("Подсказка", "hint"),
-
-                }
-                });
-
-            public static InlineKeyboardMarkup message77keyboardWithoutHint = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "right"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message85keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "right"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message86keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1997", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("2005", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("2009", "right"),
-                        InlineKeyboardButton.WithCallbackData("2012", "wrong"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message87keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "right"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message89keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "wrong"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("2", "right"),
-                    },
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                    },
-                });
-
-            public static InlineKeyboardMarkup message90keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "right"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
-
-            public static InlineKeyboardMarkup message94keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    // first row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("1", "right"),
-                        InlineKeyboardButton.WithCallbackData("2", "wrong"),
-                    },
-                    // second row
-                    new []
-                    {
-                        InlineKeyboardButton.WithCallbackData("3", "wrong"),
-                        InlineKeyboardButton.WithCallbackData("4", "wrong"),
-                    }
-                });
         }
     }
 
