@@ -19,7 +19,6 @@ namespace QUESTionBot
 
 
         public static string[] KeyPhrasesList = new string[] { "отцовская любовь", "1914", "премьера", "6", "9", "розовый", "14", "кто моет форточки?", "гуманитарный", "4930", "хармс" };
-        //public static string[] QuestionTriggers = new string[] {  "чти", "прокофьев", "фортуна меркурий", "пушкин", "348956", "бриллиантовая рука", "максим горький", "архитектоника"};
 
         public Task(Location location, string text, string address, string trigger)
         {
@@ -109,164 +108,167 @@ namespace QUESTionBot
             switch (currentStation)
             {
                 case (1):
-                    if (currentQuestion == 0)
+                    switch(currentQuestion)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        case 0:
+                            await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: TextTemplates.message7
                             );
-                        Thread.Sleep(2000);
-                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\I1v2bT5BSFM.jpg")) {
-                            team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
-                            chatId: chatId,
-                            photo: stream,
-                            caption: TextTemplates.message8,
-                            replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask"))
-                            );
-                        }
-                    }
-                    else if (currentQuestion == 1)
-                    {
-                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: $"Пройдитесь по саду и отметьте, какой скрипки нет:\n1) Скрипка-женщина\n2) Скрипка-туфелька\n3) Скрипка-зонт\n4) Скрипка-граммофон",
-                        replyMarkup: Task.InlineKeyboards.message9keyboard);
-                    }
-                    else if (currentQuestion == 2)
-                    {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                            Thread.Sleep(2000);
+                            using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\I1v2bT5BSFM.jpg"))
+                            {
+                                team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
+                                chatId: chatId,
+                                photo: stream,
+                                caption: TextTemplates.message8,
+                                replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask"))
+                                );
+                            }
+                            break;
+
+                        case 1:
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
+                                chatId: chatId,
+                                text: $"Пройдитесь по саду и отметьте, какой скрипки нет:\n1) Скрипка-женщина\n2) Скрипка-туфелька\n3) Скрипка-зонт\n4) Скрипка-граммофон",
+                                replyMarkup: Task.InlineKeyboards.message9keyboard);
+                            break;
+
+                        case 2:
+                            await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer9);
-                        Thread.Sleep(2000);
-                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: $"Помните, что Андрей Павлович Петров лично посадил одно из деревьев в этом саду? Найдите его и отметьте, что это за дерево.\n1) Береза\n2) Рябина\n3) Лиственница\n4) Дуб",
-                        replyMarkup: Task.InlineKeyboards.message10keyboard);
-                    }
-                    else if (currentQuestion == 3)
-                    {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                            Thread.Sleep(2000);
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: $"Помните, что Андрей Павлович Петров лично посадил одно из деревьев в этом саду? Найдите его и отметьте, что это за дерево.\n1) Береза\n2) Рябина\n3) Лиственница\n4) Дуб",
+                            replyMarkup: Task.InlineKeyboards.message10keyboard);
+                            break;
+
+                        case 3:
+                            await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Андрей Павлович Петров посадил рябину");
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: TextTemplates.message11);
-                    }
-                    else if (currentQuestion == 4)
-                    {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                            Thread.Sleep(2000);
+                            await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: TextTemplates.message11);
+                            break;
+
+                        case 4:
+                            await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message12);
-                        await MainWindow.botClient.SendTextMessageAsync(
-                         chatId: chatId,
-                         text: TextTemplates.message13);
-                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
-                         chatId: chatId,
-                         text: TextTemplates.message14,
-                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
-                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Подсказка", "hint")));
-                        team.noWrongAnswer = true;
-                    }
-                    else if (currentQuestion == 5)
-                    {
-                        team.noWrongAnswer = false;
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: "Собаку звали Чти. Оригинально, не так ли?");
-                        await MainWindow.botClient.SendTextMessageAsync(
-                         chatId: chatId,
-                         text: TextTemplates.message16);
-                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1712.png"))
-                        {
-                            team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
-                         chatId: chatId,
-                         photo: stream,
-                         caption: "Я уверен, почти каждый видел его картины. А какая из представленных работ не его?",
-                         replyMarkup: InlineKeyboards.message17keyboard);
-                        }
-                    }
-                    else if (currentQuestion == 6)
-                    {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                            await MainWindow.botClient.SendTextMessageAsync(
+                             chatId: chatId,
+                             text: TextTemplates.message13);
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
+                             chatId: chatId,
+                             text: TextTemplates.message14,
+                             parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
+                             replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Подсказка", "hint")));
+                            team.noWrongAnswer = true;
+                            break;
+
+                        case 5:
+                            team.noWrongAnswer = false;
+                            await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: "Собаку звали Чти. Оригинально, не так ли?");
+                            await MainWindow.botClient.SendTextMessageAsync(
+                             chatId: chatId,
+                             text: TextTemplates.message16);
+                            using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1712.png"))
+                            {
+                                team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
+                             chatId: chatId,
+                             photo: stream,
+                             caption: "Я уверен, почти каждый видел его картины. А какая из представленных работ не его?",
+                             replyMarkup: InlineKeyboards.message17keyboard);
+                            }
+                            break;
+
+                        case 6:
+                            await MainWindow.botClient.SendTextMessageAsync(
                          chatId: chatId,
                          text: TextTemplates.answer17);
-                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: "Мало кто знает об этом, но Дали создал логотип для этой компании. Как она называется? _За это задание вы можете получить 2 балла._\n1) Coca-cola\n2)Chupa-chps\n3) Batman\n4) McDonald's",
-                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
-                        replyMarkup: InlineKeyboards.message18keyboard);
-                    }
-                    else if (currentQuestion == 7)
-                    {
-                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\HYj3VP-tUPw.jpg"))
-                        {
-                            await MainWindow.botClient.SendPhotoAsync(
-                        chatId: chatId,
-                        photo: stream,
-                        caption: TextTemplates.answer18);
-                        }
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: TextTemplates.message19);
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: TextTemplates.message20);
-                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\1.mp3"))
-                        {
-                            await MainWindow.botClient.SendAudioAsync(
-                                chatId: chatId,
-                                audio: stream);
-                        }
-                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\2.mp3"))
-                        {
-                            await MainWindow.botClient.SendAudioAsync(
-                                chatId: chatId,
-                                audio: stream);
-                        }
-                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\3.mp3"))
-                        {
-                            await MainWindow.botClient.SendAudioAsync(
-                                chatId: chatId,
-                                audio: stream);
-                        }
-                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: "Прослушайте три отрывка и определите, какой из них - часть Ленинградской симфонии.",
-                        replyMarkup: InlineKeyboards.message21keyboard);
-                    }
-                    else if (currentQuestion == 8)
-                    {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: "Мало кто знает об этом, но Дали создал логотип для этой компании. Как она называется? _За это задание вы можете получить 2 балла._\n1) Coca-cola\n2)Chupa-chps\n3) Batman\n4) McDonald's",
+                            parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
+                            replyMarkup: InlineKeyboards.message18keyboard);
+                            break;
+
+                        case 7:
+                            using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\HYj3VP-tUPw.jpg"))
+                            {
+                                await MainWindow.botClient.SendPhotoAsync(
+                            chatId: chatId,
+                            photo: stream,
+                            caption: TextTemplates.answer18);
+                            }
+                            await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: TextTemplates.message19);
+                            await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: TextTemplates.message20);
+                            using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\1.mp3"))
+                            {
+                                await MainWindow.botClient.SendAudioAsync(
+                                    chatId: chatId,
+                                    audio: stream);
+                            }
+                            using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\2.mp3"))
+                            {
+                                await MainWindow.botClient.SendAudioAsync(
+                                    chatId: chatId,
+                                    audio: stream);
+                            }
+                            using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\3.mp3"))
+                            {
+                                await MainWindow.botClient.SendAudioAsync(
+                                    chatId: chatId,
+                                    audio: stream);
+                            }
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: "Прослушайте три отрывка и определите, какой из них - часть Ленинградской симфонии.",
+                            replyMarkup: InlineKeyboards.message21keyboard);
+                            break;
+
+                        case 8:
+                            await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatId,
                            text: "Ленинградская симфония находится под номером 2");
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: "Дмитрий Лихачёв (1906-1999) — советский и российский филолог, культуролог, искусствовед, доктор филологических наук, профессор.");
-                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: TextTemplates.message23,
-                        replyMarkup: InlineKeyboards.message23keyboard);
-                    }
-                    else if (currentQuestion == 9)
-                    {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                            await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: "Дмитрий Лихачёв (1906-1999) — советский и российский филолог, культуролог, искусствовед, доктор филологических наук, профессор.");
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: TextTemplates.message23,
+                            replyMarkup: InlineKeyboards.message23keyboard);
+                            break;
+
+                        case 9:
+                            await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer24);
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: TextTemplates.message25,
-                        parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\AuJdMkI6xFI.jpg"))
-                        {
-                            await MainWindow.botClient.SendPhotoAsync(
+                            await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
-                            photo: stream);
-                        }
-                        await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: "Погнали дальше!");
-                        MainWindow.BetweenTaskInteraction(team);
+                            text: TextTemplates.message25,
+                            parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
+                            using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\AuJdMkI6xFI.jpg"))
+                            {
+                                await MainWindow.botClient.SendPhotoAsync(
+                                chatId: chatId,
+                                photo: stream);
+                            }
+                            await MainWindow.botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: "Погнали дальше!");
+                            MainWindow.BetweenTaskInteraction(team);
+                            break;
                     }
                     break;
                 case (2):
@@ -933,67 +935,6 @@ namespace QUESTionBot
                     break;
             }
         }
-
-        //public static void TriggerHandler(string trigger, Team team, chatId chatId)
-        //{
-        //    switch (trigger.Trim().ToLower())
-        //    {
-        //        case ("хармс"):
-        //            team.CurrentQuestion++;
-        //            TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("чти"):
-        //            team.Points++;
-        //            DB.AddAnswer(team, "чти");
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("прокофьев"):
-        //            team.Points++;
-        //            DB.AddAnswer(team, "прокофьев");
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("фортуна меркурий"):
-        //            team.Points+=2;
-        //            DB.AddAnswer(team, "фортуна меркурий");
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("пушкин"):
-        //            DB.AddAnswer(team, "пушкин");
-        //            team.Points += 3;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("348956"):
-        //            DB.AddAnswer(team, "348956");
-        //            team.Points += 2;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("бриллиантовая рука"):
-        //            DB.AddAnswer(team, "бриллиантовая рука");
-        //            team.Points += 2;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("максим горький"):
-        //            DB.AddAnswer(team, "максим горький");
-
-        //            team.Points += 2;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("архитектоника"):
-        //            DB.AddAnswer(team, "архитектоника");
-        //            team.Points += 3;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //    }
-        //}
-
         public static async void HintHandler(Team team)
         {
             if ((team.CurrentStation == 1) && (team.CurrentQuestion == 4))
@@ -1030,6 +971,52 @@ namespace QUESTionBot
             }
 
 
+        }
+        /* public static List<List<InlineKeyboardButton>> Base4Keyboard => new List<List<InlineKeyboardButton>>()
+                 {
+                     // first row
+                     new List<InlineKeyboardButton>()
+                     {
+                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
+                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
+                     },
+                     // second row
+                     new List<InlineKeyboardButton>()
+                     {
+                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
+                         InlineKeyboardButton.WithCallbackData("4", "wrong"),
+                     }
+                 };*/
+
+        /*switch (numberOfButtons)
+        {
+            case (4):
+                result = Base4Keyboard;
+                result[rightAnswer / 2][rightAnswer % 2] = "right";
+                break;
+            default:
+                return null;
+        }*/
+
+        public static InlineKeyboardMarkup CreateKeyboard(int numberOfButtons, int rightAnswer, bool hasHint, IEnumerable<string> customValues = null)
+        {
+            List<List<InlineKeyboardButton>> result = new List<List<InlineKeyboardButton>>();
+            for (int i = 0; i < numberOfButtons / 2; i++)
+            {
+                var t = new List<InlineKeyboardButton>(2);
+                for (int j = 0; j < numberOfButtons % 2; j++)
+                {
+                    var value = (customValues == null) ? (2 * i + j + 1).ToString() : customValues.ElementAt(2 * i + j + 1);
+                    t.Add(InlineKeyboardButton.WithCallbackData(value, "wrong"));
+                }
+                result.Add(t);
+            }
+            result[rightAnswer / 2][rightAnswer % 2] = "right";
+            if (hasHint)
+            {
+                result.Add(new List<InlineKeyboardButton>() { InlineKeyboardButton.WithCallbackData("Подсказка", "hint") });
+            }
+            return new InlineKeyboardMarkup(result);
         }
 
         public struct InlineKeyboards
