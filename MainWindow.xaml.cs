@@ -126,11 +126,16 @@ namespace QUESTionBot
 
         public async void Bot_OnMessage(object sender, MessageEventArgs e)
         {
+            long chatId = e.Message.Chat.Id;
+            string recievedText = e.Message.Text.Trim().ToLower();
+
+
+
             if (e.Message.Text == null) 
             {
 
                     Message message = await botClient.SendTextMessageAsync(
-                      chatId: e.Message.Chat,
+                      chatId: chatId,
                       parseMode: ParseMode.Markdown,
                       text: "Либо вы пишете мне неправильный ответ, либо я не могу распознать вашей команды. Попробуйте ещё раз!" +
                       "\nЕсли ситуация тупиковая, напишите @katchern и вам подскажут, что делать."
@@ -149,7 +154,7 @@ namespace QUESTionBot
             {
 
                 Message message1 = await botClient.SendTextMessageAsync(
-                  chatId: e.Message.Chat,
+                  chatId: chatId,
                   text: TextTemplates.message1
                 );
 
@@ -157,7 +162,7 @@ namespace QUESTionBot
 
                 Thread.Sleep(4000);
                 Message message2 = await botClient.SendTextMessageAsync(
-                    chatId: e.Message.Chat,
+                    chatId: chatId,
                     text: TextTemplates.message2,
                     replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Согласен/согласна", "agreement"))
                     );
@@ -170,35 +175,35 @@ namespace QUESTionBot
 
             }
             // если человек прислал ключик
-            else if (Team.KeyWordsList.Contains(e.Message.Text.Trim().ToLower()))
+            else if (Team.KeyWordsList.Contains(recievedText))
             {
-                if (!teamList.ContainsKey(e.Message.Chat.Id))
+                if (!teamList.ContainsKey(chatId))
                 {
-                    teamList.Add(e.Message.Chat.Id, new Team(Team.KeyWordsList.ToList().IndexOf(e.Message.Text) + 1));
+                    teamList.Add(chatId, new Team(Team.KeyWordsList.ToList().IndexOf(e.Message.Text) + 1));
 
-                    teamList[e.Message.Chat.Id].LinkedChat = e.Message.Chat.Id;
+                    teamList[chatId].LinkedChat = e.Message.Chat.Id;
 
-                    if (!DB.TeamAdd(teamList[e.Message.Chat.Id], (e.Message.Text.Trim().ToLower())))
+                    if (!DB.TeamAdd(teamList[chatId], recievedText))
                     {
                         await botClient.SendTextMessageAsync(
-                                            chatId: e.Message.Chat,
+                                            chatId: chatId,
                                             text: $"Команда № {teamList[e.Message.Chat.Id].TeamID} уже ввела этот ключ. Если вы являетесь членом команды" +
                                             $"и пытаетесь сменить капитана, обратитесь к организатору квеста (@katchren)",
                                             parseMode: ParseMode.Markdown
                                             );
-                        teamList.Remove(e.Message.Chat.Id);
+                        teamList.Remove(chatId);
                         return;
                     };
 
                     Message message = await botClient.SendTextMessageAsync(
-                                            chatId: e.Message.Chat,
-                                            text: $"Команда № {teamList[e.Message.Chat.Id].TeamID}, ваше время пошло. Первая станция во вложении ниже. *К*",
+                                            chatId: chatId,
+                                            text: $"Команда № {teamList[chatId].TeamID}, ваше время пошло. Первая станция во вложении ниже. *К*",
                                             parseMode: ParseMode.Markdown
                                             );
 
 
 
-                    BetweenTaskInteraction(teamList[e.Message.Chat.Id]);
+                    BetweenTaskInteraction(teamList[chatId]);
 
                     this.Dispatcher.Invoke(() =>
                     {
@@ -207,7 +212,7 @@ namespace QUESTionBot
                         $"Команда номер {teamList[e.Message.Chat.Id].TeamID} успешно ввела свой ключ и получила задания.";
                     });
                 }
-                else if (teamList[e.Message.Chat.Id].LinkedChat == e.Message.Chat.Id)
+                else if (teamList[chatId].LinkedChat == chatId)
                 {
                     Message message = await botClient.SendTextMessageAsync(
                                         chatId: e.Message.Chat,
@@ -222,29 +227,13 @@ namespace QUESTionBot
                         $"Команда номер {teamList[e.Message.Chat.Id].TeamID} повторно ввела свой ключ.";
                     });
                 }
-                else
-                {
-                    Message message = await botClient.SendTextMessageAsync(
-                                        chatId: e.Message.Chat,
-                                        replyToMessageId: e.Message.MessageId,
-                                        text: $"К сожалению, Этот ключ был введён ранее другой командой. Может, кто-либо из вашей команды уже является капитаном? " +
-                                        $"Если нет, и вы уверены, что этот ключ именно ваш, то обратитесь к организаторам."
-                                        );
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        debugTextBlock.Text += $"\nОтправлено сообщение { message.MessageId} " +
-                        $"в чат {message.Chat.Id} в {message.Date.ToLocalTime()}. " +
-                        $"Это ответ на сообщение {e.Message.MessageId}. " +
-                        $"Ключ был отклонён, поскольку команда номер {teamList[e.Message.Chat.Id].TeamID} уже занята.";
-                    });
-                }
             }
             // приём ответов на вопросы-триггеры
-            else if (Task.KeyPhrasesList.Contains(e.Message.Text.Trim().ToLower()) || (e.Message.Text.Trim().ToLower() == "розовые") || (e.Message.Text.Trim().ToLower() == "фиолетовый") || (e.Message.Text.Trim().ToLower() == "фиолетовые"))
+            else if (Task.KeyPhrasesList.Contains(recievedText) || (recievedText == "розовые") || (recievedText == "фиолетовый") || (recievedText == "фиолетовые"))
             {
                 if ((e.Message != null) && (e.Message.Chat != null))
                 {
-                    if (e.Message.Text.Trim().ToLower() == "хармс")
+                    if (recievedText == "хармс")
                     {
                         teamList[e.Message.Chat.Id].CurrentQuestion++;
                     }
@@ -260,32 +249,27 @@ namespace QUESTionBot
                 //    $"Команда номер {teamList[e.Message.Chat.Id].TeamID} верно ввела ответ на триггер номер {Task.KeyPhrasesList.ToList().IndexOf(e.Message.Text)+1}";
                 //});
             }
-            // приём триггера вопросов внутри станции
-            //else if (Task.QuestionTriggers.Contains(e.Message.Text.Trim().ToLower()))
-            //{
-            //    Task.TriggerHandler(e.Message.Text, teamList[e.Message.Chat.Id], e.Message.Chat.Id);
-            //}
             //приём "мы готовы" на задании с Лениным
-            else if ((e.Message.Text.Trim().ToLower() == "мы готовы") && (teamList[e.Message.Chat.Id].CurrentStation == 7))
+            else if ((recievedText == "мы готовы") && (teamList[chatId].CurrentStation == 7))
             {
-                BetweenTaskInteraction(teamList[e.Message.Chat.Id]);
+                BetweenTaskInteraction(teamList[chatId]);
             }
             // дефолтный ответ на нераспознанную команду
             else if (e.Message.Text != null)
             {
                 
-                if (MainWindow.teamList[e.Message.Chat.Id].noWrongAnswer)
+                if (teamList[chatId].noWrongAnswer)
                 {
-                    DB.AddAnswer(teamList[e.Message.Chat.Id], e.Message.Text);
-                    teamList[e.Message.Chat.Id].CurrentQuestion++;
-                    DB.UpdateTeamNote(teamList[e.Message.Chat.Id]);
-                    Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    DB.AddAnswer(teamList[chatId], e.Message.Text);
+                    teamList[chatId].CurrentQuestion++;
+                    DB.UpdateTeamNote(teamList[chatId]);
+                    Task.TaskInteraction(teamList[chatId]);
                 }
                 else
                 {
 
                     Message message = await botClient.SendTextMessageAsync(
-                      chatId: e.Message.Chat,
+                      chatId: chatId,
                       parseMode: ParseMode.Markdown,
                       text: "Либо вы пишете мне неправильный ответ, либо я не могу распознать вашей команды. Попробуйте ещё раз!"+
                       "\nЕсли ситуация тупиковая, напишите @katchern и вам подскажут, что делать."
