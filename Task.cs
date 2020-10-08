@@ -117,7 +117,7 @@ namespace QUESTionBot
                             );
                         Thread.Sleep(2000);
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\I1v2bT5BSFM.jpg")) {
-                            team.lastQuestion = await MainWindow.botClient.SendPhotoAsync(
+                            team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
                             chatId: chatId,
                             photo: stream,
                             caption: TextTemplates.message8,
@@ -127,7 +127,7 @@ namespace QUESTionBot
                     }
                     else if (currentQuestion == 1)
                     {
-                        team.lastQuestion = await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: $"Пройдитесь по саду и отметьте, какой скрипки нет:\n1) Скрипка-женщина\n2) Скрипка-туфелька\n3) Скрипка-зонт\n4) Скрипка-граммофон",
                         replyMarkup: Task.InlineKeyboards.message9keyboard);
@@ -138,7 +138,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.answer9);
                         Thread.Sleep(2000);
-                        team.lastQuestion = await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: $"Помните, что Андрей Павлович Петров лично посадил одно из деревьев в этом саду? Найдите его и отметьте, что это за дерево.\n1) Береза\n2) Рябина\n3) Лиственница\n4) Дуб",
                         replyMarkup: Task.InlineKeyboards.message10keyboard);
@@ -161,7 +161,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                          chatId: chatId,
                          text: TextTemplates.message13);
-                        team.lastQuestion = await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                          chatId: chatId,
                          text: TextTemplates.message14,
                          parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
@@ -179,7 +179,7 @@ namespace QUESTionBot
                          text: TextTemplates.message16);
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1712.png"))
                         {
-                            team.lastQuestion = await MainWindow.botClient.SendPhotoAsync(
+                            team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
                          chatId: chatId,
                          photo: stream,
                          caption: "Я уверен, почти каждый видел его картины. А какая из представленных работ не его?",
@@ -191,7 +191,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                          chatId: chatId,
                          text: TextTemplates.answer17);
-                        team.lastQuestion = await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Мало кто знает об этом, но Дали создал логотип для этой компании. Как она называется? _За это задание вы можете получить 2 балла._\n1) Coca-cola\n2)Chupa-chps\n3) Batman\n4) McDonald's",
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
@@ -230,7 +230,7 @@ namespace QUESTionBot
                                 chatId: chatId,
                                 audio: stream);
                         }
-                        team.lastQuestion = await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Прослушайте три отрывка и определите, какой из них - часть Ленинградской симфонии.",
                         replyMarkup: InlineKeyboards.message21keyboard);
@@ -243,7 +243,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Дмитрий Лихачёв (1906-1999) — советский и российский филолог, культуролог, искусствовед, доктор филологических наук, профессор.");
-                        team.lastQuestion = await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message23,
                         replyMarkup: InlineKeyboards.message23keyboard);
@@ -994,38 +994,38 @@ namespace QUESTionBot
         //    }
         //}
 
-        public static async void HintHandler(Team team, long chatId)
+        public static async void HintHandler(Team team)
         {
             if ((team.CurrentStation == 1) && (team.CurrentQuestion == 4))
             {
-                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: chatId, team.lastQuestion.MessageId);
+                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: team.LinkedChat, team.lastBotMessage.MessageId);
                 team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
+                        chatId: team.LinkedChat,
                         text: "Это одно из слов");
             }
             if ((team.CurrentStation == 1) && (team.CurrentQuestion == 6))
             {
-                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: chatId, team.lastQuestion.MessageId, replyMarkup: InlineKeyboards.message18keyboardWithoutHint);
+                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: team.LinkedChat, team.lastBotMessage.MessageId, replyMarkup: InlineKeyboards.message18keyboardWithoutHint);
                 team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
+                        chatId: team.LinkedChat,
                         text: "Обратите внимание на страну, в которой жил Дали.");
             }
             if ((team.CurrentStation == 8) && (team.CurrentQuestion == 1))
             {
-                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: chatId, team.lastQuestion.MessageId, replyMarkup: InlineKeyboards.message77keyboardWithoutHint);
+                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: team.LinkedChat, team.lastBotMessage.MessageId, replyMarkup: InlineKeyboards.message77keyboardWithoutHint);
                 team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
+                        chatId: team.LinkedChat,
                         text: "Обратите внимание на название последнего упомянутого заведения");
             }
             if ((team.CurrentStation == 9) && (team.CurrentQuestion == 4))
             {
-                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: chatId, team.lastQuestion.MessageId);
+                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: team.LinkedChat, team.lastBotMessage.MessageId);
                 team.HintsUsed++;
                 await MainWindow.botClient.SendTextMessageAsync(
-                        chatId: chatId,
+                        chatId: team.LinkedChat,
                         text: "Обратите внимание на название ближайшей станции  метро.");
             }
 

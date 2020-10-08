@@ -21,7 +21,7 @@ namespace QUESTionBot
         public int HintsUsed { get; set; }
         public bool noWrongAnswer { get; set; }
 
-        public Message lastQuestion { get; set; }
+        public Message lastBotMessage { get; set; }
              
 
         public static string[] KeyWordsList = new string[] { "kronva228", "good_job_oleg", "chaikagopka", "pk2020", "mne_nujen_beliash", "ilovetiktok", "badboy14let", 

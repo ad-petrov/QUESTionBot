@@ -303,20 +303,18 @@ namespace QUESTionBot
         private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
             var callbackQuery = callbackQueryEventArgs.CallbackQuery;
+            Team team = teamList[callbackQuery.Message.Chat.Id];
+            long chatId = callbackQuery.Message.Chat.Id;
+            int lastMessageId = team.lastBotMessage.MessageId;
 
-            if((callbackQuery.Data != "hint")&&(callbackQuery.Data != "agreement"))
+            if ((callbackQuery.Data != "hint")&&(callbackQuery.Data != "agreement"))
             {
-                await botClient.EditMessageReplyMarkupAsync(chatId: callbackQuery.Message.Chat.Id, teamList[callbackQuery.Message.Chat.Id].lastQuestion.MessageId);
+                await botClient.EditMessageReplyMarkupAsync(chatId: chatId, lastMessageId);
             }
 
             switch (callbackQuery.Data)
             {
                 case ("agreement"):
-                    await botClient.AnswerCallbackQueryAsync(
-                    callbackQueryId: callbackQuery.Id,
-                    text: $"Спасибо, что цените установленные правила!"
-                );
-
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
                         text: $"Спасибо, что цените установленные правила!"
@@ -343,44 +341,44 @@ namespace QUESTionBot
                     break;
                 case ("nexttask"):
                     
-                    teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
-                    DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
-                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id]);
+                    team.CurrentQuestion++;
+                    DB.UpdateTeamNote(team);
+                    Task.TaskInteraction(team);
                     break;
                 case ("right"):
                     
-                    teamList[callbackQuery.Message.Chat.Id].Points++;
-                    DB.AddAnswer(teamList[callbackQuery.Message.Chat.Id], "верно");
-                    teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
-                    DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
-                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id]);
+                    team.Points++;
+                    DB.AddAnswer(team, "верно");
+                    team.CurrentQuestion++;
+                    DB.UpdateTeamNote(team);
+                    Task.TaskInteraction(team);
                     break;
                 case ("wrong"):
                     
-                    DB.AddAnswer(teamList[callbackQuery.Message.Chat.Id], "неверно");
-                    teamList[callbackQuery.Message.Chat.Id].CurrentQuestion++;
-                    DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
-                    Task.TaskInteraction(teamList[callbackQuery.Message.Chat.Id]);
+                    DB.AddAnswer(team, "неверно");
+                    team.CurrentQuestion++;
+                    DB.UpdateTeamNote(team);
+                    Task.TaskInteraction(team);
                     break;
                 case ("hint"):
-                    Task.HintHandler(teamList[callbackQuery.Message.Chat.Id], callbackQuery.Message.Chat.Id);
+                    Task.HintHandler(team);
                     break;
                 case ("questend"):
-                    teamList[callbackQuery.Message.Chat.Id].QuestFinishedAt = DateTime.Now.ToLocalTime();
-                    DB.UpdateTeamNote(teamList[callbackQuery.Message.Chat.Id]);
-                    Thread.Sleep(2000);
+                    team.QuestFinishedAt = DateTime.Now.ToLocalTime();
+                    DB.UpdateTeamNote(team);
+                    
                     await botClient.SendTextMessageAsync(
-                        chatId: callbackQuery.Message.Chat.Id,
+                        chatId: chatId,
                         text: TextTemplates.message97
                     );
                     Thread.Sleep(2000);
                     await botClient.SendTextMessageAsync(
-                        chatId: callbackQuery.Message.Chat.Id,
+                        chatId: chatId,
                         text: TextTemplates.message98
                     );
                     Thread.Sleep(2000);
                     await botClient.SendTextMessageAsync(
-                        chatId: callbackQuery.Message.Chat.Id,
+                        chatId: chatId,
                         text: TextTemplates.message99,
                         parseMode: ParseMode.Markdown
                     );
@@ -388,7 +386,7 @@ namespace QUESTionBot
                     using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\hashtag.png"))
                     {
                         await botClient.SendPhotoAsync(
-                            chatId: callbackQuery.Message.Chat.Id,
+                            chatId: chatId,
                             photo: stream,
                             caption: TextTemplates.message100
                         );
