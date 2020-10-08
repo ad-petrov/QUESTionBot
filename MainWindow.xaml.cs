@@ -35,7 +35,7 @@ namespace QUESTionBot
         public static TelegramBotClient botClient;
         public static Dictionary<long, Team> teamList = new Dictionary<long, Team>();
         static Dictionary<string, Task> taskList;
-        static Dictionary<long, int> agreementMessages;
+        static Dictionary<long, int> agreementMessages = new Dictionary<long, int>();
         
         
 
@@ -53,10 +53,10 @@ namespace QUESTionBot
         {
             if (botClient.IsReceiving == false)
             {
-                botClient.MessageOffset = -1;
+                botClient.GetUpdatesAsync(-1);
                 botClient.OnMessage += Bot_OnMessage;
                 botClient.OnCallbackQuery += BotOnCallbackQueryReceived;
-                botClient.StartReceiving();
+                botClient.StartReceiving(Array.Empty<UpdateType>());
                 debugTextBlock.Text += "\nБот начал принимать сообщения.";
                 botStopButton.IsEnabled = true;
                 loadButton.IsEnabled = false;
@@ -243,13 +243,30 @@ namespace QUESTionBot
             // дефолтный ответ на нераспознанную команду
             else if (e.Message.Text != null)
             {
-                
-                if (teamList[chatId].noWrongAnswer)
+                if (teamList.ContainsKey(chatId))
                 {
-                    DB.AddAnswer(teamList[chatId], e.Message.Text);
-                    teamList[chatId].CurrentQuestion++;
-                    DB.UpdateTeamNote(teamList[chatId]);
-                    Task.TaskInteraction(teamList[chatId]);
+                    if (teamList[chatId].noWrongAnswer)
+                    {
+                        DB.AddAnswer(teamList[chatId], e.Message.Text);
+                        teamList[chatId].CurrentQuestion++;
+                        DB.UpdateTeamNote(teamList[chatId]);
+                        Task.TaskInteraction(teamList[chatId]);
+                    }
+                    else
+                    {
+                        Message message = await botClient.SendTextMessageAsync(
+                      chatId: chatId,
+                      parseMode: ParseMode.Markdown,
+                      text: "Либо вы пишете мне неправильный ответ, либо я не могу распознать вашей команды. Попробуйте ещё раз!" +
+                      "\nЕсли ситуация тупиковая, напишите @katchern и вам подскажут, что делать."
+                    );
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId } " +
+                            $"в чат {message.Chat.Id} в {message.Date}. " +
+                            $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
+                        });
+                    }
                 }
                 else
                 {
@@ -271,11 +288,16 @@ namespace QUESTionBot
 
         private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
-            var callbackQuery = callbackQueryEventArgs.CallbackQuery;
-            Team team = teamList[callbackQuery.Message.Chat.Id];
-            long chatId = callbackQuery.Message.Chat.Id;
-            int lastMessageId = team.lastBotMessage.MessageId;
+            CallbackQuery callbackQuery = callbackQueryEventArgs.CallbackQuery; ;
+            Team team = null;
+            long chatId = callbackQuery.Message.Chat.Id;;
+            int lastMessageId = 0;
 
+            if (callbackQuery.Data != "agreement")
+            {
+                team = teamList[callbackQuery.Message.Chat.Id];
+                lastMessageId = team.lastBotMessage.MessageId;
+            }
             if ((callbackQuery.Data != "hint")&&(callbackQuery.Data != "agreement"))
             {
                 await botClient.EditMessageReplyMarkupAsync(chatId: chatId, lastMessageId);
@@ -369,14 +391,15 @@ namespace QUESTionBot
 
         public static async void BetweenTaskInteraction(Team team)
         {
+            team.CurrentStation++;
+            team.CurrentQuestion = 0;
+
             float latitude = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].LinkedLocation.Latitude;
             float longitude = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].LinkedLocation.Longitude;
             string title = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].Title;
             string address = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].Address;
             string messageTrigger = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].MessageTrigger;
-
-            team.CurrentQuestion = 0;
-            team.CurrentStation++;
+            
             DB.UpdateTeamNote(team);
             if (team.CurrentStation == 10) 
             {

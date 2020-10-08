@@ -147,44 +147,54 @@ namespace QUESTionBot
                 int tasknumber=0;
                 if (team.CurrentStation == 1)
                 {
-                    if (team.CurrentQuestion == 3) return;
-                    tasknumber = team.CurrentQuestion;
+                    if (team.CurrentQuestion < 3)
+                    {
+                        tasknumber = team.CurrentQuestion;
+                    }
+                    if (team.CurrentQuestion == 3)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        tasknumber = team.CurrentQuestion-1;
+                    }
                 }
                 if (team.CurrentStation == 2)
                 {
-                    tasknumber = team.CurrentQuestion + 7;
+                    tasknumber = team.CurrentQuestion + 6;
                 }
                 if (team.CurrentStation == 3)
                 {
-                    tasknumber = team.CurrentQuestion + 12;
+                    tasknumber = team.CurrentQuestion + 11;
                 }
                 if (team.CurrentStation == 4)
                 {
-                    tasknumber = team.CurrentQuestion + 15;
+                    tasknumber = team.CurrentQuestion + 14;
                 }
                 if (team.CurrentStation == 5)
                 {
-                    tasknumber = team.CurrentQuestion + 19;
+                    tasknumber = team.CurrentQuestion + 18;
                 }
                 if (team.CurrentStation == 6)
                 {
-                    tasknumber = team.CurrentQuestion + 24;
+                    tasknumber = team.CurrentQuestion + 23;
                 }
                 if (team.CurrentStation == 7)
                 {
-                    tasknumber = team.CurrentQuestion + 25;
+                    tasknumber = team.CurrentQuestion + 24;
                 }
                 if (team.CurrentStation == 8)
                 {
-                    tasknumber = team.CurrentQuestion + 26;
+                    tasknumber = team.CurrentQuestion + 25;
                 }
                 if (team.CurrentStation == 9)
                 {
-                    tasknumber = team.CurrentQuestion + 28;
+                    tasknumber = team.CurrentQuestion + 27;
                 }
                 if (team.CurrentStation == 10)
                 {
-                    tasknumber = team.CurrentQuestion + 34;
+                    tasknumber = team.CurrentQuestion + 33;
                 }
                 if (tasknumber == 1)
                 {
