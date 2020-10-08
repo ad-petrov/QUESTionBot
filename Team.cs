@@ -21,7 +21,8 @@ namespace QUESTionBot
         public int HintsUsed { get; set; }
         public bool noWrongAnswer { get; set; }
 
-        public Message lastBotMessage { get; set; }
+        private int lastBotMessageId;
+        public int LastBotMessageId { get { return lastBotMessageId; } set { lastBotMessageId = value; DB.UpdateTeamNote(this); } }
              
 
         public static string[] KeyWordsList = new string[] { "kronva228", "good_job_oleg", "chaikagopka", "pk2020", "mne_nujen_beliash", "ilovetiktok", "badboy14let", 
@@ -52,6 +53,7 @@ namespace QUESTionBot
             Points = Convert.ToInt32(row["points"]);
             HintsUsed = Convert.ToInt32(row["hints"]);
             QuestStartedAt = Convert.ToDateTime(row["start"]);
+            LastBotMessageId = Convert.ToInt32(row["lastBotMessageId"]);
         }
 
     }

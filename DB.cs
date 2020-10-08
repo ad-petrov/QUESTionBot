@@ -35,11 +35,10 @@ namespace QUESTionBot
 
         public static void UpdateTeamNote(Team team)
         {
-            try
-            {
+            
                 DB database = new DB();
 
-                MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU " +
+                MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU, `lastBotMessageId`=@lId " +
                     "WHERE `teamId`=@tId", database.GetConnection());
                 command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
                 //command.Parameters.Add("@tK", MySqlDbType.VarChar).Value = e.Message.Text.Trim().ToLower();
@@ -49,6 +48,7 @@ namespace QUESTionBot
                 command.Parameters.Add("@cQ", MySqlDbType.Int64).Value = team.CurrentQuestion;
                 command.Parameters.Add("@pO", MySqlDbType.Int64).Value = team.Points;
                 command.Parameters.Add("@hU", MySqlDbType.Int64).Value = team.HintsUsed;
+                command.Parameters.Add("@lId", MySqlDbType.Int64).Value = team.LastBotMessageId;
 
                 if (team.QuestFinishedAt != null)
                 {
@@ -70,11 +70,6 @@ namespace QUESTionBot
 
                 throw new Exception();
             }
-            catch
-            {
-                return;
-            }
-            }
 
         public static bool TeamAdd(Team team, string teamkey)
         {
@@ -92,8 +87,7 @@ namespace QUESTionBot
             command.Parameters.Add("@hU", MySqlDbType.Int64).Value = 0;
 
             database.OpenConnection();
-            try
-            {
+            
                 if (command.ExecuteNonQuery() == 1)
                 {
                     database.CloseConnection();
@@ -104,17 +98,10 @@ namespace QUESTionBot
                     database.CloseConnection();
                     return false;
                 }
-            }
-            catch
-            {
-                return false;
-            }
         } 
 
         public static Dictionary<long, Team> LoadData()
         {
-            try
-            {
                 Dictionary<long, Team> result = new Dictionary<long, Team>();
 
                 DB database = new DB();
@@ -122,7 +109,7 @@ namespace QUESTionBot
                 DataTable dataTable = new DataTable();
 
                 MySqlCommand command = new MySqlCommand("SELECT `teamId` AS 'ID', `teamKey` AS `Key`, `linkedChatId` AS `ChatId`," +
-                    "`startedAt` as `start`, `currentTask` AS `Task`, `currentQuestion` AS `question`, `points` AS `points`, `hintsUsed` AS `hints`" +
+                    "`startedAt` as `start`, `currentTask` AS `Task`, `currentQuestion` AS `question`, `points` AS `points`, `hintsUsed` AS `hints`, `lastBotMessageId` AS `lastBotMessageId`" +
                     " FROM `teams`", database.GetConnection());
                 adapter.SelectCommand = command;
                 adapter.Fill(dataTable);
@@ -134,16 +121,11 @@ namespace QUESTionBot
                 }
 
                 return result;
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         public static void AddAnswer(Team team, string answer)
         {
-            try {
+            
                 int tasknumber=0;
                 if (team.CurrentStation == 1)
                 {
@@ -151,7 +133,7 @@ namespace QUESTionBot
                     {
                         tasknumber = team.CurrentQuestion;
                     }
-                    if (team.CurrentQuestion == 3)
+                    else if (team.CurrentQuestion == 3)
                     {
                         return;
                     }
@@ -245,12 +227,8 @@ namespace QUESTionBot
 
 
                 }
-            }
-            catch
-            {
-
-            }
-            }
+        }
     }
-    }
+}
+    
 

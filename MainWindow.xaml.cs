@@ -53,6 +53,7 @@ namespace QUESTionBot
         {
             if (botClient.IsReceiving == false)
             {
+                
                 botClient.GetUpdatesAsync(-1);
                 botClient.OnMessage += Bot_OnMessage;
                 botClient.OnCallbackQuery += BotOnCallbackQueryReceived;
@@ -154,7 +155,8 @@ namespace QUESTionBot
                     text: TextTemplates.message2,
                     replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Согласен/согласна", "agreement"))
                     );
-                agreementMessages.Add(chatId, message2.MessageId);
+                if (agreementMessages.ContainsKey(chatId)) agreementMessages[chatId] = message2.MessageId;
+                else agreementMessages.Add(chatId, message2.MessageId);
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -291,12 +293,13 @@ namespace QUESTionBot
             CallbackQuery callbackQuery = callbackQueryEventArgs.CallbackQuery; ;
             Team team = null;
             long chatId = callbackQuery.Message.Chat.Id;;
-            int lastMessageId = 0;
+            int lastMessageId = callbackQuery.Message.MessageId;
+
 
             if (callbackQuery.Data != "agreement")
             {
+                if (!teamList.ContainsKey(chatId)) return;
                 team = teamList[callbackQuery.Message.Chat.Id];
-                lastMessageId = team.lastBotMessage.MessageId;
             }
             if ((callbackQuery.Data != "hint")&&(callbackQuery.Data != "agreement"))
             {
