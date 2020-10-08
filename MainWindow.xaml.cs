@@ -399,6 +399,12 @@ namespace QUESTionBot
 
         public static async void BetweenTaskInteraction(Team team)
         {
+            float latitude = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].LinkedLocation.Latitude;
+            float longitude = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].LinkedLocation.Longitude;
+            string title = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].Title;
+            string address = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].Address;
+            string messageTrigger = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].MessageTrigger;
+
             team.CurrentQuestion = 0;
             team.CurrentStation++;
             DB.UpdateTeamNote(team);
@@ -406,20 +412,20 @@ namespace QUESTionBot
             {
                 await MainWindow.botClient.SendTextMessageAsync(
                                         chatId: team.LinkedChat,
-                                        text: taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].MessageTrigger
+                                        text: messageTrigger
                                         );
             }
             else
             {
                 await MainWindow.botClient.SendVenueAsync(chatId: team.LinkedChat,
-                                                    latitude: taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].LinkedLocation.Latitude,
-                                                    longitude: taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].LinkedLocation.Longitude,
-                                                    title: taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].Title,
-                                                    address: taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].Address
+                                                    latitude: latitude,
+                                                    longitude: longitude,
+                                                    title: title,
+                                                    address: address
                                                    );
                 await MainWindow.botClient.SendTextMessageAsync(
                                         chatId: team.LinkedChat,
-                                        text: taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].MessageTrigger
+                                        text: messageTrigger
                                         );
             }
         }
