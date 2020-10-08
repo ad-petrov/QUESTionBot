@@ -33,9 +33,10 @@ namespace QUESTionBot
     public partial class MainWindow : Window
     {
         public static TelegramBotClient botClient;
-        public User botInfo;
         public static Dictionary<long, Team> teamList = new Dictionary<long, Team>();
         static Dictionary<string, Task> taskList;
+        static Dictionary<long, int> agreementMessages;
+        
         
 
 
@@ -43,9 +44,7 @@ namespace QUESTionBot
         {
             InitializeComponent();           
             botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
-            botInfo = botClient.GetMeAsync().Result;
             taskList = Task.CreateTaskList();
-            debugTextBlock.Text += $"Здравствуй, мир! Я бот по имени {botInfo.FirstName} и мой ID: {botInfo.Id} \nЯ готов приступить к работе.";
             botStopButton.IsEnabled = false;
         }
 
@@ -107,19 +106,12 @@ namespace QUESTionBot
             {
                 if ((keyValue.Value.QuestStartedAt != null) && (keyValue.Value.QuestFinishedAt == null))
                 {
-                    try
-                    {
                         await botClient.SendTextMessageAsync(
                           chatId: keyValue.Value.LinkedChat,
                           parseMode: ParseMode.Markdown,
                           text: "Капитаны! У бота технические непо-непо-неполадки!... Я вернусь в течение 3-5 минут... Не пишите мне, пока я вам сам не скажу!" +
                           "\n Если я за-за-задержусь, свяжитесь, пожалуйста, с @katchern!"
                         );
-                    }
-                    catch
-                    {
-
-                    }
                 }
             }
         }
@@ -133,18 +125,17 @@ namespace QUESTionBot
 
             if (e.Message.Text == null) 
             {
-
                     Message message = await botClient.SendTextMessageAsync(
                       chatId: chatId,
                       parseMode: ParseMode.Markdown,
-                      text: "Либо вы пишете мне неправильный ответ, либо я не могу распознать вашей команды. Попробуйте ещё раз!" +
+                      text: "Я пока не умею работать с сообщениями без текста. Попробуйте ещё раз!" +
                       "\nЕсли ситуация тупиковая, напишите @katchern и вам подскажут, что делать."
                     );
                     this.Dispatcher.Invoke(() =>
                     {
-                        debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId } " +
+                        debugTextBlock.Text += $"\nОтправлено сообщение { message.MessageId } " +
                         $"в чат {message.Chat.Id} в {message.Date}. " +
-                        $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
+                        $"Это ответ на сообщение {e.Message.MessageId}. Отправлено сообщение без текста.";
                     });
                     return;
                 
@@ -152,13 +143,10 @@ namespace QUESTionBot
             // стартовый пак
             if (e.Message.Text == "/start")
             {
-
                 Message message1 = await botClient.SendTextMessageAsync(
                   chatId: chatId,
                   text: TextTemplates.message1
                 );
-
-
 
                 Thread.Sleep(4000);
                 Message message2 = await botClient.SendTextMessageAsync(
@@ -166,6 +154,7 @@ namespace QUESTionBot
                     text: TextTemplates.message2,
                     replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Согласен/согласна", "agreement"))
                     );
+                agreementMessages.Add(chatId, message2.MessageId);
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -200,8 +189,6 @@ namespace QUESTionBot
                                             text: $"Команда № {teamList[chatId].TeamID}, ваше время пошло. Первая станция во вложении ниже. *К*",
                                             parseMode: ParseMode.Markdown
                                             );
-
-
 
                     BetweenTaskInteraction(teamList[chatId]);
 
@@ -240,7 +227,6 @@ namespace QUESTionBot
                     Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                 }
 
-
                 //this.Dispatcher.Invoke(() =>
                 //{
                 //    debugTextBlock.Text += $"\nОтправлено сообщение { message.MessageId} " +
@@ -267,7 +253,6 @@ namespace QUESTionBot
                 }
                 else
                 {
-
                     Message message = await botClient.SendTextMessageAsync(
                       chatId: chatId,
                       parseMode: ParseMode.Markdown,
@@ -299,6 +284,7 @@ namespace QUESTionBot
             switch (callbackQuery.Data)
             {
                 case ("agreement"):
+                    await botClient.EditMessageReplyMarkupAsync(chatId: chatId, agreementMessages[chatId]);
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
                         text: $"Спасибо, что цените установленные правила!"

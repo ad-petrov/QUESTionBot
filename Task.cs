@@ -19,7 +19,6 @@ namespace QUESTionBot
 
 
         public static string[] KeyPhrasesList = new string[] { "отцовская любовь", "1914", "премьера", "6", "9", "розовый", "14", "кто моет форточки?", "гуманитарный", "4930", "хармс" };
-        //public static string[] QuestionTriggers = new string[] {  "чти", "прокофьев", "фортуна меркурий", "пушкин", "348956", "бриллиантовая рука", "максим горький", "архитектоника"};
 
         public Task(Location location, string text, string address, string trigger)
         {
@@ -926,73 +925,12 @@ namespace QUESTionBot
                            chatId: chatId,
                            text: TextTemplates.answer96,
                            replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Завершить квест", "questend")));
-
                     }
                     break;
                 default:
                     break;
             }
         }
-
-        //public static void TriggerHandler(string trigger, Team team, chatId chatId)
-        //{
-        //    switch (trigger.Trim().ToLower())
-        //    {
-        //        case ("хармс"):
-        //            team.CurrentQuestion++;
-        //            TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("чти"):
-        //            team.Points++;
-        //            DB.AddAnswer(team, "чти");
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("прокофьев"):
-        //            team.Points++;
-        //            DB.AddAnswer(team, "прокофьев");
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("фортуна меркурий"):
-        //            team.Points+=2;
-        //            DB.AddAnswer(team, "фортуна меркурий");
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("пушкин"):
-        //            DB.AddAnswer(team, "пушкин");
-        //            team.Points += 3;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("348956"):
-        //            DB.AddAnswer(team, "348956");
-        //            team.Points += 2;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("бриллиантовая рука"):
-        //            DB.AddAnswer(team, "бриллиантовая рука");
-        //            team.Points += 2;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("максим горький"):
-        //            DB.AddAnswer(team, "максим горький");
-
-        //            team.Points += 2;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //        case ("архитектоника"):
-        //            DB.AddAnswer(team, "архитектоника");
-        //            team.Points += 3;
-        //            team.CurrentQuestion++;
-        //            Task.TaskInteraction(team.CurrentTask, team.CurrentQuestion, chatId);
-        //            break;
-        //    }
-        //}
 
         public static async void HintHandler(Team team)
         {
@@ -1036,13 +974,11 @@ namespace QUESTionBot
         {
             public static InlineKeyboardMarkup message9keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "right"),
@@ -1051,13 +987,11 @@ namespace QUESTionBot
                 });
             public static InlineKeyboardMarkup message10keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "right"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1066,13 +1000,11 @@ namespace QUESTionBot
                 });
             public static InlineKeyboardMarkup message17keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1145,13 +1077,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message28keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1161,7 +1091,6 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message30keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
@@ -1170,7 +1099,6 @@ namespace QUESTionBot
                     {
                         InlineKeyboardButton.WithCallbackData("2", "right"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1203,13 +1131,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message35keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1924", "wrong"),
                         InlineKeyboardButton.WithCallbackData("1952", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1962", "wrong"),
@@ -1219,13 +1145,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message38keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "right"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1234,13 +1158,11 @@ namespace QUESTionBot
                 });
             public static InlineKeyboardMarkup message44keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "right"),
@@ -1249,13 +1171,11 @@ namespace QUESTionBot
                 });
             public static InlineKeyboardMarkup message47keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "right"),
@@ -1265,13 +1185,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message48keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "right"),
@@ -1281,13 +1199,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message49keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "right"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1297,13 +1213,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message57keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "right"),
@@ -1313,7 +1227,6 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message58keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
@@ -1322,7 +1235,6 @@ namespace QUESTionBot
                     {
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1339,13 +1251,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message59keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1355,7 +1265,6 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message77keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "right"),
@@ -1370,7 +1279,6 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message77keyboardWithoutHint = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "right"),
@@ -1380,13 +1288,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message85keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1396,13 +1302,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message86keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1997", "wrong"),
                         InlineKeyboardButton.WithCallbackData("2005", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("2009", "right"),
@@ -1412,13 +1316,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message87keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "right"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1444,13 +1346,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message90keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "right"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
@@ -1460,13 +1360,11 @@ namespace QUESTionBot
 
             public static InlineKeyboardMarkup message94keyboard = new InlineKeyboardMarkup(new[]
                 {
-                    // first row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("1", "right"),
                         InlineKeyboardButton.WithCallbackData("2", "wrong"),
                     },
-                    // second row
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("3", "wrong"),
