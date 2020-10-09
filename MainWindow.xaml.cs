@@ -227,8 +227,50 @@ namespace QUESTionBot
                     if (recievedText == "хармс")
                     {
                         teamList[e.Message.Chat.Id].CurrentQuestion++;
+                        Task.TaskInteraction(teamList[chatId]);
+                        return;
                     }
-                    Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    else if((recievedText == "отцовская любовь") && (teamList[chatId].CurrentStation == 1))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+                    else if ((recievedText == "1914") && (teamList[chatId].CurrentStation == 2))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+                    else if ((recievedText == "премьера") && (teamList[chatId].CurrentStation == 3))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+                    else if ((recievedText == "6") && (teamList[chatId].CurrentStation == 4))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+                    else if ((recievedText == "9") && (teamList[chatId].CurrentStation == 5))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+                    else if (((recievedText == "розовый")||((recievedText == "розовые") || (recievedText == "фиолетовый") || (recievedText == "фиолетовые")))&& (teamList[chatId].CurrentStation == 6))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+                    else if ((recievedText == "14") && (teamList[chatId].CurrentStation == 7))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+                    else if ((recievedText == "кто моет форточки?") && (teamList[chatId].CurrentStation == 8))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+                    else if ((recievedText == "гуманитарный") && (teamList[chatId].CurrentStation == 9))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+                    else if ((recievedText == "4930") && (teamList[chatId].CurrentStation == 10))
+                    {
+                        Task.TaskInteraction(teamList[e.Message.Chat.Id]);
+                    }
+
                 }
 
                 //this.Dispatcher.Invoke(() =>

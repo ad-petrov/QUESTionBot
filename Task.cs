@@ -1031,7 +1031,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: answer);
             var team = MainWindow.teamList[chatId];
-            DB.AddAnswer(team, "время и стекло");
+            DB.AddAnswer(team, "время истекло");
             team.CurrentQuestion++;
             MainWindow.BetweenTaskInteraction(team);
             return;
