@@ -54,6 +54,7 @@ namespace QUESTionBot
             Points = Convert.ToInt32(row["points"]);
             HintsUsed = Convert.ToInt32(row["hints"]);
             QuestStartedAt = Convert.ToDateTime(row["start"]);
+            noWrongAnswer = Convert.ToBoolean(row["nwa"]);
         }
 
     }

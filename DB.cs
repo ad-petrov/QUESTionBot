@@ -38,7 +38,7 @@ namespace QUESTionBot
             
                 DB database = new DB();
 
-                MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU " +
+                MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU, `noWrongAnswer`=@nWa" +
                     "WHERE `teamId`=@tId", database.GetConnection());
                 command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
                 //command.Parameters.Add("@tK", MySqlDbType.VarChar).Value = e.Message.Text.Trim().ToLower();
@@ -48,8 +48,9 @@ namespace QUESTionBot
                 command.Parameters.Add("@cQ", MySqlDbType.Int64).Value = team.CurrentQuestion;
                 command.Parameters.Add("@pO", MySqlDbType.Int64).Value = team.Points;
                 command.Parameters.Add("@hU", MySqlDbType.Int64).Value = team.HintsUsed;
+                command.Parameters.Add("@nWa", MySqlDbType.Bit).Value = team.noWrongAnswer;
 
-                if (team.QuestFinishedAt != null)
+            if (team.QuestFinishedAt != null)
                 {
                     MySqlCommand command2 = new MySqlCommand("UPDATE `teams` SET `finishedAt`=@fAt " +
                     "WHERE `teamId`=@tId", database.GetConnection());
@@ -76,7 +77,7 @@ namespace QUESTionBot
             DB database = new DB();
 
             MySqlCommand command = new MySqlCommand("INSERT INTO `teams`(`teamId`, `teamKey`, `linkedChatId`, `startedAt`" +
-                ", `currentTask`, `currentQuestion`, `points`, `hintsUsed`) VALUES (@tId, @tK, @lCh, @sAt, @cT, @cQ, @pO, @hU)", database.GetConnection());
+                ", `currentTask`, `currentQuestion`, `points`, `hintsUsed`, `noWrongAnswer`) VALUES (@tId, @tK, @lCh, @sAt, @cT, @cQ, @pO, @hU, @nWa)", database.GetConnection());
             command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
             command.Parameters.Add("@tK", MySqlDbType.VarChar).Value = teamkey;
             command.Parameters.Add("@lCh", MySqlDbType.Double).Value = team.LinkedChat;
@@ -85,6 +86,7 @@ namespace QUESTionBot
             command.Parameters.Add("@cQ", MySqlDbType.Int64).Value = 0;
             command.Parameters.Add("@pO", MySqlDbType.Int64).Value = 0;
             command.Parameters.Add("@hU", MySqlDbType.Int64).Value = 0;
+            command.Parameters.Add("@nWa", MySqlDbType.Bit).Value = team.noWrongAnswer;
 
             database.OpenConnection();
             try
@@ -115,7 +117,7 @@ namespace QUESTionBot
                 DataTable dataTable = new DataTable();
 
                 MySqlCommand command = new MySqlCommand("SELECT `teamId` AS 'ID', `teamKey` AS `Key`, `linkedChatId` AS `ChatId`," +
-                    "`startedAt` as `start`, `currentTask` AS `Task`, `currentQuestion` AS `question`, `points` AS `points`, `hintsUsed` AS `hints`" +
+                    "`startedAt` as `start`, `currentTask` AS `Task`, `currentQuestion` AS `question`, `points` AS `points`, `hintsUsed` AS `hints`, `noWrongAnswer` AS `nwa`," +
                     " FROM `teams`", database.GetConnection());
                 adapter.SelectCommand = command;
                 adapter.Fill(dataTable);
