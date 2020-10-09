@@ -1023,6 +1023,19 @@ namespace QUESTionBot
             }
             return new InlineKeyboardMarkup(result);
         }
+
+        public static async System.Threading.Tasks.Task Timer(int seconds, long chatId, string answer)
+        {
+            Thread.Sleep(seconds * 1000);
+            await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: answer);
+            var team = MainWindow.teamList[chatId];
+            DB.AddAnswer(team, "время и стекло");
+            team.CurrentQuestion++;
+            MainWindow.BetweenTaskInteraction(team);
+            return;
+        }
     }
 
 }
