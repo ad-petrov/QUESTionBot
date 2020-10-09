@@ -230,7 +230,7 @@ namespace QUESTionBot
                         teamList[e.Message.Chat.Id].CurrentQuestion++;
                         var message = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
-                        text: " ");
+                        text: "Осталось ");
                         MainWindow.teamList[chatId].teamTimerMessageId = message.MessageId;
                         Task.TaskInteraction(teamList[chatId]);
                         return;
@@ -322,7 +322,7 @@ namespace QUESTionBot
                         teamList[chatId].CurrentQuestion++;
                         var message = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
-                        text: " ");
+                        text: "Осталось ");
                         MainWindow.teamList[chatId].teamTimerMessageId = message.MessageId;
                         DB.UpdateTeamNote(teamList[chatId]);
                         Task.TaskInteraction(teamList[chatId]);
@@ -420,7 +420,7 @@ namespace QUESTionBot
                     team.CurrentQuestion++;
                     var message = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
-                        text: " ");
+                        text: "Осталось ");
                     MainWindow.teamList[chatId].teamTimerMessageId = message.MessageId;
                     DB.UpdateTeamNote(team);
                     Task.TaskInteraction(team);
@@ -431,7 +431,7 @@ namespace QUESTionBot
                     team.CurrentQuestion++;
                     var message1 = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
-                        text: " ");
+                        text: "Осталось ");
                     MainWindow.teamList[chatId].teamTimerMessageId = message1.MessageId;
                     DB.UpdateTeamNote(team);
                     Task.TaskInteraction(team);

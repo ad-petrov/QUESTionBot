@@ -115,7 +115,6 @@ namespace QUESTionBot
                             chatId: chatId,
                             text: TextTemplates.message7
                             );
-                            Thread.Sleep(2000);
                             using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\I1v2bT5BSFM.jpg"))
                             {
                                 await MainWindow.botClient.SendPhotoAsync(

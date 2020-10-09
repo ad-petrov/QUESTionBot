@@ -38,7 +38,7 @@ namespace QUESTionBot
             
                 DB database = new DB();
 
-                MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU, `noWrongAnswer`=@nWa" +
+                MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU, `noWrongAnswer`=@nWa " +
                     "WHERE `teamId`=@tId", database.GetConnection());
                 command.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
                 //command.Parameters.Add("@tK", MySqlDbType.VarChar).Value = e.Message.Text.Trim().ToLower();
