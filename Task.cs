@@ -1026,6 +1026,14 @@ namespace QUESTionBot
 
         public static async System.Threading.Tasks.Task Timer(int seconds, long chatId, string answer)
         {
+            var message = await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: $"Осталось {seconds / 60}:{seconds % 60}");
+            for (; seconds >= 0; seconds--)
+            {
+                Thread.Sleep(1000);
+                MainWindow.botClient.EditMessageTextAsync(chatId, message.MessageId, $"Осталось {seconds / 60}:{seconds % 60}");
+            }
             Thread.Sleep(seconds * 1000);
             await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
