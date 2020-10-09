@@ -87,7 +87,8 @@ namespace QUESTionBot
             command.Parameters.Add("@hU", MySqlDbType.Int64).Value = 0;
 
             database.OpenConnection();
-            
+            try
+            {
                 if (command.ExecuteNonQuery() == 1)
                 {
                     database.CloseConnection();
@@ -98,6 +99,11 @@ namespace QUESTionBot
                     database.CloseConnection();
                     return false;
                 }
+            }
+            catch
+            {
+                return false;
+            }
         } 
 
         public static Dictionary<long, Team> LoadData()
@@ -179,15 +185,15 @@ namespace QUESTionBot
                 }
                 if (team.CurrentStation == 8)
                 {
-                    tasknumber = team.CurrentQuestion + 26;
+                    tasknumber = team.CurrentQuestion + 25;
                 }
                 if (team.CurrentStation == 9)
                 {
-                    tasknumber = team.CurrentQuestion + 28;
+                    tasknumber = team.CurrentQuestion + 27;
                 }
                 if (team.CurrentStation == 10)
                 {
-                    tasknumber = team.CurrentQuestion + 34;
+                    tasknumber = team.CurrentQuestion + 33;
                 }
                 if (tasknumber == 1)
                 {
