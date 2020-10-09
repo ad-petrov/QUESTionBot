@@ -429,10 +429,10 @@ namespace QUESTionBot
                     
                     DB.AddAnswer(team, "неверно");
                     team.CurrentQuestion++;
-                    var message = await MainWindow.botClient.SendTextMessageAsync(
+                    var message1 = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: " ");
-                    MainWindow.teamList[chatId].teamTimerMessageId = message.MessageId;
+                    MainWindow.teamList[chatId].teamTimerMessageId = message1.MessageId;
                     DB.UpdateTeamNote(team);
                     Task.TaskInteraction(team);
                     break;
