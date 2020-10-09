@@ -38,6 +38,7 @@ namespace QUESTionBot
         static Dictionary<long, int> agreementMessages = new Dictionary<long, int>();
         
         
+        
 
 
         public MainWindow()
@@ -232,42 +233,62 @@ namespace QUESTionBot
                     }
                     else if((recievedText == "отцовская любовь") && (teamList[chatId].CurrentStation == 1))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(15 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
                     else if ((recievedText == "1914") && (teamList[chatId].CurrentStation == 2))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(10 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
                     else if ((recievedText == "премьера") && (teamList[chatId].CurrentStation == 3))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(17 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
                     else if ((recievedText == "6") && (teamList[chatId].CurrentStation == 4))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(10 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
                     else if ((recievedText == "9") && (teamList[chatId].CurrentStation == 5))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(13 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
                     else if (((recievedText == "розовый")||((recievedText == "розовые") || (recievedText == "фиолетовый") || (recievedText == "фиолетовые")))&& (teamList[chatId].CurrentStation == 6))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(10 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
                     else if ((recievedText == "14") && (teamList[chatId].CurrentStation == 7))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(20 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
                     else if ((recievedText == "кто моет форточки?") && (teamList[chatId].CurrentStation == 8))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(15 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
                     else if ((recievedText == "гуманитарный") && (teamList[chatId].CurrentStation == 9))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(8 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
                     else if ((recievedText == "4930") && (teamList[chatId].CurrentStation == 10))
                     {
+                        teamList[chatId].teamTimer = new CancellationTokenSource();
+                        Task.Timer(15 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
 
@@ -446,7 +467,13 @@ namespace QUESTionBot
             string title = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].Title;
             string address = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].Address;
             string messageTrigger = taskList[Task.KeyPhrasesList[team.CurrentStation - 1]].MessageTrigger;
-            
+
+            if (team.teamTimer!=null)
+            {
+                team.teamTimer.Cancel();
+                team.teamTimer.Dispose();
+            }
+
             DB.UpdateTeamNote(team);
             if (team.CurrentStation == 10) 
             {

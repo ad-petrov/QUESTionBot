@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
@@ -20,6 +21,7 @@ namespace QUESTionBot
         public int Points { get; set; }
         public int HintsUsed { get; set; }
         public bool noWrongAnswer { get; set; }
+        public CancellationTokenSource teamTimer { get; set; }
 
              
 

@@ -128,6 +128,7 @@ namespace QUESTionBot
                             break;
 
                         case 1:
+                            
                             await MainWindow.botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: $"Пройдитесь по саду и отметьте, какой скрипки нет:\n1) Скрипка-женщина\n2) Скрипка-туфелька\n3) Скрипка-зонт\n4) Скрипка-граммофон",
@@ -1024,23 +1025,25 @@ namespace QUESTionBot
             return new InlineKeyboardMarkup(result);
         }
 
-        public static async System.Threading.Tasks.Task Timer(int seconds, long chatId, string answer)
+        public static async System.Threading.Tasks.Task Timer(int seconds, long chatId, CancellationToken CT)
         {
+
             var message = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: $"Осталось {seconds / 60}:{seconds % 60}");
+            await MainWindow.botClient.PinChatMessageAsync(chatId, message.MessageId);
             for (; seconds >= 0; seconds--)
             {
+                if (CT.IsCancellationRequested) return;
                 Thread.Sleep(1000);
                 MainWindow.botClient.EditMessageTextAsync(chatId, message.MessageId, $"Осталось {seconds / 60}:{seconds % 60}");
             }
-            Thread.Sleep(seconds * 1000);
+
             await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
-                        text: answer);
+                        text: "Время на текующую станцию истекло");
             var team = MainWindow.teamList[chatId];
             DB.AddAnswer(team, "время истекло");
-            team.CurrentQuestion++;
             MainWindow.BetweenTaskInteraction(team);
             return;
         }
