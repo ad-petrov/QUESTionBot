@@ -228,7 +228,10 @@ namespace QUESTionBot
                     if (recievedText == "хармс")
                     {
                         teamList[e.Message.Chat.Id].CurrentQuestion++;
-                        await botClient.ForwardMessageAsync(chatId, chatId, teamList[chatId].teamTimerMessageId);
+                        var message = await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: " ");
+                        MainWindow.teamList[chatId].teamTimerMessageId = message.MessageId;
                         Task.TaskInteraction(teamList[chatId]);
                         return;
                     }
@@ -317,7 +320,10 @@ namespace QUESTionBot
                     {
                         DB.AddAnswer(teamList[chatId], e.Message.Text);
                         teamList[chatId].CurrentQuestion++;
-                        await botClient.ForwardMessageAsync(chatId, chatId, teamList[chatId].teamTimerMessageId);
+                        var message = await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: " ");
+                        MainWindow.teamList[chatId].teamTimerMessageId = message.MessageId;
                         DB.UpdateTeamNote(teamList[chatId]);
                         Task.TaskInteraction(teamList[chatId]);
                     }
@@ -412,7 +418,10 @@ namespace QUESTionBot
                     team.Points++;
                     DB.AddAnswer(team, "верно");
                     team.CurrentQuestion++;
-                    await botClient.ForwardMessageAsync(chatId, chatId, team.teamTimerMessageId);
+                    var message = await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: " ");
+                    MainWindow.teamList[chatId].teamTimerMessageId = message.MessageId;
                     DB.UpdateTeamNote(team);
                     Task.TaskInteraction(team);
                     break;
@@ -420,7 +429,10 @@ namespace QUESTionBot
                     
                     DB.AddAnswer(team, "неверно");
                     team.CurrentQuestion++;
-                    await botClient.ForwardMessageAsync(chatId, chatId, team.teamTimerMessageId);
+                    var message = await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: " ");
+                    MainWindow.teamList[chatId].teamTimerMessageId = message.MessageId;
                     DB.UpdateTeamNote(team);
                     Task.TaskInteraction(team);
                     break;

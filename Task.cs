@@ -1099,7 +1099,7 @@ namespace QUESTionBot
             {
                 if (CT.IsCancellationRequested) return;
                 Thread.Sleep(1000);
-                MainWindow.botClient.EditMessageTextAsync(chatId, message.MessageId, $"Осталось {seconds / 60:d2}:{seconds % 60:d2}");
+                MainWindow.botClient.EditMessageTextAsync(chatId, MainWindow.teamList[chatId].teamTimerMessageId, $"Осталось {seconds / 60:d2}:{seconds % 60:d2}");
             }
 
             await MainWindow.botClient.SendTextMessageAsync(
