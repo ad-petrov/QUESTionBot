@@ -259,7 +259,7 @@ namespace QUESTionBot
                         Task.Timer(10 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
-                    else if ((recievedText == "9") && (teamList[chatId].CurrentStation == 5))
+                    else if ((recievedText == "7") && (teamList[chatId].CurrentStation == 5))
                     {
                         teamList[chatId].teamTimer = new CancellationTokenSource();
                         Task.Timer(13 * 60, chatId, teamList[chatId].teamTimer.Token);
@@ -271,7 +271,7 @@ namespace QUESTionBot
                         Task.Timer(10 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
-                    else if ((recievedText == "14") && (teamList[chatId].CurrentStation == 7))
+                    else if ((recievedText == "7186") && (teamList[chatId].CurrentStation == 7))
                     {
                         teamList[chatId].teamTimer = new CancellationTokenSource();
                         Task.Timer(20 * 60, chatId, teamList[chatId].teamTimer.Token);
