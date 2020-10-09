@@ -154,7 +154,8 @@ namespace QUESTionBot
                     text: TextTemplates.message2,
                     replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Согласен/согласна", "agreement"))
                     );
-                agreementMessages.Add(chatId, message2.MessageId);
+                if (agreementMessages.ContainsKey(chatId)) agreementMessages[chatId] = message2.MessageId;
+                else agreementMessages.Add(chatId, message2.MessageId);
 
                 this.Dispatcher.Invoke(() =>
                 {

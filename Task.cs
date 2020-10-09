@@ -1005,7 +1005,7 @@ namespace QUESTionBot
         public static InlineKeyboardMarkup CreateKeyboard(int numberOfButtons, int rightAnswer, bool hasHint = false, IEnumerable<string> customValues = null)
         {
             List<List<InlineKeyboardButton>> result = new List<List<InlineKeyboardButton>>();
-            for (int i = 0; i < numberOfButtons / 2; i++)
+            for (int i = 0; i < (numberOfButtons + 1) / 2; i++)
             {
                 var t = new List<InlineKeyboardButton>(2);
                 for (int j = 0; j < numberOfButtons % 2; j++)
@@ -1021,6 +1021,19 @@ namespace QUESTionBot
                 result.Add(new List<InlineKeyboardButton>() { InlineKeyboardButton.WithCallbackData("Подсказка", "hint") });
             }
             return new InlineKeyboardMarkup(result);
+        }
+
+        public static async System.Threading.Tasks.Task Timer(int seconds, long chatId, string answer)
+        {
+            Thread.Sleep(seconds * 1000);
+            await MainWindow.botClient.SendTextMessageAsync(
+                        chatId: chatId,
+                        text: answer);
+            var team = MainWindow.teamList[chatId];
+            DB.AddAnswer(team, "время и стекло");
+            team.CurrentQuestion++;
+            MainWindow.BetweenTaskInteraction(team);
+            return;
         }
     }
 
