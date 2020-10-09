@@ -35,8 +35,7 @@ namespace QUESTionBot
 
         public static void UpdateTeamNote(Team team)
         {
-            try
-            {
+            
                 DB database = new DB();
 
                 MySqlCommand command = new MySqlCommand("UPDATE `teams` SET `currentTask`=@cT, `currentQuestion`=@cQ, `points`=@pO, `hintsUsed`=@hU " +
@@ -55,6 +54,7 @@ namespace QUESTionBot
                     MySqlCommand command2 = new MySqlCommand("UPDATE `teams` SET `finishedAt`=@fAt " +
                     "WHERE `teamId`=@tId", database.GetConnection());
                     command2.Parameters.Add("@fAt", MySqlDbType.DateTime).Value = team.QuestFinishedAt;
+                    command2.Parameters.Add("@tId", MySqlDbType.Int64).Value = team.TeamID;
                     database.OpenConnection();
                     command2.ExecuteNonQuery();
                     database.CloseConnection();
@@ -69,11 +69,6 @@ namespace QUESTionBot
                 }
 
                 throw new Exception();
-            }
-            catch
-            {
-                return;
-            }
             }
 
         public static bool TeamAdd(Team team, string teamkey)
@@ -92,8 +87,7 @@ namespace QUESTionBot
             command.Parameters.Add("@hU", MySqlDbType.Int64).Value = 0;
 
             database.OpenConnection();
-            try
-            {
+            
                 if (command.ExecuteNonQuery() == 1)
                 {
                     database.CloseConnection();
@@ -104,17 +98,10 @@ namespace QUESTionBot
                     database.CloseConnection();
                     return false;
                 }
-            }
-            catch
-            {
-                return false;
-            }
         } 
 
         public static Dictionary<long, Team> LoadData()
         {
-            try
-            {
                 Dictionary<long, Team> result = new Dictionary<long, Team>();
 
                 DB database = new DB();
@@ -134,16 +121,11 @@ namespace QUESTionBot
                 }
 
                 return result;
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         public static void AddAnswer(Team team, string answer)
         {
-            try {
+            
                 int tasknumber=0;
                 if (team.CurrentStation == 1)
                 {
@@ -151,7 +133,7 @@ namespace QUESTionBot
                     {
                         tasknumber = team.CurrentQuestion;
                     }
-                    if (team.CurrentQuestion == 3)
+                    else if (team.CurrentQuestion == 3)
                     {
                         return;
                     }
@@ -162,39 +144,50 @@ namespace QUESTionBot
                 }
                 if (team.CurrentStation == 2)
                 {
-                    tasknumber = team.CurrentQuestion + 6;
+                    tasknumber = team.CurrentQuestion + 7;
                 }
                 if (team.CurrentStation == 3)
                 {
-                    tasknumber = team.CurrentQuestion + 11;
+                    if (team.CurrentQuestion < 3)
+                    {
+                        tasknumber = team.CurrentQuestion + 12;
+                    }
+                    else if (team.CurrentQuestion == 3)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        tasknumber = team.CurrentQuestion + 11;
+                    }
                 }
                 if (team.CurrentStation == 4)
                 {
-                    tasknumber = team.CurrentQuestion + 14;
+                    tasknumber = team.CurrentQuestion + 15;
                 }
                 if (team.CurrentStation == 5)
                 {
-                    tasknumber = team.CurrentQuestion + 18;
+                    tasknumber = team.CurrentQuestion + 19;
                 }
                 if (team.CurrentStation == 6)
                 {
-                    tasknumber = team.CurrentQuestion + 23;
+                    tasknumber = team.CurrentQuestion + 24;
                 }
                 if (team.CurrentStation == 7)
                 {
-                    tasknumber = team.CurrentQuestion + 24;
+                    tasknumber = team.CurrentQuestion + 25;
                 }
                 if (team.CurrentStation == 8)
                 {
-                    tasknumber = team.CurrentQuestion + 25;
+                    tasknumber = team.CurrentQuestion + 26;
                 }
                 if (team.CurrentStation == 9)
                 {
-                    tasknumber = team.CurrentQuestion + 27;
+                    tasknumber = team.CurrentQuestion + 28;
                 }
                 if (team.CurrentStation == 10)
                 {
-                    tasknumber = team.CurrentQuestion + 33;
+                    tasknumber = team.CurrentQuestion + 34;
                 }
                 if (tasknumber == 1)
                 {
@@ -245,12 +238,8 @@ namespace QUESTionBot
 
 
                 }
-            }
-            catch
-            {
-
-            }
-            }
+        }
     }
-    }
+}
+    
 
