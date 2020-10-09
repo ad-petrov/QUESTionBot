@@ -228,6 +228,7 @@ namespace QUESTionBot
                     if (recievedText == "хармс")
                     {
                         teamList[e.Message.Chat.Id].CurrentQuestion++;
+                        await botClient.ForwardMessageAsync(chatId, chatId, teamList[chatId].teamTimerMessageId);
                         Task.TaskInteraction(teamList[chatId]);
                         return;
                     }
@@ -316,6 +317,7 @@ namespace QUESTionBot
                     {
                         DB.AddAnswer(teamList[chatId], e.Message.Text);
                         teamList[chatId].CurrentQuestion++;
+                        await botClient.ForwardMessageAsync(chatId, chatId, teamList[chatId].teamTimerMessageId);
                         DB.UpdateTeamNote(teamList[chatId]);
                         Task.TaskInteraction(teamList[chatId]);
                     }
@@ -410,6 +412,7 @@ namespace QUESTionBot
                     team.Points++;
                     DB.AddAnswer(team, "верно");
                     team.CurrentQuestion++;
+                    await botClient.ForwardMessageAsync(chatId, chatId, team.teamTimerMessageId);
                     DB.UpdateTeamNote(team);
                     Task.TaskInteraction(team);
                     break;
@@ -417,6 +420,7 @@ namespace QUESTionBot
                     
                     DB.AddAnswer(team, "неверно");
                     team.CurrentQuestion++;
+                    await botClient.ForwardMessageAsync(chatId, chatId, team.teamTimerMessageId);
                     DB.UpdateTeamNote(team);
                     Task.TaskInteraction(team);
                     break;
@@ -424,6 +428,8 @@ namespace QUESTionBot
                     Task.HintHandler(team, lastMessageId);
                     break;
                 case ("questend"):
+                    team.teamTimer.Cancel();
+                    team.teamTimer.Dispose();
                     team.QuestFinishedAt = DateTime.Now.ToLocalTime();
                     DB.UpdateTeamNote(team);
                     
