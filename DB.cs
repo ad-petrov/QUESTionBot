@@ -117,7 +117,7 @@ namespace QUESTionBot
                 DataTable dataTable = new DataTable();
 
                 MySqlCommand command = new MySqlCommand("SELECT `teamId` AS 'ID', `teamKey` AS `Key`, `linkedChatId` AS `ChatId`," +
-                    "`startedAt` as `start`, `currentTask` AS `Task`, `currentQuestion` AS `question`, `points` AS `points`, `hintsUsed` AS `hints`, `noWrongAnswer` AS `nwa`," +
+                    "`startedAt` as `start`, `currentTask` AS `Task`, `currentQuestion` AS `question`, `points` AS `points`, `hintsUsed` AS `hints`, `noWrongAnswer` AS `nwa`" +
                     " FROM `teams`", database.GetConnection());
                 adapter.SelectCommand = command;
                 adapter.Fill(dataTable);

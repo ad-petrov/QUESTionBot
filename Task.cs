@@ -117,7 +117,7 @@ namespace QUESTionBot
                             );
                             using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\I1v2bT5BSFM.jpg"))
                             {
-                                await MainWindow.botClient.SendPhotoAsync(
+                                team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
                                 chatId: chatId,
                                 photo: stream,
                                 caption: TextTemplates.message8,
@@ -127,8 +127,8 @@ namespace QUESTionBot
                             break;
 
                         case 1:
-                            
-                            await MainWindow.botClient.SendTextMessageAsync(
+
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: $"Пройдитесь по саду и отметьте, какой скрипки нет:\n1) Скрипка-женщина\n2) Скрипка-туфелька\n3) Скрипка-зонт\n4) Скрипка-граммофон",
                                 replyMarkup: CreateKeyboard(4, 3));
@@ -138,8 +138,8 @@ namespace QUESTionBot
                             await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer9);
-                            Thread.Sleep(2000);
-                            await MainWindow.botClient.SendTextMessageAsync(
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: $"Помните, что Андрей Павлович Петров лично посадил одно из деревьев в этом саду? Найдите его и отметьте, что это за дерево.\n1) Береза\n2) Рябина\n3) Лиственница\n4) Дуб",
                             replyMarkup: CreateKeyboard(4,2));
@@ -149,7 +149,7 @@ namespace QUESTionBot
                             await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Андрей Павлович Петров посадил рябину");
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: TextTemplates.message11);
@@ -159,12 +159,12 @@ namespace QUESTionBot
                             await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message12);
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             await MainWindow.botClient.SendTextMessageAsync(
                              chatId: chatId,
                              text: TextTemplates.message13);
-                            Thread.Sleep(2000);
-                            await MainWindow.botClient.SendTextMessageAsync(
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                              chatId: chatId,
                              text: TextTemplates.message14,
                              parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
@@ -177,14 +177,14 @@ namespace QUESTionBot
                             await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: "Собаку звали Чти. Оригинально, не так ли?");
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             await MainWindow.botClient.SendTextMessageAsync(
                              chatId: chatId,
                              text: TextTemplates.message16);
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1712.png"))
                             {
-                                await MainWindow.botClient.SendPhotoAsync(
+                                team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
                              chatId: chatId,
                              photo: stream,
                              caption: "Я уверен, почти каждый видел его картины. А какая из представленных работ не его?",
@@ -196,10 +196,10 @@ namespace QUESTionBot
                             await MainWindow.botClient.SendTextMessageAsync(
                          chatId: chatId,
                          text: TextTemplates.answer17);
-                            Thread.Sleep(2000);
-                            await MainWindow.botClient.SendTextMessageAsync(
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
-                            text: "Мало кто знает об этом, но Дали создал логотип для этой компании. Как она называется? _За это задание вы можете получить 2 балла._\n1) Coca-cola\n2)Chupa-chps\n3) Batman\n4) McDonald's",
+                            text: "Мало кто знает об этом, но Дали создал логотип для этой компании. Как она называется? _За это задание вы можете получить 2 балла._\n1) Coca-cola\n2) Chupa-chups\n3) Batman\n4) McDonald's",
                             parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
                             replyMarkup: CreateKeyboard(4,2));
                             break;
@@ -212,15 +212,15 @@ namespace QUESTionBot
                             photo: stream,
                             caption: TextTemplates.answer18);
                             }
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: TextTemplates.message19);
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: TextTemplates.message20);
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\1.mp3"))
                             {
                                 await MainWindow.botClient.SendAudioAsync(
@@ -239,8 +239,8 @@ namespace QUESTionBot
                                     chatId: chatId,
                                     audio: stream);
                             }
-                            Thread.Sleep(2000);
-                            await MainWindow.botClient.SendTextMessageAsync(
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: "Прослушайте три отрывка и определите, какой из них - часть Ленинградской симфонии.",
                             replyMarkup: CreateKeyboard(3,2));
@@ -250,12 +250,12 @@ namespace QUESTionBot
                             await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatId,
                            text: "Ленинградская симфония находится под номером 2");
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: "Дмитрий Лихачёв (1906-1999) — советский и российский филолог, культуролог, искусствовед, доктор филологических наук, профессор.");
-                            Thread.Sleep(2000);
-                            await MainWindow.botClient.SendTextMessageAsync(
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                            team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: TextTemplates.message23,
                             replyMarkup: CreateKeyboard(3,3));
@@ -265,19 +265,19 @@ namespace QUESTionBot
                             await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer24);
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: TextTemplates.message25,
                             parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\AuJdMkI6xFI.jpg"))
                             {
                                 await MainWindow.botClient.SendPhotoAsync(
                                 chatId: chatId,
                                 photo: stream);
                             }
-                            Thread.Sleep(2000);
+                            //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                             await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: "Погнали дальше!");
@@ -290,7 +290,7 @@ namespace QUESTionBot
                     {
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\Iy46pcYcYrQ.jpg"))
                         {
-                        await MainWindow.botClient.SendPhotoAsync(
+                            team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatId,
                         photo: stream,
                         caption: TextTemplates.message27,
@@ -299,7 +299,7 @@ namespace QUESTionBot
                     }
                     if (currentQuestion == 1)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Почему премьера симфонии состоялась 9 августа?\n1)Это любимое число Шостаковича\n2)Согласно приказу сталина\n3)В прошлом все премьеры должны были проходить 9-го числа\n4)В этот день по плану Гитлера Ленинград должен был пасть от блокады",
                         replyMarkup: CreateKeyboard(4,4));
@@ -309,12 +309,12 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Именно 9 августа 1942 Ленинград должен был пасть от блокады.");
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Искусство не умирало во время блокады. Удивительно, как изнеможенные холодом, голодом и обстрелами жители Ленинграда не падали духом.");
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Вспомните, кто был голосом Ленинграда во времена блокады?\n1) Даниил Гранин\n2) Ольга Берггольц\n3) Анна Ахматова\n4) Вера Инбер\n5) Михаил Дудин",
                         replyMarkup: CreateKeyboard(5,2));
@@ -324,14 +324,14 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer30);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\EnD4MBXdGEw.jpg"))
                         {
                             await MainWindow.botClient.SendPhotoAsync(
                             chatId: chatId,
                             photo: stream);
                         }
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Найдите мемориальную доску еще одному деятелю искусства, на этот раз поэту. Она расположена на фасаде здания. Напишите только его фамилию.");
@@ -346,7 +346,7 @@ namespace QUESTionBot
                             photo: stream,
                             caption: TextTemplates.answer31);
                         }
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\9Dk5AHTcA70.jpg"))
                         {
                             await MainWindow.botClient.SendPhotoAsync(
@@ -354,12 +354,12 @@ namespace QUESTionBot
                         photo: stream,
                         caption: TextTemplates.message32);
                         }
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message33);
-                        Thread.Sleep(2000);
-                        await (MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await (MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Вспомните историю и ответьте на вопрос: В каких политических событиях того времени Киров не принимал участие?" +
                         "\n1) Защищал интересы большевиков на Дальнем Востоке;" +
@@ -372,8 +372,8 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer34);
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message35,
                         replyMarkup: CreateKeyboard(4, 4, customValues: new[] { "1924", "1952", "1962", "1991" }));
@@ -383,7 +383,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Партия РСДРП оставалась правящей партией под разными названиями до 1991.");
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message36);
@@ -393,14 +393,14 @@ namespace QUESTionBot
                 case (3):
                     if (currentQuestion == 0)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Вы готовы приступить к заданию?",
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
                     }
                     if (currentQuestion == 1)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message38+ "\n1) Два родных брата и один двоюродный" +
                         "\n2) Отец и два сына" +
@@ -413,7 +413,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer38);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1843.png"))
                         {
                             await MainWindow.botClient.SendPhotoAsync(
@@ -431,8 +431,8 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.answer39,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendVenueAsync(chatId: chatId,
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendVenueAsync(chatId: chatId,
                                                 latitude: (float)59.962526,
                                                 longitude: (float)30.314253,
                                                 title: "Переход в другой двор",
@@ -446,7 +446,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message40);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message41,
@@ -459,7 +459,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Это Александр Сергеевич Пушкин");
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message42,
@@ -470,14 +470,14 @@ namespace QUESTionBot
                 case (4):
                     if (currentQuestion == 0)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: TextTemplates.message43,
                             replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
                     }
                     if (currentQuestion == 1)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Перед зданием лицея ранее было несколько бюстов различных людей. \nА чьего бюста перед учебным заведением никогда не было ?" +
                         "\n1) Пушкину" +
@@ -495,16 +495,16 @@ namespace QUESTionBot
                         photo: stream,
                         caption: TextTemplates.answer44);
                         }
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message45);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message46);
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Что случилось?" +
                         "\n1) Пистолеты забыли зарядить;" +
@@ -518,8 +518,8 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer47);
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message48+ "\n1) “Горе от ума” Александр Грибоедов" +
                         "\n2) “Маскарад” М.Ю. Лермонтов" +
@@ -532,8 +532,8 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer48);
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message49+"\n1) Петр Гринев" +
                         "\n2) Владимир Дубровский" +
@@ -547,7 +547,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer49);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Ладно, заканчиваю доставать вас вопросами из школьной программы. Отправляемся дальше, к не менее интересному месту. \n*ТО*",
@@ -558,7 +558,7 @@ namespace QUESTionBot
                 case (5):
                     if (currentQuestion == 0)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                             chatId: chatId,
                             text: TextTemplates.message52,
                             replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
@@ -572,7 +572,7 @@ namespace QUESTionBot
                         photo: stream,
                         caption: TextTemplates.message53);
                         }
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Составьте число из цифр(чисел), между которыми располагаются следующие знаки: Весы Рыбы Стрелец\n_За это задание вы можете получить 2 балла._",
@@ -585,12 +585,12 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Правильный ответ - 348956");
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message55,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\RPReplay_Final1600799227.mp4"))
                         {
                             await MainWindow.botClient.SendVideoAsync(
@@ -605,7 +605,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Бриллиантовая рука - легендарная советская комедия, снятая в 1986 году режиссёром Леонидом Гайдаем.");
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1714.png"))
                         {
                             await MainWindow.botClient.SendPhotoAsync(
@@ -614,10 +614,10 @@ namespace QUESTionBot
                         caption: "А вот такие показы были совсем рядом, в Доме Мод, в этом здании находится ст. метро “Петроградская”, у которой вы собирались сегодня." +
                         "Совсем недавно стало известно, что Дом Мод обновят до современного фэшн-пространства. Здесь будут располагаться шоурумы, офисы модных брендов и будут проводиться показы одежды.");
                         }
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1715.png"))
                         {
-                        await MainWindow.botClient.SendPhotoAsync(
+                            team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatId,
                         photo: stream,
                         caption: TextTemplates.message57 + "\n1) Ресторан" +
@@ -632,8 +632,8 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatId,
                            text: TextTemplates.answer57);
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                                                 chatId: chatId,
                                                 text: "В романе Ф.М. Достоевского “Преступление и наказание” один из героев умирает от болезни туберкулеза, которая в то время называлась чахоткой. Кто же этот герой?" +
                                                 "\n1) Соня Мармеладова;" +
@@ -648,8 +648,8 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer58);
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message59+ "\n1) Слониха Бэтти" +
                         "\n2) Американский крокодил" +
@@ -662,7 +662,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatId,
                            text: "162 животных зоопарка удалось спасти, среди них была и бегемотиха Красавица, которая умерла в 1951 году.");
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatId,
                            text: "Половина маршрута уже пройдена. Хорошая работа, друзья! Двигаемся дальше. *К*",
@@ -676,14 +676,14 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message60);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message61);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\unnamed.jpg"))
                         {
-                            await MainWindow.botClient.SendPhotoAsync(
+                            team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
                             chatId: chatId,
                             photo: stream,
                             caption: TextTemplates.message62,
@@ -696,7 +696,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.message63,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message64,
@@ -710,7 +710,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.message65,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Больше никаких убийств сегодня! Идём дальше. *Р*",
@@ -728,13 +728,13 @@ namespace QUESTionBot
                         photo: stream,
                         caption: TextTemplates.message68);
                         }
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message69
                         );
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendVenueAsync(chatId: chatId,
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendVenueAsync(chatId: chatId,
                                                 latitude: (float)59.970433,
                                                 longitude: (float)30.308610,
                                                 title: "",
@@ -752,10 +752,10 @@ namespace QUESTionBot
                         photo: stream,
                         caption: TextTemplates.message70);
                         }
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1847.png"))
                         {
-                         await MainWindow.botClient.SendPhotoAsync(
+                            team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatId,
                         photo: stream,
                         caption: TextTemplates.message71,
@@ -769,7 +769,7 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.message72,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "После завершения задания напишите сюда \"Мы готовы\"");
@@ -781,7 +781,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message74);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\Glsw61-v6o0.jpg"))
                         {
                             await MainWindow.botClient.SendPhotoAsync(
@@ -789,8 +789,8 @@ namespace QUESTionBot
                         photo: stream,
                         caption: TextTemplates.message75);
                         }
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message76,
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
@@ -799,7 +799,7 @@ namespace QUESTionBot
                     {
                         using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\IMG_1716.png"))
                         {
-                        await MainWindow.botClient.SendPhotoAsync(
+                            team.lastBotMessage = await MainWindow.botClient.SendPhotoAsync(
                         chatId: chatId,
                         photo: stream,
                         caption: TextTemplates.message77,
@@ -813,11 +813,11 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.answer77,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message78);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message79,
@@ -831,7 +831,7 @@ namespace QUESTionBot
                                                 chatId: chatId,
                                                 text: TextTemplates.message80,
                                                 parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message81,
@@ -842,7 +842,7 @@ namespace QUESTionBot
                 case (9):
                     if (currentQuestion == 0)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message83,
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
@@ -850,7 +850,7 @@ namespace QUESTionBot
                     }
                     if (currentQuestion == 1)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                          chatId: chatId,
                          text: "А теперь давайте узнаем, насколько хорошо вы знаете историю нашего университета.\nПервое здание ИТМО (тогда ещё ЛИТМО) расположено по адресу:" +
                          "\n1) Кронверкский пр. 49" +
@@ -864,8 +864,8 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Первое здание расположено по адресу: переулок Гривцова, 14");
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "В каком году ИТМО получил статус национального исследовательского университета?",
                         replyMarkup: CreateKeyboard(4, 3, customValues: new[] { "1997", "2005", "2009", "2012" }));
@@ -875,8 +875,8 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                                                chatId: chatId,
                                                text: "ИТМО получил статус национального исследовательского университета в 2009 году.");
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Во дворе какого корпуса был установлен первый в России памятник Стиву Джобсу?" +
                         "\n1) Биржевая линия 4" +
@@ -890,8 +890,8 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer87);
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message88,
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Подсказка", "hint")));
@@ -904,8 +904,8 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer88);
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message89+ "\n1) Голова барана на фасаде корпуса на Чайковского" +
                         "\n2) Голова быка на фасаде главного корпуса" +
@@ -922,8 +922,8 @@ namespace QUESTionBot
                         caption: TextTemplates.answer89);
 
                         }
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message90+ "\n1) Биржевая линия д.14" +
                         "\n2) улица Чайковского 11/2" +
@@ -936,7 +936,7 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.answer90);
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message901);
@@ -946,7 +946,7 @@ namespace QUESTionBot
                 case (10):
                     if (currentQuestion == 0)
                     {
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Перед вами - мастерская Михаила Константиновича Аникушина (1917-1997), с которым мы уже сегодня встретились.",
                         replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Перейти к заданию", "nexttask")));
@@ -960,8 +960,8 @@ namespace QUESTionBot
                         photo: stream,
                         caption: TextTemplates.message93);
                         }
-                        Thread.Sleep(2000);
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message94,
                         parseMode: Telegram.Bot.Types.Enums.ParseMode.Markdown,
@@ -972,11 +972,11 @@ namespace QUESTionBot
                         await MainWindow.botClient.SendTextMessageAsync(
                                                 chatId: chatId,
                                                 text: "К сожалению, Ленина не найти в окнах музея. Может, он внутри?");
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                                                 chatId: chatId,
                                                 text: "Кстати, на счету Аникушина 5 памятника А. С. Пушкину, а еще именем скульптора названа малая планета.");
-                        Thread.Sleep(2000);
+                        //await System.Threading.Tasks.Task.Run(() => Thread.Sleep(2000));;
                         await MainWindow.botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message96,
@@ -987,7 +987,7 @@ namespace QUESTionBot
                     {
                         team.noWrongAnswer = false;
 
-                        await MainWindow.botClient.SendTextMessageAsync(
+                        team.lastBotMessage = await MainWindow.botClient.SendTextMessageAsync(
                            chatId: chatId,
                            text: TextTemplates.answer96,
                            replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Завершить квест", "questend")));
@@ -1099,6 +1099,15 @@ namespace QUESTionBot
                 if (CT.IsCancellationRequested) return;
                 Thread.Sleep(1000);
                 MainWindow.botClient.EditMessageTextAsync(chatId, MainWindow.teamList[chatId].teamTimerMessageId, $"Осталось {seconds / 60:d2}:{seconds % 60:d2}");
+            }
+
+            try
+            {
+                await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: chatId, MainWindow.teamList[chatId].lastBotMessage.MessageId);
+            }
+            catch
+            {
+
             }
 
             await MainWindow.botClient.SendTextMessageAsync(

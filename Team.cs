@@ -23,6 +23,7 @@ namespace QUESTionBot
         public bool noWrongAnswer { get; set; }
         public CancellationTokenSource teamTimer { get; set; }
         public int teamTimerMessageId { get; set; }
+        public Message lastBotMessage { get; set; }
 
              
 

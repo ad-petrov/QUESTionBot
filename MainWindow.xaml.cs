@@ -96,7 +96,8 @@ namespace QUESTionBot
                     await botClient.SendTextMessageAsync(
                           chatId: keyValue.Value.LinkedChat,
                           parseMode: ParseMode.Markdown,
-                          text: "Капитаны! Бот возвращается! Меня за-за-запустят в течение минуты! По её прошествии смело продолжайте квест!"
+                          text: "Капитаны! Бот возвращается! Меня за-за-запустят в течение минуты! По её прошествии смело продолжайте квест!\n" +
+                          "В качестве компенсации мы сняли временное ограничение на текущую станцию!"
                         );
                 }
             }
@@ -173,7 +174,7 @@ namespace QUESTionBot
             {
                 if (!teamList.ContainsKey(chatId))
                 {
-                    teamList.Add(chatId, new Team(Team.KeyWordsList.ToList().IndexOf(e.Message.Text) + 1));
+                    teamList.Add(chatId, new Team(Team.KeyWordsList.ToList().IndexOf(recievedText) + 1));
 
                     teamList[chatId].LinkedChat = e.Message.Chat.Id;
 
@@ -295,6 +296,15 @@ namespace QUESTionBot
                         Task.Timer(15 * 60, chatId, teamList[chatId].teamTimer.Token);
                         Task.TaskInteraction(teamList[e.Message.Chat.Id]);
                     }
+                    else
+                    {
+                        await botClient.SendTextMessageAsync(
+                      chatId: chatId,
+                      parseMode: ParseMode.Markdown,
+                      text: "Либо вы пишете мне неправильный ответ, либо я не могу распознать вашей команды. Попробуйте ещё раз!" +
+                      "\nЕсли ситуация тупиковая, напишите @katchern и вам подскажут, что делать."
+                    );
+                    }
 
                 }
 
@@ -376,7 +386,14 @@ namespace QUESTionBot
             }
             if ((callbackQuery.Data != "hint")&&(callbackQuery.Data != "agreement"))
             {
-                await botClient.EditMessageReplyMarkupAsync(chatId: chatId, lastMessageId);
+                try
+                {
+                    await botClient.EditMessageReplyMarkupAsync(chatId: chatId, lastMessageId);
+                }
+                catch
+                {
+                    
+                }
             }
 
             switch (callbackQuery.Data)
