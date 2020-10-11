@@ -146,8 +146,10 @@ namespace QUESTionBot
             string recievedText = e.Message.Text.Trim().ToLower();
 
             // стартовый пак
-            if (e.Message.Text == "/start")
+            if ((e.Message.Text == "/start")&&(!teamList.ContainsKey(chatId)))
             {
+                
+
                 Message message1 = await botClient.SendTextMessageAsync(
                   chatId: chatId,
                   text: TextTemplates.message1
@@ -330,10 +332,10 @@ namespace QUESTionBot
                     {
                         DB.AddAnswer(teamList[chatId], e.Message.Text);
                         teamList[chatId].CurrentQuestion++;
-                        var message = await MainWindow.botClient.SendTextMessageAsync(
+                        var message = await botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Осталось ");
-                        MainWindow.teamList[chatId].teamTimerMessageId = message.MessageId;
+                        teamList[chatId].teamTimerMessageId = message.MessageId;
                         DB.UpdateTeamNote(teamList[chatId]);
                         Task.TaskInteraction(teamList[chatId]);
                     }
@@ -494,6 +496,14 @@ namespace QUESTionBot
 
         public static async void BetweenTaskInteraction(Team team)
         {
+
+            if (team.CurrentStation == 10)
+            {
+                team.CurrentQuestion = 3;
+                Task.TaskInteraction(team);
+                return;
+            }
+
             team.CurrentStation++;
             team.CurrentQuestion = 0;
 
