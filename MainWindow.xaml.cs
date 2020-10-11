@@ -401,7 +401,11 @@ namespace QUESTionBot
             switch (callbackQuery.Data)
             {
                 case ("agreement"):
-                    await botClient.EditMessageReplyMarkupAsync(chatId: chatId, agreementMessages[chatId]);
+                    try
+                    {
+                        await botClient.EditMessageReplyMarkupAsync(chatId: chatId, agreementMessages[chatId]);
+                    }
+                    catch { }
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
                         text: $"Спасибо, что цените установленные правила!"
@@ -459,8 +463,13 @@ namespace QUESTionBot
                     Task.HintHandler(team, lastMessageId);
                     break;
                 case ("questend"):
-                    team.teamTimer.Cancel();
-                    team.teamTimer.Dispose();
+                    try
+                    {
+#warning добавить флаг, не диспознут ли таймер
+                        team.teamTimer.Cancel();
+                        team.teamTimer.Dispose();
+                    }
+                    catch { }
                     team.QuestFinishedAt = DateTime.Now.ToLocalTime();
                     DB.UpdateTeamNote(team);
                     
@@ -515,8 +524,13 @@ namespace QUESTionBot
 
             if (team.teamTimer!=null)
             {
-                team.teamTimer.Cancel();
-                team.teamTimer.Dispose();
+                try
+                {
+#warning добавить флаг, не диспознут ли таймер
+                    team.teamTimer.Cancel();
+                    team.teamTimer.Dispose();
+                }
+                catch { }
             }
 
             DB.UpdateTeamNote(team);

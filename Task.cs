@@ -1103,6 +1103,7 @@ namespace QUESTionBot
 
             try
             {
+                if(MainWindow.teamList[chatId].lastBotMessage!=null)
                 await MainWindow.botClient.EditMessageReplyMarkupAsync(chatId: chatId, MainWindow.teamList[chatId].lastBotMessage.MessageId);
             }
             catch
