@@ -155,7 +155,7 @@ namespace QUESTionBot
                   text: TextTemplates.message1
                 );
 
-                Thread.Sleep(4000);
+                //Thread.Sleep(4000);
                 Message message2 = await botClient.SendTextMessageAsync(
                     chatId: chatId,
                     text: TextTemplates.message2,
@@ -351,7 +351,7 @@ namespace QUESTionBot
                         {
                             debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId } " +
                             $"в чат {message.Chat.Id} в {message.Date}. " +
-                            $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
+                            $"Это ответ на сообщение \"{e.Message.Text}\". Команда участника не была распознана.";
                         });
                     }
                 }
@@ -367,7 +367,7 @@ namespace QUESTionBot
                     {
                         debugTextBlock.Text += $"\n{ message.From.FirstName} отправил сообщение { message.MessageId } " +
                         $"в чат {message.Chat.Id} в {message.Date}. " +
-                        $"Это ответ на сообщение {e.Message.MessageId}. Команда участника не была распознана.";
+                        $"Это ответ на сообщение \"{e.Message.Text}\". Команда участника не была распознана.";
                     });
                 }
             }
@@ -407,20 +407,20 @@ namespace QUESTionBot
                         text: $"Спасибо, что цените установленные правила!"
                     );
 
-                    Thread.Sleep(2000);
+                    //Thread.Sleep(2000);
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
                         text: TextTemplates.message3
                     );
 
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
                         text: TextTemplates.message4,
                         parseMode: ParseMode.Markdown
                     );
 
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
                     await botClient.SendTextMessageAsync(
                         chatId: callbackQuery.Message.Chat.Id,
                         text: TextTemplates.message5
@@ -468,18 +468,18 @@ namespace QUESTionBot
                         chatId: chatId,
                         text: TextTemplates.message97
                     );
-                    Thread.Sleep(2000);
+                    //Thread.Sleep(2000);
                     await botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message98
                     );
-                    Thread.Sleep(2000);
+                    //Thread.Sleep(2000);
                     await botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: TextTemplates.message99,
                         parseMode: ParseMode.Markdown
                     );
-                    Thread.Sleep(2000);
+                    //Thread.Sleep(2000);
                     using (var stream = System.IO.File.OpenRead("D:\\Other\\BotMediaFiles\\hashtag.png"))
                     {
                         await botClient.SendPhotoAsync(
