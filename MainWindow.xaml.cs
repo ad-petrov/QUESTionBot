@@ -44,7 +44,7 @@ namespace QUESTionBot
         public MainWindow()
         {
             InitializeComponent();           
-            botClient = new TelegramBotClient("1379007033:AAF6K0EW8z8E9GGytASmSX0BwLDngGkIQnA");
+            botClient = new TelegramBotClient("");
             taskList = Task.CreateTaskList();
             botStopButton.IsEnabled = false;
         }
